@@ -224,6 +224,10 @@
     <eat-comment/>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorPrimary">#009688</item>
+        <item name="colorPrimaryDark">#004D40</item>
+
+
     </style>
     <!-- From: file:/Users/pablo/Documents/sevenbeats/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
@@ -1140,6 +1144,13 @@
         <item name="android:minWidth">56dp</item>
         <item name="android:scaleType">center</item>
     </style>
+    <!-- From: file:/Users/pablo/Documents/sevenbeats/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="ButtonText" parent="@android:style/Widget.Button">
+        <item name="android:background">#7CB342</item>
+    </style>
+    <!-- From: file:/Users/pablo/Documents/sevenbeats/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
+    <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
 
