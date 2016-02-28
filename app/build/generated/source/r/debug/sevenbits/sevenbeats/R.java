@@ -1566,8 +1566,9 @@ containing a value of this type.
         public static final int notification_template_icon_bg=0x7f02003e;
     }
     public static final class id {
+        public static final int MainActivity_boton_anyadir=0x7f0c005e;
+        public static final int MainActivity_boton_busqueda=0x7f0c005d;
         public static final int action0=0x7f0c0050;
-        public static final int action_add=0x7f0c005e;
         public static final int action_bar=0x7f0c003e;
         public static final int action_bar_activity_content=0x7f0c0000;
         public static final int action_bar_container=0x7f0c003d;
@@ -1582,7 +1583,6 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0c003b;
         public static final int action_mode_bar_stub=0x7f0c003a;
         public static final int action_mode_close_button=0x7f0c0023;
-        public static final int action_search=0x7f0c005d;
         public static final int action_settings=0x7f0c005f;
         public static final int activity_chooser_view_content=0x7f0c0024;
         public static final int alertTitle=0x7f0c002e;
@@ -1739,14 +1739,15 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with=0x7f06000e;
         public static final int abc_shareactionprovider_share_with_application=0x7f06000f;
         public static final int abc_toolbar_collapse_description=0x7f060010;
-        public static final int action_search=0x7f060012;
-        public static final int action_settings=0x7f060013;
-        public static final int app_name=0x7f060014;
-        public static final int hello_world=0x7f060015;
+        public static final int action_anyadir=0x7f060012;
+        public static final int action_search=0x7f060013;
+        public static final int action_settings=0x7f060014;
+        public static final int app_name=0x7f060015;
+        public static final int hello_world=0x7f060016;
         public static final int status_bar_notification_info_overflow=0x7f060011;
-        public static final int title_activity_see_album=0x7f060016;
-        public static final int title_activity_see_song=0x7f060017;
-        public static final int title_activity_song_edit=0x7f060018;
+        public static final int title_activity_see_album=0x7f060017;
+        public static final int title_activity_see_song=0x7f060018;
+        public static final int title_activity_song_edit=0x7f060019;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f08007a;
