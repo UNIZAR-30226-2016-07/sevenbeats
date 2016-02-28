@@ -210,12 +210,20 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <!-- From: file:/Users/pablo/Documents/sevenbeats/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="action_search">Busqueda</string>
     <string name="action_settings">Settings</string>
     <string name="app_name">sevenbeats</string>
     <string name="hello_world">Hello world!</string>
     <!-- From: file:/Users/pablo/Documents/sevenbeats/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <!-- From: file:/Users/pablo/Documents/sevenbeats/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="title_activity_see_album">SeeAlbum</string>
+    <string name="title_activity_see_song">SeeSong</string>
+    <string name="title_activity_song_edit">SongEdit</string>
+    <!-- From: file:/Users/pablo/Documents/sevenbeats/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
+    <eat-comment/>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

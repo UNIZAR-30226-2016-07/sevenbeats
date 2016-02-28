@@ -6,4 +6,5 @@
     <string name="title_activity_song_edit">SongEdit</string>
     <string name="title_activity_see_song">SeeSong</string>
     <string name="title_activity_see_album">SeeAlbum</string>
+    <string name="action_search">Busqueda</string>
 </resources>
