@@ -7,4 +7,5 @@
     <string name="title_activity_see_song">SeeSong</string>
     <string name="title_activity_see_album">SeeAlbum</string>
     <string name="action_search">Busqueda</string>
+    <string name="action_anyadir">Anyadir</string>
 </resources>
