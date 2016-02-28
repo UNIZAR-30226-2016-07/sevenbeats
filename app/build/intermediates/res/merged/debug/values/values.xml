@@ -214,6 +214,11 @@
     <string name="action_search">Busqueda</string>
     <string name="action_settings">Settings</string>
     <string name="app_name">sevenbeats</string>
+    <string name="edit_album">Álbum: </string>
+    <string name="edit_duracion">Duración: </string>
+    <string name="edit_genero">Género: </string>
+    <string name="edit_guardar">Guardar</string>
+    <string name="edit_titulo">Título: </string>
     <string name="hello_world">Hello world!</string>
     <!-- From: file:/Users/pablo/Documents/sevenbeats/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>

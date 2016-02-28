@@ -8,4 +8,11 @@
     <string name="title_activity_see_album">SeeAlbum</string>
     <string name="action_search">Busqueda</string>
     <string name="action_anyadir">Anyadir</string>
+
+
+    <string name="edit_titulo">Título: </string>
+    <string name="edit_album">Álbum: </string>
+    <string name="edit_genero">Género: </string>
+    <string name="edit_duracion">Duración: </string>
+    <string name="edit_guardar">Guardar</string>
 </resources>
