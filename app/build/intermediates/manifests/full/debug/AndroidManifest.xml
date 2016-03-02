@@ -22,6 +22,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="sevenbits.sevenbeats.SongEdit"
+            android:label="@string/title_activity_song_edit"
+            android:parentActivityName="sevenbits.sevenbeats.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
+        <activity
+            android:name="sevenbits.sevenbeats.SeeSong"
+            android:label="@string/title_activity_see_song"
+            android:parentActivityName="sevenbits.sevenbeats.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
+        <activity
+            android:name="sevenbits.sevenbeats.SeeAlbum"
+            android:label="@string/title_activity_see_album"
+            android:parentActivityName="sevenbits.sevenbeats.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
     </application>
 
 </manifest>

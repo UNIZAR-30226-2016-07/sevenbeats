@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:2:1-21:12
+ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:2:1-45:12
 	package
 		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:3:5-35
 		INJECTED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml
@@ -14,7 +14,7 @@ ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:2:
 		INJECTED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml
 application
-ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:5:5-19:19
+ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:5:5-43:19
 MERGED from [com.android.support:appcompat-v7:23.0.1] /Users/pablo/Documents/sevenbeats/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.0.1] /Users/pablo/Documents/sevenbeats/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/AndroidManifest.xml:22:5-20
 	android:label
@@ -41,6 +41,36 @@ category#android.intent.category.LAUNCHER
 ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:16:17-77
 	android:name
 		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:16:27-74
+activity#sevenbits.sevenbeats.SongEdit
+ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:19:9-26:20
+	android:label
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:21:13-61
+	android:parentActivityName
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:22:13-55
+	android:name
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:20:13-37
+meta-data#android.support.PARENT_ACTIVITY
+ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:23:13-25:48
+	android:value
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:25:17-45
+	android:name
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:24:17-63
+activity#sevenbits.sevenbeats.SeeSong
+ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:27:9-34:20
+	android:label
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:29:13-60
+	android:parentActivityName
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:30:13-55
+	android:name
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:28:13-36
+activity#sevenbits.sevenbeats.SeeAlbum
+ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:35:9-42:20
+	android:label
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:37:13-61
+	android:parentActivityName
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:38:13-55
+	android:name
+		ADDED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml:36:13-37
 uses-sdk
 INJECTED from /Users/pablo/Documents/sevenbeats/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.0.1] /Users/pablo/Documents/sevenbeats/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:20:5-43
