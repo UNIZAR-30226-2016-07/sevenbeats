@@ -35,5 +35,4 @@ captures/
 # ficheros que no son necesarios
 app/build/*
 .DS_Store
-/.idea/workspace
-/.idea/libraries
+/.idea/*
