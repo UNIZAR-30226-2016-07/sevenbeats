@@ -13,7 +13,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/edit_titulo"
         android:id="@+id/textView"
-        android:layout_margin="10dp" />
+        android:layout_alignRight="@+id/textView4"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,9 +23,10 @@
         android:text="@string/edit_album"
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="10dp" />
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignRight="@+id/textView4"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,7 +35,8 @@
         android:text="@string/edit_genero"
         android:id="@+id/textView3"
         android:layout_below="@+id/textView2"
-        android:layout_margin="10dp" />
+        android:layout_alignRight="@+id/textView4"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,15 +44,14 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/edit_duracion"
         android:id="@+id/textView4"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/textView3"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp" />
 
     <EditText
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/SongEdit_texto_titulo"
-        android:layout_margin="5dp"
         android:layout_toRightOf="@+id/textView" />
 
     <EditText
@@ -73,10 +75,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/SongEdit_texto_duracion"
         android:layout_margin="5dp"
-        android:inputType="time"
         android:ems="10"
         android:layout_below="@+id/textView3"
-        android:layout_toRightOf="@+id/textView4" />
+        android:layout_toRightOf="@+id/textView4"
+        android:inputType="time" />
 
     <Button
         android:layout_width="wrap_content"

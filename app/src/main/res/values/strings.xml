@@ -10,13 +10,12 @@
     <string name="action_anyadir">Anyadir</string>
 
 
-    <string name="edit_titulo">Título: </string>
-    <string name="edit_album">Álbum: </string>
-    <string name="edit_genero">Género: </string>
-    <string name="edit_duracion">Duración: </string>
+    <string name="edit_titulo">Título:</string>
+    <string name="edit_album">Álbum:</string>
+    <string name="edit_genero">Género:</string>
+    <string name="edit_duracion">Duración:</string>
     <string name="edit_guardar">Guardar</string>
     <string name="boton_caratula">Cambiar Caratula</string>
-    <string name="artista">Artista: </string>
+    <string name="artista">Artista:</string>
 
-    boton_caratula
 </resources>
