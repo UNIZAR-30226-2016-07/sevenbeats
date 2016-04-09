@@ -19,7 +19,7 @@
             android:layout_width="149dp"
             android:layout_height="149dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/CasiCuadrada"/>
+            android:src="@drawable/casicuadrada"/>
         </LinearLayout>
 
         <LinearLayout

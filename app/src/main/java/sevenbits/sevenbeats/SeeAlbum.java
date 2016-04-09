@@ -27,11 +27,11 @@ import java.net.URL;
 
 public class SeeAlbum extends AppCompatActivity {
 
-    private Adaptador dbHelper;
+    private BaseDatosAdapter dbHelper;
     private Cursor mNotesCursor;
     private ListView mList;
 
-    private String imagenDefecto = "drawable://default.jpg";
+    private String imagenDefecto = "drawable://defaultImage.jpg";
 
 
     @Override
