@@ -36,4 +36,4 @@ captures/
 app/build/*
 app/app.iml
 .DS_Store
-/.idea/*
+.idea/*
