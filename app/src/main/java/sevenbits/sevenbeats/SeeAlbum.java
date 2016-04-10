@@ -78,7 +78,8 @@ public class SeeAlbum extends AppCompatActivity {
 
             public void onClick(View v) {
 
-                // Set the default text to a link of the Queen
+                //Si se pulsa el boton se abre una caja de texto para introducir la URL.
+
                 txtUrl.setHint("Pon aqui la url de la imagen");
 
                 new AlertDialog.Builder(activity)
@@ -107,16 +108,12 @@ public class SeeAlbum extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_see_album, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -161,19 +158,21 @@ public class SeeAlbum extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Carga todas las canciones asociadas al album en la base de datos en
+     * la lista.
+     *
+     * @param album nombre del album
+     */
     private void fillData(String album) {
 
-        // Get all of the notes from the database and create the item list
         Cursor notesCursor = dbHelper.buscarPorAlbum(album);
         startManagingCursor(notesCursor);
 
-        // Create an array to specify the fields we want to display in the list (only TITLE)
         String[] from = new String[] { dbHelper.NOMBRE_CANCION };
 
-        // and an array of the fields we want to bind those fields to (in this case just text1)
         int[] to = new int[] { 0 };
 
-        // Now create an array adapter and set it to display using our row
         SimpleCursorAdapter notes =
                 new SimpleCursorAdapter(this, R.id.listSongsAlbum, notesCursor, from, to);
         mList.setAdapter(notes);
