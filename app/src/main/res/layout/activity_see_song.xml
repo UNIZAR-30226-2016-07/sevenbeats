@@ -29,7 +29,9 @@
         android:layout_centerInParent="true"
         android:layout_alignParentRight="false"
         android:maxHeight="200dp"
-        android:maxWidth="200dp" />
+        android:maxWidth="200dp"
+        android:minHeight="200dp"
+        android:minWidth="200dp" />
 
     <TextView
         android:layout_width="wrap_content"
