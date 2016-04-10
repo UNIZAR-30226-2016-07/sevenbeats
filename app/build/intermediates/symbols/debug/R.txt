@@ -488,7 +488,7 @@ int id homeAsUp 0x7f0c000d
 int id icon 0x7f0c0029
 int id ifRoom 0x7f0c001d
 int id image 0x7f0c0026
-int id imageButton 0x7f0c0059
+int id imageButton 0x7f0c005a
 int id imageView 0x7f0c0057
 int id imageViewAlbum 0x7f0c004e
 int id info 0x7f0c0077
@@ -541,10 +541,10 @@ int id textView2 0x7f0c0063
 int id textView3 0x7f0c0053
 int id textView4 0x7f0c0051
 int id textView5 0x7f0c004f
-int id textView6 0x7f0c005a
-int id textView7 0x7f0c005c
-int id textView8 0x7f0c005b
-int id textView9 0x7f0c005d
+int id textView6 0x7f0c005b
+int id textView7 0x7f0c005d
+int id textView8 0x7f0c005c
+int id textView9 0x7f0c0059
 int id time 0x7f0c0072
 int id title 0x7f0c002a
 int id title_template 0x7f0c002d
