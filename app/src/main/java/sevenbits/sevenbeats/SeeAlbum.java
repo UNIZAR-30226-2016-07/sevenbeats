@@ -31,7 +31,7 @@ public class SeeAlbum extends AppCompatActivity {
     private Cursor mNotesCursor;
     private ListView mList;
 
-    private String imagenDefecto = "drawable://defaultImage.jpg";
+    private String imagenDefecto = "drawable://defaultimage.jpg";
 
 
     @Override
