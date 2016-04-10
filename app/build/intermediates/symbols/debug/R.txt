@@ -426,7 +426,7 @@ int drawable abc_textfield_search_default_mtrl_alpha 0x7f02003c
 int drawable abc_textfield_search_material 0x7f02003d
 int drawable bh 0x7f02003e
 int drawable casicuadrada 0x7f02003f
-int drawable defaultimage 0x7f020040
+int drawable default_image 0x7f020040
 int drawable notification_template_icon_bg 0x7f020042
 int drawable refractor 0x7f020041
 int id MainActivity_boton_anyadir 0x7f0c007a

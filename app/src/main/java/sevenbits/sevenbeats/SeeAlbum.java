@@ -42,7 +42,7 @@ public class SeeAlbum extends AppCompatActivity {
         //Capturo los parametros
         Bundle extras = getIntent().getExtras();
 
-        final String nombreAlbum = extras.getString("album");
+        final String nombreAlbum = extras.getString("SeeAlbum_album");
 
         /*Llamo a la base de datos para capturar los datos que necesito:
             -Lista de cancciones, genero de una de ellas, caratula y artista*/
