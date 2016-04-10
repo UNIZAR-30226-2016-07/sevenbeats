@@ -23,15 +23,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String CANCION_NOMBRE = "nombre";
 
     private MediaPlayer Mp;
-    public int flujoMusica = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // rellenar lista lateral y lista central
+
         Mp = MediaPlayer.create(this, R.raw.sonido_inicio_app);
         Mp.start();
-
         setContentView(R.layout.main_activity);
 
     }
