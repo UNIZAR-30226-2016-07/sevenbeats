@@ -174,7 +174,7 @@ public class SeeAlbum extends AppCompatActivity {
         int[] to = new int[] { 0 };
 
         SimpleCursorAdapter notes =
-                new SimpleCursorAdapter(this, R.id.listSongsAlbum, notesCursor, from, to);
+            new SimpleCursorAdapter(this, R.id.listSongsAlbum, notesCursor, from, to);
         mList.setAdapter(notes);
     }
 }
