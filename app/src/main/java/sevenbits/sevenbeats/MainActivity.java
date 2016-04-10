@@ -2,6 +2,9 @@ package sevenbits.sevenbeats;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,10 +22,16 @@ public class MainActivity extends AppCompatActivity {
     private BaseDatosAdapter bbdd;
     private static final String CANCION_NOMBRE = "nombre";
 
+    private MediaPlayer Mp;
+    public int flujoMusica = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // rellenar lista lateral y lista central
+        Mp = MediaPlayer.create(this, R.raw.sonido_inicio_app);
+        Mp.start();
+
         setContentView(R.layout.main_activity);
 
     }
