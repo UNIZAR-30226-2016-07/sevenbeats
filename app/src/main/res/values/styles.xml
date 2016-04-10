@@ -11,6 +11,7 @@
 
     <style name="ButtonText" parent="@android:style/Widget.Button">
         <item name="android:background">#7CB342</item>
+        <item name="android:textStyle">"bold"</item>
     </style>
 
 </resources>

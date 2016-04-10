@@ -14,7 +14,7 @@
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
+        android:id="@+id/SeeSong_rating_ratingBar"
         android:layout_centerVertical="true"
         android:layout_centerInParent="true"
         android:layout_below="@+id/textView9" />

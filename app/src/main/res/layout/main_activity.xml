@@ -24,6 +24,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/MainActivity_lista_principal"
             android:layout_gravity="center_horizontal" />
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/MainActivity_lista_cuadrada"
+            android:layout_gravity="center_horizontal" />
+
+
     </LinearLayout>
 
 

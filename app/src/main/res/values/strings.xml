@@ -15,7 +15,7 @@
     <string name="edit_genero">Género:</string>
     <string name="edit_duracion">Duración:</string>
     <string name="edit_guardar">Guardar</string>
-    <string name="boton_caratula">Cambiar Caratula</string>
+    <string name="boton_caratula">Cambiar Carátula</string>
     <string name="artista">Artista:</string>
 
 </resources>
