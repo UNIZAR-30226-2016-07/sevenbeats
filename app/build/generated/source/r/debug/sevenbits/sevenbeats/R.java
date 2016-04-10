@@ -1565,7 +1565,7 @@ containing a value of this type.
         public static final int abc_textfield_search_material=0x7f02003d;
         public static final int bh=0x7f02003e;
         public static final int casicuadrada=0x7f02003f;
-        public static final int defaultimage=0x7f020040;
+        public static final int default_image=0x7f020040;
         public static final int notification_template_icon_bg=0x7f020042;
         public static final int refractor=0x7f020041;
     }
