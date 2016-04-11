@@ -20,6 +20,7 @@ public class BaseDatosAdapter {
     private static final String TABLE_ALBUM_CREATE =
             "create table albums (_id integer primary key autoincrement, " +
                     "titulo text not null," +
+                    "ruta text not null" +
                     " artista integer, " +
                     "foreign key (artista) references artistas(_id));";
     private static final String TABLE_SONG_CREATE =
@@ -120,9 +121,10 @@ public class BaseDatosAdapter {
         return mDb.update(DATABASE_TABLE_ARTISTAS, args, "_id = " + rowId, null) > 0;
     }
 
-    public long createAlbum(String titulo, String artista){
+    public long createAlbum(String titulo,String ruta, String artista){
         ContentValues args = new ContentValues();
         args.put("titulo",titulo);
+        args.put("ruta",ruta);
 
         if(existArtista(artista)){
 
@@ -136,8 +138,7 @@ public class BaseDatosAdapter {
 
         } else {
 
-            //args.put("artista", );
-            //coger el ID del artista 'desconocido' y ponerlo
+            //crear artista
         }
 
         return mDb.insert(DATABASE_TABLE_ARTISTAS, null, args);
@@ -145,43 +146,112 @@ public class BaseDatosAdapter {
 
     public boolean deleteAlbum(long rowId){
 
+        return mDb.delete(DATABASE_TABLE_ALBUMS, "_id" + "=" + rowId, null) > 0;
     }
 
     public Cursor fetchAllAlbumsByABC(){
 
+        return mDb.query(DATABASE_TABLE_ALBUMS, new String[] {"_id","titulo","ruta","artista"}
+                , null,null,null,null,"titulo");
     }
 
     public Cursor fetchAlbum(long rowId) throws SQLException{
 
+        Cursor cursor =
+                mDb.query(true,DATABASE_TABLE_ALBUMS, new String[] {"_id","titulo","ruta","artista"},
+                        "_id = "+rowId, null, null, null, null, null);
+        if(cursor!=null){
+            cursor.moveToFirst();
+        }
+        return cursor;
     }
 
-    public boolean updateAlbum(long rowId, String titulo, int artista){
+    public boolean updateAlbum(long rowId, String titulo, String ruta, String artista){
 
+        ContentValues args = new ContentValues();
+        args.put("titulo",titulo);
+        args.put("ruta",ruta);
+        //meter todos los atributos
+
+        if(existArtista(artista)){
+
+            Cursor cursor =
+                    mDb.query(DATABASE_TABLE_ARTISTAS, new String[] {"_id", "nombre"},
+                            "nombre = '" + artista + "'", null, null, null, null, null);
+            cursor.moveToFirst();
+            int id = cursor.getInt(0);
+            cursor.close();
+            args.put("artista",id);
+
+        } else {
+
+            //crear artista
+        }
+
+        return mDb.update(DATABASE_TABLE_ARTISTAS, args, "_id = " + rowId, null) > 0;
     }
 
-    public long createCancion(String titulo, String duracion, int valoracion, int album){
+    public long createCancion(String titulo, String duracion, int valoracion, String album){
 
+        ContentValues args = new ContentValues();
+        args.put("titulo",titulo);
+        args.put("duracion",duracion);
+        args.put("valoracion",valoracion);
+
+        if(existAlbum(album)){
+
+            Cursor cursor =
+                    mDb.query(DATABASE_TABLE_ALBUMS,
+                            new String[] {"_id","titulo","duracion","valoracion","album"},
+                            "titulo = '" + titulo + "'", null, null, null, null, null);
+            cursor.moveToFirst();
+            int id = cursor.getInt(0);
+            cursor.close();
+            args.put("artista",id);
+
+        } else {
+
+            //crear album
+        }
+
+        return mDb.insert(DATABASE_TABLE_CANCIONES, null, args);
     }
 
     public boolean deleteCancion(long rowId){
 
+        return mDb.delete(DATABASE_TABLE_CANCIONES, "_id" + "=" + rowId, null) > 0;
     }
 
     public Cursor fetchAllCancionesByABC(){
 
+        return mDb.query(DATABASE_TABLE_CANCIONES,
+                new String[] {"_id","titulo","duracion","valoracion","album"}
+                , null,null,null,null,"titulo");
     }
 
     public Cursor fetchCancion(long rowId) throws SQLException{
 
+        Cursor cursor =
+                mDb.query(true,DATABASE_TABLE_CANCIONES,
+                        new String[] {"_id","titulo","duracion","valoracion","album"},
+                        "_id = "+rowId, null, null, null, null, null);
+        if(cursor!=null){
+            cursor.moveToFirst();
+        }
+        return cursor;
     }
 
-    //buscar canciones dado album
-    public Cursor fetchCancionByAlbum(){
+    //buscar canciones dado album(su id)
+    public Cursor fetchCancionByAlbum(long rowId){
 
+        return mDb.query(true,DATABASE_TABLE_CANCIONES,
+                new String[] {"_id","titulo","duracion","valoracion","album"},
+                "album = "+rowId, null, null, null, null, null);
     }
 
     public boolean updateCancion(long rowId, String titulo, String duracion, int valoracion, int album){
 
+        return false;
     }
 
 
@@ -201,7 +271,7 @@ public class BaseDatosAdapter {
     public boolean existAlbum(String comprobar){
 
         Cursor cursor =
-                mDb.query(DATABASE_TABLE_ALBUMS, new String[] {"_id","titulo","artista"},
+                mDb.query(DATABASE_TABLE_ALBUMS, new String[] {"_id","titulo", "ruta","artista"},
                         "titulo = '" + comprobar + "'", null, null, null, null, null);
         if (cursor.getCount() > 0) {
             // La query ejecutada devuelve algun resultado
