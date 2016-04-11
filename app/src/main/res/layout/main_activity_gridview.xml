@@ -10,7 +10,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:id="@+id/MainActivity_imagen_fotoalbum"
-            android:src="@drawable/casicuadrada" />
+            android:src="@drawable/default_image" />
 
         <TextView
             android:layout_width="match_parent"

@@ -13,7 +13,6 @@ public class SongEdit extends AppCompatActivity {
 
     private EditText SongEdit_texto_titulo;
     private EditText SongEdit_texto_album;
-    private Integer SongEdit_texto_valoracion;
     private EditText SongEdit_texto_duracion;
     private Long mRowId;
 
@@ -29,12 +28,11 @@ public class SongEdit extends AppCompatActivity {
         setContentView(R.layout.activity_song_edit);
         setTitle("Editar cancion");
 
-        SongEdit_texto_titulo = (EditText) findViewById(R.id.titulo);
-        SongEdit_texto_album = (EditText) findViewById(R.id.album);
-        SongEdit_texto_valoracion = (EditText) findViewById(R.id.valoracion);
-        SongEdit_texto_duracion = (EditText) findViewById(R.id.duracion);
+        SongEdit_texto_titulo = (EditText) findViewById(R.id.SongEdit_texto_titulo);
+        SongEdit_texto_album = (EditText) findViewById(R.id.SongEdit_texto_album);
+        SongEdit_texto_duracion = (EditText) findViewById(R.id.SongEdit_texto_duracion);
 
-        Button SongEdit_boton_guardar = (Button) findViewById(R.id.confirm);
+        Button SongEdit_boton_guardar = (Button) findViewById(R.id.SongEdit_boton_guardar);
 
         mRowId = (savedInstanceState == null) ? null :
                 (Long) savedInstanceState.getSerializable("_id");
@@ -56,16 +54,14 @@ public class SongEdit extends AppCompatActivity {
 
     private void populateFields() {
         if (mRowId != null) {
-            Cursor note = dbHelper.fetchCancion(mRowId);
-            startManagingCursor(note);
-            SongEdit_texto_titulo.setText(note.getString(
-                    note.getColumnIndexOrThrow("titulo")));
-            SongEdit_texto_album.setText(note.getString(
-                    note.getColumnIndexOrThrow("album")));
-            SongEdit_texto_valoracion.setText(note.getString(
-                    note.getColumnIndexOrThrow("valoracion")));
-            SongEdit_texto_duracion.setText(note.getString(
-                    note.getColumnIndexOrThrow("duracion")));
+            Cursor cancion = dbHelper.fetchCancion(mRowId);
+            startManagingCursor(cancion);
+            SongEdit_texto_titulo.setText(cancion.getString(
+                    cancion.getColumnIndexOrThrow("titulo")));
+            SongEdit_texto_album.setText(cancion.getString(
+                    cancion.getColumnIndexOrThrow("album")));
+            SongEdit_texto_duracion.setText(cancion.getString(
+                    cancion.getColumnIndexOrThrow("duracion")));
         }
     }
 
@@ -101,7 +97,7 @@ public class SongEdit extends AppCompatActivity {
     private void saveState() {
         String titulo = SongEdit_texto_titulo.getText().toString();
         String album = SongEdit_texto_album.getText().toString();
-        Integer valoracion = SongEdit_texto_valoracion.getText().toString();
+        Integer valoracion = 0;
         String duracion = SongEdit_texto_duracion.getText().toString();
 
         if (mRowId == null) {

@@ -28,6 +28,9 @@ public class SeeSong extends AppCompatActivity {
     private BaseDatosAdapter dbHelper;
     private Cursor mNotesCursor;
 
+    private String imagenDefecto = "drawable://defaultimage.jpg";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
