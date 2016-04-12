@@ -42,11 +42,13 @@ public class SeeAlbum extends AppCompatActivity {
         //Capturo los parametros
         Bundle extras = getIntent().getExtras();
 
-        final String nombreAlbum = extras.getString("SeeAlbum_album");
+        final int idAlbum = extras.getInt("SeeAlbum_album");
 
         /*Llamo a la base de datos para capturar los datos que necesito:
             -Lista de cancciones, genero de una de ellas, caratula y artista*/
-        fillData(nombreAlbum);
+        fillData(idAlbum);
+
+        final String nombreAlbum = ""; // PENDIENTES
         final String rutaImagen = dbHelper.imagen(nombreAlbum);
         String artista = dbHelper.artista(nombreAlbum);
         String genero = dbHelper.generos(nombreAlbum).getString(1);
@@ -162,11 +164,11 @@ public class SeeAlbum extends AppCompatActivity {
      * Carga todas las canciones asociadas al album en la base de datos en
      * la lista.
      *
-     * @param album nombre del album
+     * @param album id del album
      */
-    private void fillData(String album) {
+    private void fillData(int album) {
 
-        Cursor notesCursor = dbHelper.buscarPorAlbum(album);
+        Cursor notesCursor = dbHelper.fetchCancionByAlbum(album);
         startManagingCursor(notesCursor);
 
         String[] from = new String[] { dbHelper.NOMBRE_CANCION };

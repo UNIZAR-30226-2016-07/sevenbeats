@@ -635,10 +635,13 @@ int string edit_genero 0x7f07001a
 int string edit_guardar 0x7f07001b
 int string edit_titulo 0x7f07001c
 int string hello_world 0x7f07001d
+int string menu_album 0x7f07001e
+int string menu_artistas 0x7f07001f
+int string menu_cancion 0x7f070020
 int string status_bar_notification_info_overflow 0x7f070011
-int string title_activity_see_album 0x7f07001e
-int string title_activity_see_song 0x7f07001f
-int string title_activity_song_edit 0x7f070020
+int string title_activity_see_album 0x7f070021
+int string title_activity_see_song 0x7f070022
+int string title_activity_song_edit 0x7f070023
 int style AlertDialog_AppCompat 0x7f09007a
 int style AlertDialog_AppCompat_Light 0x7f09007b
 int style Animation_AppCompat_Dialog 0x7f09007c
