@@ -10,7 +10,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tengo que tener un menu lateral que hay que rellenar con
@@ -23,17 +28,27 @@ public class MainActivity extends AppCompatActivity {
     private static final String CANCION_NOMBRE = "nombre";
 
     private MediaPlayer Mp;
+    private ListView listaPrincipal;
+    private ListView listaMenu;
+    private ArrayList<String> contenidoListaMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // rellenar lista lateral y lista central
-
+        setTitle("Canciones");
+        // ruido al abrir la aplicacion
         Mp = MediaPlayer.create(this, R.raw.sonido_inicio_app);
         Mp.start();
-        setContentView(R.layout.main_activity);
 
+        // rellenar lista lateral y lista central
+        setContentView(R.layout.main_activity);
+        listaPrincipal = (ListView) findViewById(R.id.MainActivity_lista_principal);
+        listaMenu = (ListView) findViewById(R.id.MainActivity_lista_menu);
+        fillSongData();
+        fillListaMenuData();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,10 +80,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillSongData() {
-        Cursor cursor = bbdd.fetchAllSongs();
+        Cursor cursor = bbdd.fetchAllCancionesByABC();
         String[] fromColumns = {CANCION_NOMBRE};
         int[] toViews = {R.id.MainActivity_lista_principal};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity, cursor,
                 fromColumns, toViews, 0);
+        listaPrincipal.setAdapter(adapter);
+    }
+
+    private void fillListaMenuData() {
+        contenidoListaMenu  = new ArrayList<String>();
+        contenidoListaMenu.add("Canciones");
+        contenidoListaMenu.add("Álbumes");
+        contenidoListaMenu.add("Artistas");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.main_activity,
+                contenidoListaMenu);
+        listaMenu.setAdapter(adapter);
     }
 }
