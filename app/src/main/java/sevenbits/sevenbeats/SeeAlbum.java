@@ -50,7 +50,7 @@ public class SeeAlbum extends AppCompatActivity {
 
         final String nombreAlbum = ""; // PENDIENTES
         final String rutaImagen = dbHelper.imagen(nombreAlbum);
-        String artista = dbHelper.artista(nombreAlbum);
+        final String artista = dbHelper.artista(nombreAlbum);
         String genero = dbHelper.generos(nombreAlbum).getString(1);
 
         /*Asigno cada valor a sus correspondientes variables*/
@@ -91,7 +91,7 @@ public class SeeAlbum extends AppCompatActivity {
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
-                                ponerCaratula(url, nombreAlbum);
+                                ponerCaratula(url, idAlbum, nombreAlbum, artista);
                                 ImageView imagen = (ImageView)findViewById(R.id.imageViewAlbum);
                                 imagen.setImageURI(Uri.parse(rutaImagen));
 
@@ -132,7 +132,7 @@ public class SeeAlbum extends AppCompatActivity {
      *
      * @return true si solo si el proceso se ha realizado de forma correcta.
      */
-    public boolean ponerCaratula(String ruta, String nombreAlbum){
+    public boolean ponerCaratula(String ruta, int albumId, String nombreAlbum, String artista){
         Image image = null;
         try {
             URL url = new URL(ruta);
@@ -152,7 +152,7 @@ public class SeeAlbum extends AppCompatActivity {
             fos.write(response);
             fos.close();
 
-            dbHelper.anadirCaratula(nombreAlbum, nombreAlbum + ".jpg");
+            dbHelper.updateAlbum(albumId, nombreAlbum, nombreAlbum + ".jpg", artista);
 
         } catch (Exception e) {
             return false;
@@ -171,7 +171,7 @@ public class SeeAlbum extends AppCompatActivity {
         Cursor notesCursor = dbHelper.fetchCancionByAlbum(album);
         startManagingCursor(notesCursor);
 
-        String[] from = new String[] { dbHelper.NOMBRE_CANCION };
+        String[] from = new String[] { "titulo" };
 
         int[] to = new int[] { 0 };
 
