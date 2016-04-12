@@ -34,8 +34,8 @@ public class GridCursorAdapter extends CursorAdapter {
         TextView titulo = (TextView) view.findViewById(R.id.MainActivity_texto_nombrealbum);
         ImageView imagen = (ImageView) view.findViewById(R.id.MainActivity_imagen_fotoalbum);
         // Extract properties from cursor
-        String title = cursor.getString(cursor.getColumnIndexOrThrow(BaseDatosAdapter.KEY_TITLE));
-        String rutaImagen = cursor.getString(cursor.getColumnIndexOrThrow(BaseDatosAdapter.KEY_FIN));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
+        String rutaImagen = cursor.getString(cursor.getColumnIndexOrThrow("ruta"));
         if ( rutaImagen != null ){
             imagen.setImageURI(Uri.parse(rutaImagen));
         }
