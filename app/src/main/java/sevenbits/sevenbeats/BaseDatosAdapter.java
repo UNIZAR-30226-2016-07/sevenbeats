@@ -166,7 +166,7 @@ public class BaseDatosAdapter {
             args.put("artista", id);
         }
 
-        return mDb.insert(DATABASE_TABLE_ARTISTAS, null, args);
+        return mDb.insert(DATABASE_TABLE_ALBUMS, null, args);
     }
 
     /*
