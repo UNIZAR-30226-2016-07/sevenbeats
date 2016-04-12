@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -44,18 +43,17 @@ public class SeeSong extends AppCompatActivity {
         /*Llamo a la base de datos para capturar los datos que necesito*/
         final String rutaImagen = dbHelper.imagen(nombreCancion);
         String artista = dbHelper.artista(nombreCancion);
-        String genero = dbHelper.generos(nombreCancion).getString(1);
         String duracion = dbHelper.duracion(nombreCancion);
 
         /*Asigno cada valor a sus correspondientes variables*/
-        TextView asignador = (TextView)findViewById(R.id.nombreAlbum);
+        TextView asignador = (TextView)findViewById(R.id.SeeSong_texto_titulo);
         asignador.setText(nombreCancion);
 
-        asignador = (TextView)findViewById(R.id.artistaAlbum);
+        asignador = (TextView)findViewById(R.id.SeeSong_texto_artista);
         asignador.setText(artista);
 
-        asignador = (TextView)findViewById(R.id.generoAlbum);
-        asignador.setText(genero);
+        asignador = (TextView)findViewById(R.id.SeeSong_texto_duracion);
+        asignador.setText(duracion);
 
         /*Si no hay caratula, enseñar imagen por defecto*/
         ImageView imagen = (ImageView)findViewById(R.id.imageViewAlbum);
