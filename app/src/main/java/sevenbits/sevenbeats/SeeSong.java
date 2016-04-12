@@ -41,9 +41,9 @@ public class SeeSong extends AppCompatActivity {
         final String nombreCancion = extras.getString("SeeCancion_cancion");
 
         /*Llamo a la base de datos para capturar los datos que necesito*/
-        final String rutaImagen= dbHelper.imagen(nombreCancion);
-        String artista= dbHelper.artista(nombreCancion);
-        String duracion = dbHelper.duracion(nombreCancion);
+        final String rutaImagen="";//= dbHelper.imagen(nombreCancion);
+        String artista="";//= dbHelper.artista(nombreCancion);
+        String duracion="";// = dbHelper.duracion(nombreCancion);
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.SeeSong_texto_titulo);
@@ -82,7 +82,7 @@ public class SeeSong extends AppCompatActivity {
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
-                                ponerCaratula(url, nombreAlbum);
+                                //ponerCaratula(url, nombreAlbum);
                                 ImageView imagen = (ImageView)findViewById(R.id.imageViewAlbum);
                                 imagen.setImageURI(Uri.parse(rutaImagen));
 
@@ -147,7 +147,7 @@ public class SeeSong extends AppCompatActivity {
             fos.write(response);
             fos.close();
 
-            dbHelper.anadirCaratula(nombreAlbum, nombreAlbum + ".jpg");
+           // dbHelper.anadirCaratula(nombreAlbum, nombreAlbum + ".jpg");
 
         } catch (Exception e) {
             return false;

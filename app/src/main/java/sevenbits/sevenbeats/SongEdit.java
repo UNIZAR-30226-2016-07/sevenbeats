@@ -3,6 +3,7 @@ package sevenbits.sevenbeats;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -46,6 +47,7 @@ public class SongEdit extends AppCompatActivity {
 
             public void onClick(View view) {
                 setResult(RESULT_OK);
+                saveState();
                 finish();
             }
 
@@ -69,6 +71,7 @@ public class SongEdit extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         saveState();
+        Log.d("Debug","Aqui");
         outState.putSerializable("_id", mRowId);
     }
 
@@ -99,7 +102,7 @@ public class SongEdit extends AppCompatActivity {
         String album = SongEdit_texto_album.getText().toString();
         Integer valoracion = 0;
         String duracion = SongEdit_texto_duracion.getText().toString();
-
+        Log.d("Debug","Se va a insertar: " + titulo);
         if (mRowId == null) {
             long id = dbHelper.createCancion(titulo, duracion, valoracion, album);
             if (id > 0) {
