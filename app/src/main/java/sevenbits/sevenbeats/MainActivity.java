@@ -25,7 +25,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private BaseDatosAdapter bbdd;
-    private static final String CANCION_NOMBRE = "nombre";
+    private static final String CANCION_NOMBRE = "titulo";
 
     private MediaPlayer Mp;
     private ListView listaPrincipal;
@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         // ruido al abrir la aplicacion
         Mp = MediaPlayer.create(this, R.raw.sonido_inicio_app);
         Mp.start();
-
+        bbdd = new BaseDatosAdapter(this);
+        bbdd.open();
         // rellenar lista lateral y lista central
         setContentView(R.layout.main_activity);
         listaPrincipal = (ListView) findViewById(R.id.MainActivity_lista_principal);
@@ -82,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
     private void fillSongData() {
         Cursor cursor = bbdd.fetchAllCancionesByABC();
         String[] fromColumns = {CANCION_NOMBRE};
-        int[] toViews = {R.id.MainActivity_lista_principal};
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity, cursor,
-                fromColumns, toViews, 0);
+        int[] toViews = {R.id.MainActivity_texto_testolista};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, cursor,
+                fromColumns, toViews);
         listaPrincipal.setAdapter(adapter);
     }
 
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         contenidoListaMenu.add("Canciones");
         contenidoListaMenu.add("Álbumes");
         contenidoListaMenu.add("Artistas");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.main_activity,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.main_activity_list,
                 contenidoListaMenu);
         listaMenu.setAdapter(adapter);
     }

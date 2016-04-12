@@ -49,9 +49,9 @@ public class SeeAlbum extends AppCompatActivity {
         fillData(idAlbum);
 
         final String nombreAlbum = ""; // PENDIENTES
-        final String rutaImagen = dbHelper.imagen(nombreAlbum);
-        final String artista = dbHelper.artista(nombreAlbum);
-        String genero = dbHelper.generos(nombreAlbum).getString(1);
+        final String rutaImagen= dbHelper.imagen(nombreAlbum);
+        final String artista= dbHelper.artista(nombreAlbum);
+        String genero= dbHelper.generos(nombreAlbum).getString(1);
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.nombreAlbum);

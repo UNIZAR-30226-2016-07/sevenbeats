@@ -20,7 +20,7 @@ public class BaseDatosAdapter {
     private static final String TABLE_ALBUM_CREATE =
             "create table albums (_id integer primary key autoincrement, " +
                     "titulo text not null," +
-                    "ruta text not null" +
+                    "ruta text not null," +
                     " artista integer, " +
                     "foreign key (artista) references artistas(_id));";
     private static final String TABLE_SONG_CREATE =

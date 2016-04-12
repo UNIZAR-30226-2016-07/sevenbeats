@@ -41,8 +41,8 @@ public class SeeSong extends AppCompatActivity {
         final String nombreCancion = extras.getString("SeeCancion_cancion");
 
         /*Llamo a la base de datos para capturar los datos que necesito*/
-        final String rutaImagen = dbHelper.imagen(nombreCancion);
-        String artista = dbHelper.artista(nombreCancion);
+        final String rutaImagen= dbHelper.imagen(nombreCancion);
+        String artista= dbHelper.artista(nombreCancion);
         String duracion = dbHelper.duracion(nombreCancion);
 
         /*Asigno cada valor a sus correspondientes variables*/
