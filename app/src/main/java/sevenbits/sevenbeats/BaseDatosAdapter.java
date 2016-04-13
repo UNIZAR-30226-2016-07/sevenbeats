@@ -318,7 +318,7 @@ public class BaseDatosAdapter {
 
         return mDb.query(true,DATABASE_TABLE_CANCIONES,
                 new String[] {"_id","titulo","duracion","valoracion","album"},
-                "album = "+rowId, null, null, null, null, null);
+                "album = '"+rowId+"'", null, null, null, null, null);
     }
 
     /*

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.database.Cursor;
 import android.view.MenuItem;
@@ -30,6 +31,8 @@ public class SeeAlbum extends AppCompatActivity {
     private BaseDatosAdapter dbHelper;
     private Cursor mNotesCursor;
     private ListView mList;
+    private Button button;
+    private ImageView imagen;
 
     public static String imagenDefecto = "drawable://defaultimage.jpg";
 
@@ -53,13 +56,14 @@ public class SeeAlbum extends AppCompatActivity {
             -Lista de cancciones, genero de una de ellas, caratula y artista*/
         fillData(idAlbum);
 
+        query.moveToFirst();
 
         final String nombreAlbum = query.getString(query.getColumnIndexOrThrow("titulo")); // PENDIENTES
         final String rutaImagen= query.getString(query.getColumnIndexOrThrow("ruta"));;//= dbHelper.imagen(nombreAlbum);
         final String artista= query.getString(query.getColumnIndexOrThrow("artista"));;//= dbHelper.artista(nombreAlbum);
         query = dbHelper.fetchCancionByAlbum(idAlbum);
         query.moveToFirst();
-        String genero= query.getString(query.getColumnIndexOrThrow("genero"));//= dbHelper.generos(nombreAlbum).getString(1);
+        String genero="";//= query.getString(query.getColumnIndexOrThrow("genero"));//= dbHelper.generos(nombreAlbum).getString(1);
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.nombreAlbum);
@@ -72,18 +76,20 @@ public class SeeAlbum extends AppCompatActivity {
         asignador.setText(genero);
 
         /*Si no hay caratula, enseñar imagen por defecto*/
-        ImageView imagen = (ImageView)findViewById(R.id.imageViewAlbum);
-        if ( rutaImagen != null ){
+        imagen = (ImageView)findViewById(R.id.imageViewAlbum);
+        if ( rutaImagen != null && !rutaImagen.equals("poner ruta")){
             imagen.setImageURI(Uri.parse(rutaImagen));
         }
         else{
-            imagen.setImageURI(Uri.parse(imagenDefecto));
+            imagen.setImageURI(Uri.parse("android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/default_image"));
         }
 
         final Context activity = this;
         final EditText txtUrl = new EditText(activity);
+        button = (Button) findViewById(R.id.buttonAlbum);
 
-        final Button button = (Button) findViewById(R.id.buttonAlbum);
+        Log.d("Debug",button.getText().toString());
+        Log.d("Debug", "Aqui entrada");
         button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -91,7 +97,7 @@ public class SeeAlbum extends AppCompatActivity {
                 //Si se pulsa el boton se abre una caja de texto para introducir la URL.
 
                 txtUrl.setHint("Pon aqui la url de la imagen");
-
+                Log.d("Debug", "Aqui3");
                 new AlertDialog.Builder(activity)
                         .setTitle("Cargar caratula")
                         .setMessage("Escribe la caratula de la imagen para poderla descargar")
@@ -100,7 +106,8 @@ public class SeeAlbum extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
                                 ponerCaratula(url, idAlbum, nombreAlbum, artista);
-                                ImageView imagen = (ImageView)findViewById(R.id.imageViewAlbum);
+                                Log.d("Debug", "Aqui");
+                                Log.d("Debug", "Aqui2");
                                 imagen.setImageURI(Uri.parse(rutaImagen));
 
                             }
@@ -113,6 +120,7 @@ public class SeeAlbum extends AppCompatActivity {
                         .show();
             }
         });
+        Log.d("Debug","Aqui salida");
 
     }
 
@@ -177,14 +185,13 @@ public class SeeAlbum extends AppCompatActivity {
     private void fillData(long album) {
 
         Cursor notesCursor = dbHelper.fetchCancionByAlbum(album);
-        startManagingCursor(notesCursor);
+        String[] from = { "titulo" };
 
-        String[] from = new String[] { "titulo" };
-
-        int[] to = new int[] { 0 };
+        int[] to= {R.id.MainActivity_texto_testolista};
 
         SimpleCursorAdapter notes =
-            new SimpleCursorAdapter(this, R.id.listSongsAlbum, notesCursor, from, to);
+            new SimpleCursorAdapter(this, R.layout.main_activity_list, notesCursor, from, to);
         mList.setAdapter(notes);
+
     }
 }
