@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -56,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
         bbdd.open();
         // rellenar lista lateral y lista central
         setContentView(R.layout.main_activity);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        MenuItem boton = (MenuItem) findViewById(android.R.id.home);
+        boton.setIcon(R.drawable.ic_drawer);
 
         listaPrincipal = (ListView) findViewById(R.id.MainActivity_lista_principal);
         listaMenu = (ListView) findViewById(R.id.MainActivity_lista_menu);

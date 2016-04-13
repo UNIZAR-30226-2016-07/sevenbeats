@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.media.Image;
 import android.net.Uri;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -42,6 +43,8 @@ public class SeeAlbum extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_see_album);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Capturo los parametros
         Bundle extras = getIntent().getExtras();
@@ -139,8 +142,8 @@ public class SeeAlbum extends AppCompatActivity {
         switch(id){
             case R.id.action_settings:
                 return true;
-            case R.id.home:
-                finish();
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
