@@ -11,6 +11,7 @@
     <string name="title_activity_see_album">SeeAlbum</string>
     <string name="action_search">Busqueda</string>
     <string name="action_anyadir">Anyadir</string>
+    <string name="action_desplegar">Desplegar</string>
 
 
     <string name="edit_titulo">Título:</string>
@@ -20,5 +21,8 @@
     <string name="edit_guardar">Guardar</string>
     <string name="boton_caratula">Cambiar Carátula</string>
     <string name="artista">Artista:</string>
+
+    <string name="drawer_open">Abierto</string>
+    <string name="drawer_close">cerrado</string>
 
 </resources>

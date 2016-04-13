@@ -41,6 +41,10 @@ public class SeeAlbum extends AppCompatActivity {
 
         //Capturo los parametros
         Bundle extras = getIntent().getExtras();
+        dbHelper = new BaseDatosAdapter(this);
+        dbHelper.open();
+
+        mList = (ListView) findViewById(R.id.listSongsAlbum);
 
         final int idAlbum = extras.getInt("SeeAlbum_album");
 

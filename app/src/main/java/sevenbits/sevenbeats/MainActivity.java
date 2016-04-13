@@ -6,8 +6,11 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> contenidoListaMenu;
     private int queMostrar=0;
 
+    private static final int EDIT_ID = Menu.FIRST;
+    private static final int DELETE_ID = Menu.FIRST + 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +56,37 @@ public class MainActivity extends AppCompatActivity {
         bbdd.open();
         // rellenar lista lateral y lista central
         setContentView(R.layout.main_activity);
+
         listaPrincipal = (ListView) findViewById(R.id.MainActivity_lista_principal);
         listaMenu = (ListView) findViewById(R.id.MainActivity_lista_menu);
         gridPrincipal = (GridView) findViewById(R.id.MainActivity_lista_cuadrada);
         drawerPrincipal = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        setHandler();
+        fillData();
+        fillListaMenuData();
+    }
+
+    private void setHandler(){
+        gridPrincipal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Intent i = new Intent(getApplicationContext(), SeeAlbum.class);
+                i.putExtra("SeeAlbum_album",id);
+                startActivity(i);
+            }
+        });
+        listaPrincipal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Intent i = new Intent(getApplicationContext(), SeeSong.class);
+                i.putExtra("SeeCancion_cancion",id);
+                startActivity(i);
+            }
+        });
+    }
+
+    private void fillData(){
         switch (queMostrar){
             case 0:
                 setTitle("Canciones");
@@ -68,11 +100,31 @@ public class MainActivity extends AppCompatActivity {
                 fillSongData();
                 break;
         }
-        fillListaMenuData();
     }
 
-    private void onListItemClick(){
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Editar");
+        menu.add(Menu.NONE, DELETE_ID, Menu.NONE, "Borrar");
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        Log.d("Debug", "Al menu intenta entrar");
+        switch(item.getItemId()) {
+            case EDIT_ID:
+                Intent i = new Intent(this, SongEdit.class);
+                startActivity(i);
+                return true;
+            case DELETE_ID:
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                bbdd.deleteCancion(info.id);
+                fillData();
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
 
@@ -92,17 +144,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.MainActivity_boton_busqueda:
                 return true;
             case R.id.MainActivity_boton_anyadir:
-                anyadir();
+                Intent i = new Intent(this, SongEdit.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public boolean anyadir(){
-        Intent i = new Intent(this, SongEdit.class);
-        startActivity(i);
-        return true;
     }
 
     private void fillSongData() {
@@ -111,12 +158,14 @@ public class MainActivity extends AppCompatActivity {
         int[] toViews = {R.id.MainActivity_texto_testolista};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, cursor,
                 fromColumns, toViews);
+        gridPrincipal.setAdapter(null);
         listaPrincipal.setAdapter(adapter);
     }
 
     private void fillAlbumData(){
         Cursor cursor = bbdd.fetchAllAlbumsByABC();
         GridCursorAdapter adapter = new GridCursorAdapter(this, cursor);
+        listaPrincipal.setAdapter(null);
         gridPrincipal.setAdapter(adapter);
     }
 
@@ -134,15 +183,11 @@ public class MainActivity extends AppCompatActivity {
                 switch(position){
                     case 0:
                         queMostrar=0;
-                        gridPrincipal.setAdapter(null);
-                        setTitle("Canciones");
-                        fillSongData();
+                        fillData();
                         break;
                     case 1:
                         queMostrar=1;
-                        listaPrincipal.setAdapter(null);
-                        setTitle("Albums");
-                        fillAlbumData();
+                        fillData();
                         break;
                     case 2:
                         Toast.makeText(getApplicationContext(),"Artistas",Toast.LENGTH_SHORT).show();

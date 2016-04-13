@@ -267,13 +267,11 @@ public class BaseDatosAdapter {
             cursor.moveToFirst();
             int id = cursor.getInt(0);
             cursor.close();
-            args.put("artista",id);
 
         } else {
             //crear album
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
-            aux.put("artista",1);                               //artista desconocido
             mDb.insert(DATABASE_TABLE_ALBUMS,null,aux);
             Cursor cursor =
                     mDb.query(DATABASE_TABLE_ALBUMS,

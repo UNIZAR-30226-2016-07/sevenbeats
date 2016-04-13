@@ -35,6 +35,8 @@ public class SeeSong extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_song);
+        dbHelper = new BaseDatosAdapter(this);
+        dbHelper.open();
 
         //Capturo los parametros
         Bundle extras = getIntent().getExtras();
