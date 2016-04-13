@@ -35,7 +35,7 @@ public class SeeAlbum extends AppCompatActivity {
     private Button button;
     private ImageView imagen;
 
-    public static String imagenDefecto = "drawable://defaultimage.jpg";
+    public static String imagenDefecto = "android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/default_image";
 
 
     @Override
@@ -85,7 +85,7 @@ public class SeeAlbum extends AppCompatActivity {
             imagen.setImageURI(Uri.parse(rutaImagen));
         }
         else{
-            imagen.setImageURI(Uri.parse("android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/default_image"));
+            imagen.setImageURI(Uri.parse("imagenDefecto"));
         }
 
         final Context activity = this;
@@ -173,7 +173,7 @@ public class SeeAlbum extends AppCompatActivity {
             in.close();
             byte[] response = out.toByteArray();
 
-            FileOutputStream fos = new FileOutputStream("drawable://" + nombreAlbum + ".jpg");
+            FileOutputStream fos = new FileOutputStream("android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/"+ nombreAlbum + ".jpg");
             fos.write(response);
             fos.close();
 
