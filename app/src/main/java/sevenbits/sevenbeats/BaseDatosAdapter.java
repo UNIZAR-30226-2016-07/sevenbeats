@@ -10,6 +10,8 @@ import android.util.Log;
 
 public class BaseDatosAdapter {
 
+    public static String rutaDefecto = "poner ruta";
+
     private static final String TAG = " BaseDatosAdapter";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -57,7 +59,7 @@ public class BaseDatosAdapter {
 
             db.execSQL("insert into artistas (nombre) values ('Artista Desconocido');");
             db.execSQL("insert into albums (titulo,ruta,artista) values " +
-                    "('Album Desconocido','poner ruta',1);");
+                    "('Album Desconocido','"+rutaDefecto+"',1);");
         }
 
         @Override
@@ -272,7 +274,7 @@ public class BaseDatosAdapter {
             //crear album
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
-            aux.put("ruta","poner ruta");
+            aux.put("ruta", rutaDefecto);
             long id=mDb.insert(DATABASE_TABLE_ALBUMS, null,aux);
             args.put("album", id);
         }

@@ -81,11 +81,8 @@ public class SeeAlbum extends AppCompatActivity {
 
         /*Si no hay caratula, enseñar imagen por defecto*/
         imagen = (ImageView)findViewById(R.id.imageViewAlbum);
-        if ( rutaImagen != null && !rutaImagen.equals("poner ruta")){
+        if (!rutaImagen.equals(BaseDatosAdapter.rutaDefecto)){
             imagen.setImageURI(Uri.parse(rutaImagen));
-        }
-        else{
-            imagen.setImageURI(Uri.parse("imagenDefecto"));
         }
 
         final Context activity = this;
