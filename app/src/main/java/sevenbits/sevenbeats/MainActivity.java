@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent i = new Intent(getApplicationContext(), SeeAlbum.class);
+                Log.d("Debug", "El id es: " + id);
                 i.putExtra("SeeAlbum_album",id);
                 startActivity(i);
             }

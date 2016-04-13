@@ -46,20 +46,20 @@ public class SeeAlbum extends AppCompatActivity {
 
         mList = (ListView) findViewById(R.id.listSongsAlbum);
 
-        final int idAlbum = extras.getInt("SeeAlbum_album");
+        final long idAlbum = extras.getLong("SeeAlbum_album");
 
         Cursor query = dbHelper.fetchAlbum(idAlbum);
         /*Llamo a la base de datos para capturar los datos que necesito:
             -Lista de cancciones, genero de una de ellas, caratula y artista*/
         fillData(idAlbum);
-        query.moveToFirst();
 
-        final String nombreAlbum = query.getString(query.getColumnIndex("titulo")); // PENDIENTES
-        final String rutaImagen= query.getString(query.getColumnIndex("ruta"));;//= dbHelper.imagen(nombreAlbum);
-        final String artista= query.getString(query.getColumnIndex("artista"));;//= dbHelper.artista(nombreAlbum);
+
+        final String nombreAlbum = query.getString(query.getColumnIndexOrThrow("titulo")); // PENDIENTES
+        final String rutaImagen= query.getString(query.getColumnIndexOrThrow("ruta"));;//= dbHelper.imagen(nombreAlbum);
+        final String artista= query.getString(query.getColumnIndexOrThrow("artista"));;//= dbHelper.artista(nombreAlbum);
         query = dbHelper.fetchCancionByAlbum(idAlbum);
         query.moveToFirst();
-        String genero= query.getString(query.getColumnIndex("genero"));//= dbHelper.generos(nombreAlbum).getString(1);
+        String genero= query.getString(query.getColumnIndexOrThrow("genero"));//= dbHelper.generos(nombreAlbum).getString(1);
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.nombreAlbum);
@@ -140,7 +140,7 @@ public class SeeAlbum extends AppCompatActivity {
      *
      * @return true si solo si el proceso se ha realizado de forma correcta.
      */
-    public boolean ponerCaratula(String ruta, int albumId, String nombreAlbum, String artista){
+    public boolean ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
         Image image = null;
         try {
             URL url = new URL(ruta);
@@ -174,7 +174,7 @@ public class SeeAlbum extends AppCompatActivity {
      *
      * @param album id del album
      */
-    private void fillData(int album) {
+    private void fillData(long album) {
 
         Cursor notesCursor = dbHelper.fetchCancionByAlbum(album);
         startManagingCursor(notesCursor);

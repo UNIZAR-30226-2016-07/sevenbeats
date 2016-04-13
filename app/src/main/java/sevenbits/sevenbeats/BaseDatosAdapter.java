@@ -193,7 +193,7 @@ public class BaseDatosAdapter {
     public Cursor fetchAlbum(long rowId) throws SQLException{
 
         return mDb.query(true,DATABASE_TABLE_ALBUMS, new String[] {"_id","titulo","ruta","artista"},
-                "_id = "+rowId, null, null, null, null, null);
+                "_id = '"+rowId+"'", null, null, null, null, null);
     }
 
     /*
@@ -262,7 +262,7 @@ public class BaseDatosAdapter {
 
             Cursor cursor =
                     mDb.query(DATABASE_TABLE_ALBUMS,
-                            new String[] {"_id","titulo","artista"},
+                            new String[]{"_id", "titulo", "artista"},
                             "titulo = '" + album + "'", null, null, null, null, null);
             cursor.moveToFirst();
             int id = cursor.getInt(0);
@@ -272,17 +272,11 @@ public class BaseDatosAdapter {
             //crear album
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
-            mDb.insert(DATABASE_TABLE_ALBUMS,null,aux);
-            Cursor cursor =
-                    mDb.query(DATABASE_TABLE_ALBUMS,
-                            new String[] {"_id","titulo","artista"},
-                            "titulo = '" + album + "'", null, null, null, null, null);
-            cursor.moveToFirst();
-            int id = cursor.getInt(0);
-            cursor.close();
+            aux.put("ruta","poner ruta");
+            long id=mDb.insert(DATABASE_TABLE_ALBUMS, null,aux);
             args.put("album", id);
         }
-
+        args.put("titulo",titulo);
         return mDb.insert(DATABASE_TABLE_CANCIONES, null, args);
     }
 
