@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/MainActivity_texto_testolista"
+    android:textStyle="bold"
+    android:textSize="24dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:textColor="#ffffff"/>

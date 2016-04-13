@@ -3,6 +3,7 @@ package sevenbits.sevenbeats;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import android.widget.TextView;
 public class GridCursorAdapter extends CursorAdapter {
 
 
-    private String imagenDefecto = "drawable://defaultimage.jpg";
+    private String imagenDefecto = "drawable://" + R.drawable.default_image;
 
     public GridCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
@@ -36,11 +37,13 @@ public class GridCursorAdapter extends CursorAdapter {
         // Extract properties from cursor
         String title = cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
         String rutaImagen = cursor.getString(cursor.getColumnIndexOrThrow("ruta"));
-        if ( rutaImagen != null ){
+        if ( rutaImagen != null && !rutaImagen.equals("poner ruta") ){
+            Log.d("Debug", "Intenta poner imagen bbdd");
             imagen.setImageURI(Uri.parse(rutaImagen));
         }
         else{
-            imagen.setImageURI(Uri.parse(imagenDefecto));
+            Log.d("Debug", "Intenta poner imagen defecto");
+            imagen.setImageURI(Uri.parse("android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/default_image"));
         }
         // Populate fields with extracted properties
         titulo.setText(title);

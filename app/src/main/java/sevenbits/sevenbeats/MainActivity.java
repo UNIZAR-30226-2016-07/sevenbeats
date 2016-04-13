@@ -5,14 +5,19 @@ import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,25 +35,45 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer Mp;
     private ListView listaPrincipal;
     private ListView listaMenu;
+    private GridView gridPrincipal;
+    private DrawerLayout drawerPrincipal;
     private ArrayList<String> contenidoListaMenu;
+    private int queMostrar=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Canciones");
         // ruido al abrir la aplicacion
         Mp = MediaPlayer.create(this, R.raw.sonido_inicio_app);
-        Mp.start();
+        // Mp.start();
         bbdd = new BaseDatosAdapter(this);
         bbdd.open();
         // rellenar lista lateral y lista central
         setContentView(R.layout.main_activity);
         listaPrincipal = (ListView) findViewById(R.id.MainActivity_lista_principal);
         listaMenu = (ListView) findViewById(R.id.MainActivity_lista_menu);
-        fillSongData();
+        gridPrincipal = (GridView) findViewById(R.id.MainActivity_lista_cuadrada);
+        drawerPrincipal = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        switch (queMostrar){
+            case 0:
+                setTitle("Canciones");
+                fillSongData();
+                break;
+            case 1:
+                setTitle("Albums");
+                fillAlbumData();
+                break;
+            default:
+                fillSongData();
+                break;
+        }
         fillListaMenuData();
     }
 
+    private void onListItemClick(){
+
+    }
 
 
     @Override
@@ -89,13 +114,45 @@ public class MainActivity extends AppCompatActivity {
         listaPrincipal.setAdapter(adapter);
     }
 
+    private void fillAlbumData(){
+        Cursor cursor = bbdd.fetchAllAlbumsByABC();
+        GridCursorAdapter adapter = new GridCursorAdapter(this, cursor);
+        gridPrincipal.setAdapter(adapter);
+    }
+
     private void fillListaMenuData() {
         contenidoListaMenu  = new ArrayList<String>();
         contenidoListaMenu.add("Canciones");
         contenidoListaMenu.add("Álbumes");
         contenidoListaMenu.add("Artistas");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.main_activity_list,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.main_activity_listmenu,
                 contenidoListaMenu);
         listaMenu.setAdapter(adapter);
+        listaMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                switch(position){
+                    case 0:
+                        queMostrar=0;
+                        gridPrincipal.setAdapter(null);
+                        setTitle("Canciones");
+                        fillSongData();
+                        break;
+                    case 1:
+                        queMostrar=1;
+                        listaPrincipal.setAdapter(null);
+                        setTitle("Albums");
+                        fillAlbumData();
+                        break;
+                    case 2:
+                        Toast.makeText(getApplicationContext(),"Artistas",Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(getApplicationContext(),"Nada",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                drawerPrincipal.closeDrawer(listaMenu);
+            }
+        });
     }
 }
