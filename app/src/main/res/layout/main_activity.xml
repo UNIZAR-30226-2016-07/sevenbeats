@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:id="@+id/MainActivity_lista_cuadrada"
             android:layout_gravity="center_horizontal"
-            android:numColumns="auto_fit" />
+            android:numColumns="auto_fit"/>
 
 
     </LinearLayout>

@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
         // rellenar lista lateral y lista central
         setContentView(R.layout.main_activity);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         MenuItem boton = (MenuItem) findViewById(android.R.id.home);
-        boton.setIcon(R.drawable.ic_drawer);
+        boton.setIcon(R.drawable.ic_drawer);*/
 
         listaPrincipal = (ListView) findViewById(R.id.MainActivity_lista_principal);
         listaMenu = (ListView) findViewById(R.id.MainActivity_lista_menu);
