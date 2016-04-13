@@ -88,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillData(){
-        switch (queMostrar){
+        int i = getIntent().getIntExtra("queMostrar",0);
+        switch (i){
             case 0:
                 setTitle("Canciones");
                 fillSongData();
@@ -183,11 +184,11 @@ public class MainActivity extends AppCompatActivity {
                                     int position, long id) {
                 switch(position){
                     case 0:
-                        queMostrar=0;
+                        getIntent().putExtra("queMostrar",0);
                         fillData();
                         break;
                     case 1:
-                        queMostrar=1;
+                        getIntent().putExtra("queMostrar",1);
                         fillData();
                         break;
                     case 2:
