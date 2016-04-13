@@ -15,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/SeeSong_rating_ratingBar"
+        android:stepSize="1.0"
         android:layout_centerVertical="true"
         android:layout_centerInParent="true"
         android:layout_below="@+id/textView9" />
@@ -22,7 +23,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
+        android:id="@+id/SeeSong_imageButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="false"
         android:layout_alignParentStart="false"
@@ -40,7 +41,7 @@
         android:id="@+id/textView6"
         android:layout_marginTop="10dp"
         android:layout_alignRight="@+id/textView8"
-        android:layout_below="@+id/imageButton" />
+        android:layout_below="@+id/SeeSong_imageButton" />
 
     <TextView
         android:layout_width="wrap_content"

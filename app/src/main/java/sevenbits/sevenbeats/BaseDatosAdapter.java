@@ -29,6 +29,7 @@ public class BaseDatosAdapter {
                     "duracion text not null, " +
                     "valoracion integer, " +
                     "album integer, " +
+                    "genero text" +
                     "foreign key (album) references albums(_id));";
 
 
@@ -414,5 +415,12 @@ public class BaseDatosAdapter {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Cambia la valoracion de una cancion en una base de datos dado su id.
+     */
+    public void updateValoracion(int id, float valoracion){
+
     }
 }

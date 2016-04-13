@@ -31,7 +31,7 @@ public class SeeAlbum extends AppCompatActivity {
     private Cursor mNotesCursor;
     private ListView mList;
 
-    private String imagenDefecto = "drawable://defaultimage.jpg";
+    public static String imagenDefecto = "drawable://defaultimage.jpg";
 
 
     @Override
@@ -44,14 +44,18 @@ public class SeeAlbum extends AppCompatActivity {
 
         final int idAlbum = extras.getInt("SeeAlbum_album");
 
+        Cursor query = dbHelper.fetchAlbum(idAlbum);
         /*Llamo a la base de datos para capturar los datos que necesito:
             -Lista de cancciones, genero de una de ellas, caratula y artista*/
         fillData(idAlbum);
+        query.moveToFirst();
 
-        final String nombreAlbum = ""; // PENDIENTES
-        final String rutaImagen="";//= dbHelper.imagen(nombreAlbum);
-        final String artista="";//= dbHelper.artista(nombreAlbum);
-        String genero="";//= dbHelper.generos(nombreAlbum).getString(1);
+        final String nombreAlbum = query.getString(query.getColumnIndex("titulo")); // PENDIENTES
+        final String rutaImagen= query.getString(query.getColumnIndex("ruta"));;//= dbHelper.imagen(nombreAlbum);
+        final String artista= query.getString(query.getColumnIndex("artista"));;//= dbHelper.artista(nombreAlbum);
+        query = dbHelper.fetchCancionByAlbum(idAlbum);
+        query.moveToFirst();
+        String genero= query.getString(query.getColumnIndex("genero"));//= dbHelper.generos(nombreAlbum).getString(1);
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.nombreAlbum);
