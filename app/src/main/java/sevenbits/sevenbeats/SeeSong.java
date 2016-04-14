@@ -8,11 +8,13 @@ import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.SimpleCursorAdapter;
@@ -28,7 +30,7 @@ public class SeeSong extends AppCompatActivity {
     private BaseDatosAdapter dbHelper;
     private Cursor mNotesCursor;
     private RatingBar ratingBar;
-    private int idCancionInterno;
+    private long idCancionInterno;
 
 
     @Override
@@ -41,22 +43,26 @@ public class SeeSong extends AppCompatActivity {
         //Capturo los parametros
         Bundle extras = getIntent().getExtras();
 
-        final int idCancion = extras.getInt("SeeCancion_cancion");
+        long idCancion = extras.getLong("SeeCancion_cancion");
 
         Cursor query = dbHelper.fetchCancion(idCancion);
         query.moveToFirst();
 
         /*Llamo a la base de datos para capturar los datos que necesito*/
-        final String nombreCancion = query.getString(query.getColumnIndex("titulo")); // PENDIENTES
+        final String nombreCancion = query.getString(query.getColumnIndex("titulo"));
         idCancionInterno = idCancion;
-        final String duracion = query.getString(query.getColumnIndex("duracion"));;//= dbHelper.imagen(nombreAlbum);
-        final String artista = query.getString(query.getColumnIndex("artista"));;//= dbHelper.artista(nombreAlbum);
-        final String genero = query.getString(query.getColumnIndex("genero"));;//= dbHelper.artista(nombreAlbum);
+        final String duracion = query.getString(query.getColumnIndex("duracion"));
+
+        final String genero = query.getString(query.getColumnIndex("genero"));
         final int valoracion = query.getInt(query.getColumnIndex("valoracion"));
-        final int idAlbum = query.getInt(query.getColumnIndex("album"));
+        final long idAlbum = query.getLong(query.getColumnIndex("album"));
+        Log.d("Debug", "El id del abum de esta canción es: " + idAlbum);
+
         query = dbHelper.fetchAlbum(idAlbum);
         query.moveToFirst();
-        String rutaImagen = query.getString(query.getColumnIndex("ruta"));//= dbHelper.generos(nombreAlbum).getString(1);
+        final String rutaImagen = query.getString(query.getColumnIndex("ruta"));
+        final String nombreAlbum = query.getString(query.getColumnIndex("titulo"));
+        final String artista = query.getString(query.getColumnIndex("artista"));
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.SeeSong_texto_titulo);
@@ -69,7 +75,7 @@ public class SeeSong extends AppCompatActivity {
         asignador.setText(duracion);
 
         /*Si no hay caratula, enseñar imagen por defecto*/
-        ImageView imagen = (ImageView)findViewById(R.id.SeeSong_imageButton);
+        final ImageView imagen = (ImageView)findViewById(R.id.SeeSong_imageButton);
         if ( rutaImagen != null ){
             imagen.setImageURI(Uri.parse(rutaImagen));
         }
@@ -80,27 +86,26 @@ public class SeeSong extends AppCompatActivity {
         final Context activity = this;
         final EditText txtUrl = new EditText(activity);
 
-        final Button button = (Button) findViewById(R.id.buttonAlbum);
+        final ImageButton button = (ImageButton) findViewById(R.id.SeeSong_imageButton);
 
         addListenerOnRatingBar();
 
         button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                /**
-                // Set the default text to a link of the Queen
-                txtUrl.setHint("Pon aqui la url de la imagen");
+                //Si se pulsa el boton se abre una caja de texto para introducir la URL.
 
+                txtUrl.setHint("Pon aqui la url de la imagen");
                 new AlertDialog.Builder(activity)
                         .setTitle("Cargar caratula")
-                        .setMessage("Escribe la URL de la imagen para poderla descargar")
+                        .setMessage("Escribe la caratula de la imagen para poderla descargar")
                         .setView(txtUrl)
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
-                                //ponerCaratula(url, nombreAlbum);
-                                ImageView imagen = (ImageView)findViewById(R.id.imageViewAlbum);
-                                imagen.setImageURI(Uri.parse(""));
+                                ponerCaratula(url, idAlbum, nombreAlbum, artista);
+
+                                imagen.setImageURI(Uri.parse(rutaImagen));
 
                             }
 
@@ -109,7 +114,7 @@ public class SeeSong extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                             }
                         })
-                        .show();**/
+                        .show();
             }
         });
 
@@ -151,5 +156,33 @@ public class SeeSong extends AppCompatActivity {
 
             }
         });
+    }
+
+    public boolean ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
+        Image image = null;
+        try {
+            URL url = new URL(ruta);
+            InputStream in = new BufferedInputStream(url.openStream());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            int n = 0;
+            while (-1!=(n=in.read(buf)))
+            {
+                out.write(buf, 0, n);
+            }
+            out.close();
+            in.close();
+            byte[] response = out.toByteArray();
+
+            FileOutputStream fos = new FileOutputStream("android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/"+ nombreAlbum + ".jpg");
+            fos.write(response);
+            fos.close();
+
+            dbHelper.updateAlbum(albumId, nombreAlbum, nombreAlbum + ".jpg", artista);
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

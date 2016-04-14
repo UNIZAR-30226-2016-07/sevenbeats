@@ -37,14 +37,8 @@ public class GridCursorAdapter extends CursorAdapter {
         // Extract properties from cursor
         String title = cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
         String rutaImagen = cursor.getString(cursor.getColumnIndexOrThrow("ruta"));
-        if ( rutaImagen != null && !rutaImagen.equals("poner ruta") ){
-            Log.d("Debug", "Intenta poner imagen bbdd");
             imagen.setImageURI(Uri.parse(rutaImagen));
-        }
-        else{
-            Log.d("Debug", "Intenta poner imagen defecto");
-            imagen.setImageURI(Uri.parse("android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/default_image"));
-        }
+
         // Populate fields with extracted properties
         titulo.setText(title);
     }

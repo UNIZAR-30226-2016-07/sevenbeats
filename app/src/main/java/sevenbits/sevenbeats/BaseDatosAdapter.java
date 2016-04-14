@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class BaseDatosAdapter {
 
-    public static String rutaDefecto = "poner ruta";
+    public static String rutaDefecto = "android.resource://sevenbits.sevenbeats/drawable/default_image";
 
     private static final String TAG = " BaseDatosAdapter";
     private DatabaseHelper mDbHelper;
@@ -31,7 +31,7 @@ public class BaseDatosAdapter {
                     "duracion text not null, " +
                     "valoracion integer, " +
                     "album integer, " +
-                    "genero text not null" +
+                    "genero text not null," +
                     "foreign key (album) references albums(_id));";
 
 
@@ -256,8 +256,9 @@ public class BaseDatosAdapter {
                             new String[]{"_id", "titulo", "artista"},
                             "titulo = '" + album + "'", null, null, null, null, null);
             cursor.moveToFirst();
-            int id = cursor.getInt(0);
+            long id = cursor.getInt(0);
             cursor.close();
+            args.put("album", id);
 
         } else {
             //crear album

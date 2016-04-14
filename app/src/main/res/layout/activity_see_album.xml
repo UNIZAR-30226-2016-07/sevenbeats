@@ -12,12 +12,13 @@
         android:id="@+id/imageViewAlbum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
         android:src="@drawable/default_image"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/fakeView"
-        android:layout_margin="15dp" />
+        android:layout_margin="15dp"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"/>
 
 
     <!-- Entrada para editar-->
