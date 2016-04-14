@@ -202,16 +202,17 @@ public class BaseDatosAdapter {
         args.put("titulo",titulo);
         args.put("ruta",ruta);
         //meter todos los atributos
-
+        Log.d("Debug","En updateAlbum");
         if(existArtista(artista)){
             //el artista ya existe, buscamos su id y lo añadimos a los argumentos
             Cursor cursor =
                     mDb.query(DATABASE_TABLE_ARTISTAS, new String[] {"_id", "nombre"},
                             "nombre = '" + artista + "'", null, null, null, null, null);
             cursor.moveToFirst();
-            int id = cursor.getInt(0);
+            long id = cursor.getInt(0);
             cursor.close();
             args.put("artista",id);
+            Log.d("Debug", "En existe Artista");
 
         } else {
             //el artista no existe, lo creamos, buscamos su id y lo añadimos a los args
@@ -219,15 +220,16 @@ public class BaseDatosAdapter {
             aux.put("nombre", artista);
             long id = mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
             args.put("artista", id);
+            Log.d("Debug", "En no existe artista");
         }
-
+        Log.d("Debug","El id del album vale: " + rowId);
         return mDb.update(DATABASE_TABLE_ALBUMS, args, "_id = " + rowId, null) > 0;
     }
 
     /*
     Actualiza los valores de un album con _id=@rowId. @artista es el _id del artista del album
     */
-    public boolean updateAlbum(long rowId, String titulo, String ruta, int artista){
+    public boolean updateAlbum1(long rowId, String titulo, String ruta, int artista){
         ContentValues args = new ContentValues();
         args.put("titulo",titulo);
         args.put("ruta",ruta);

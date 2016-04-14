@@ -103,7 +103,8 @@ public class SeeSong extends AppCompatActivity {
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
-                                ponerCaratula(url, idAlbum, nombreAlbum, artista);
+                                boolean cierto = ponerCaratula(url, idAlbum, nombreAlbum, artista);
+                                Log.d("Debug","ponerCaratula devuelve: "+cierto+" y la ruta es: " + rutaImagen);
 
                                 imagen.setImageURI(Uri.parse(rutaImagen));
 

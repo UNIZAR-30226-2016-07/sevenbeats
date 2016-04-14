@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         setHandler();
         fillData();
         fillListaMenuData();
+        registerForContextMenu(listaPrincipal);
     }
 
     private void setHandler(){
