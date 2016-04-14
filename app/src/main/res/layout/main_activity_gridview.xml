@@ -10,8 +10,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:id="@+id/MainActivity_imagen_fotoalbum"
-            android:src="@drawable/default_image"
-            android:layout_margin="20dp" />
+            android:src="@drawable/default_image"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -26,5 +25,5 @@
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="24dp"
-            android:gravity="center" />
+            android:gravity="center"/>
     </RelativeLayout>
