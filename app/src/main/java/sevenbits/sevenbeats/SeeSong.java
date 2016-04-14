@@ -49,14 +49,14 @@ public class SeeSong extends AppCompatActivity {
         /*Llamo a la base de datos para capturar los datos que necesito*/
         final String nombreCancion = query.getString(query.getColumnIndex("titulo")); // PENDIENTES
         idCancionInterno = idCancion;
-        final String duracion= query.getString(query.getColumnIndex("duracion"));;//= dbHelper.imagen(nombreAlbum);
-        final String artista= query.getString(query.getColumnIndex("artista"));;//= dbHelper.artista(nombreAlbum);
-        final String genero= query.getString(query.getColumnIndex("genero"));;//= dbHelper.artista(nombreAlbum);
+        final String duracion = query.getString(query.getColumnIndex("duracion"));;//= dbHelper.imagen(nombreAlbum);
+        final String artista = query.getString(query.getColumnIndex("artista"));;//= dbHelper.artista(nombreAlbum);
+        final String genero = query.getString(query.getColumnIndex("genero"));;//= dbHelper.artista(nombreAlbum);
         final int valoracion = query.getInt(query.getColumnIndex("valoracion"));
         final int idAlbum = query.getInt(query.getColumnIndex("album"));
         query = dbHelper.fetchAlbum(idAlbum);
         query.moveToFirst();
-        String rutaImagen= query.getString(query.getColumnIndex("ruta"));//= dbHelper.generos(nombreAlbum).getString(1);
+        String rutaImagen = query.getString(query.getColumnIndex("ruta"));//= dbHelper.generos(nombreAlbum).getString(1);
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.SeeSong_texto_titulo);
