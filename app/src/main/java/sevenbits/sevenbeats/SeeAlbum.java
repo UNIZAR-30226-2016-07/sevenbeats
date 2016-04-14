@@ -89,8 +89,7 @@ public class SeeAlbum extends AppCompatActivity {
         final EditText txtUrl = new EditText(activity);
         button = (Button) findViewById(R.id.buttonAlbum);
 
-        Log.d("Debug",button.getText().toString());
-        Log.d("Debug", "Aqui entrada");
+
         button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -98,7 +97,7 @@ public class SeeAlbum extends AppCompatActivity {
                 //Si se pulsa el boton se abre una caja de texto para introducir la URL.
 
                 txtUrl.setHint("Pon aqui la url de la imagen");
-                Log.d("Debug", "Aqui3");
+
                 new AlertDialog.Builder(activity)
                         .setTitle("Cargar caratula")
                         .setMessage("Escribe la caratula de la imagen para poderla descargar")
@@ -107,8 +106,7 @@ public class SeeAlbum extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
                                 ponerCaratula(url, idAlbum, nombreAlbum, artista);
-                                Log.d("Debug", "Aqui");
-                                Log.d("Debug", "Aqui2");
+
                                 imagen.setImageURI(Uri.parse(rutaImagen));
 
                             }
@@ -121,7 +119,6 @@ public class SeeAlbum extends AppCompatActivity {
                         .show();
             }
         });
-        Log.d("Debug","Aqui salida");
 
     }
 
@@ -154,7 +151,7 @@ public class SeeAlbum extends AppCompatActivity {
      *
      */
     public void ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
-        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, dbHelper);
+        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, dbHelper,this);
         Thread hilo = new Thread(caratula);
         hilo.start();
     }

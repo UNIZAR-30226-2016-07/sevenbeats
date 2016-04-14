@@ -182,6 +182,7 @@ public class SeeSong extends AppCompatActivity {
             dbHelper.updateAlbum(albumId, nombreAlbum, nombreAlbum + ".jpg", artista);
 
         } catch (Exception e) {
+            Log.d("Error",e.toString());
             return false;
         }
         return true;

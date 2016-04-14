@@ -1,9 +1,14 @@
 package sevenbits.sevenbeats;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.media.Image;
+import android.os.Debug;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -16,13 +21,15 @@ public class PonerCaratula implements Runnable {
     private String ruta, nombreAlbum, artista;
     private long albumId;
     private BaseDatosAdapter dbHelper;
+    private Context context;
 
-    public PonerCaratula(String ruta, long albumId, String nombreAlbum, String artista, BaseDatosAdapter dbHelper){
+    public PonerCaratula(String ruta, long albumId, String nombreAlbum, String artista, BaseDatosAdapter dbHelper, Context context){
         this.ruta = ruta;
         this.albumId = albumId;
         this.nombreAlbum = nombreAlbum;
         this.artista = artista;
         this.dbHelper = dbHelper;
+        this.context = context;
     }
 
     /**
@@ -47,14 +54,18 @@ public class PonerCaratula implements Runnable {
             in.close();
             byte[] response = out.toByteArray();
 
-            FileOutputStream fos = new FileOutputStream("android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/"+ nombreAlbum + ".jpg");
+            ContextWrapper cw = new ContextWrapper(context);
+            File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
+            File myPath = new File(dirImages, nombreAlbum+".jpg");
+            FileOutputStream fos = new FileOutputStream(myPath);
             fos.write(response);
             fos.close();
 
-            dbHelper.updateAlbum(albumId, nombreAlbum, nombreAlbum + ".jpg", artista);
+            boolean correcto = dbHelper.updateAlbum(albumId, nombreAlbum, myPath.getAbsolutePath(), artista);
+            Log.d("Debug","Al poner caratula en thread da: " + correcto);
 
         } catch (Exception e) {
-
+            Log.d("Error",e.getMessage());
         }
     }
 }
