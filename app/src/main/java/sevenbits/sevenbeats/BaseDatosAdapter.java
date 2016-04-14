@@ -31,7 +31,7 @@ public class BaseDatosAdapter {
                     "duracion text not null, " +
                     "valoracion integer, " +
                     "album integer, " +
-                    "genero text" +
+                    "genero text not null" +
                     "foreign key (album) references albums(_id));";
 
 
@@ -158,7 +158,7 @@ public class BaseDatosAdapter {
         } else {
             //el artista no existe, lo creamos, buscamos su id y lo añadimos a los args
             ContentValues aux = new ContentValues();
-            aux.put("nombre",artista);
+            aux.put("nombre", artista);
             long id = mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
             args.put("artista", id);
         }
@@ -216,7 +216,7 @@ public class BaseDatosAdapter {
         } else {
             //el artista no existe, lo creamos, buscamos su id y lo añadimos a los args
             ContentValues aux = new ContentValues();
-            aux.put("nombre",artista);
+            aux.put("nombre", artista);
             long id = mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
             args.put("artista", id);
         }
@@ -241,12 +241,13 @@ public class BaseDatosAdapter {
     Crea una canción con los valores @titulo, @duracion, @valoracion y @album.
     En caso de que @album no sea el nombre de un album ya existente lo crea.
      */
-    public long createCancion(String titulo, String duracion, int valoracion, String album){
+    public long createCancion(String titulo, String duracion, int valoracion, String album, String genero){
 
         ContentValues args = new ContentValues();
         args.put("titulo",titulo);
         args.put("duracion",duracion);
         args.put("valoracion",valoracion);
+        args.put("genero",genero);
 
         if(existAlbum(album)){
 
@@ -285,7 +286,7 @@ public class BaseDatosAdapter {
     public Cursor fetchAllCancionesByABC(){
 
         return mDb.query(DATABASE_TABLE_CANCIONES,
-                new String[] {"_id","titulo","duracion","valoracion","album"}
+                new String[] {"_id","titulo","duracion","valoracion","album","genero"}
                 , null,null,null,null,"titulo");
     }
 
@@ -296,7 +297,7 @@ public class BaseDatosAdapter {
 
         Cursor cursor =
                 mDb.query(true,DATABASE_TABLE_CANCIONES,
-                        new String[] {"_id","titulo","duracion","valoracion","album"},
+                        new String[] {"_id","titulo","duracion","valoracion","album","genero"},
                         "_id = "+rowId, null, null, null, null, null);
         if(cursor!=null){
             cursor.moveToFirst();
@@ -308,7 +309,7 @@ public class BaseDatosAdapter {
     public Cursor fetchCancionByAlbum(long rowId){
 
         return mDb.query(true,DATABASE_TABLE_CANCIONES,
-                new String[] {"_id","titulo","duracion","valoracion","album"},
+                new String[] {"_id","titulo","duracion","valoracion","album","genero"},
                 "album = '"+rowId+"'", null, null, null, null, null);
     }
 
@@ -316,12 +317,13 @@ public class BaseDatosAdapter {
     Actualiza los valores de una canción con _id=@rowId. En caso de que @alubm no corresponda a
     ningun artista existente en la BD lo crea
      */
-    public boolean updateCancion(long rowId, String titulo, String duracion, int valoracion, String album){
+    public boolean updateCancion(long rowId, String titulo, String duracion, int valoracion, String album,String genero){
 
         ContentValues args = new ContentValues();
         args.put("titulo",titulo);
         args.put("duracion",duracion);
         args.put("valoracion",valoracion);
+        args.put("genero",genero);
 
         if(existAlbum(album)){
 
@@ -338,7 +340,7 @@ public class BaseDatosAdapter {
             //crear album
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
-            aux.put("artista",1);                               //artista desconocido
+            aux.put("artista", 1);                               //artista desconocido
             long id = mDb.insert(DATABASE_TABLE_ALBUMS,null,aux);
             args.put("album", id);
         }
@@ -349,13 +351,14 @@ public class BaseDatosAdapter {
     /*
     Actualiza los valores de una canción con _id=@rowId. @album es el _id del album de la canción
      */
-    public boolean updateCancion(long rowId, String titulo, String duracion, int valoracion, int album){
+    public boolean updateCancion(long rowId, String titulo, String duracion, int valoracion, int album,String genero){
 
         ContentValues args = new ContentValues();
         args.put("titulo",titulo);
         args.put("duracion",duracion);
         args.put("valoracion",valoracion);
         args.put("album",album);
+        args.put("genero",genero);
         //meter todos los atributos
 
         return mDb.update(DATABASE_TABLE_CANCIONES, args, "_id = " + rowId, null) > 0;
@@ -396,7 +399,24 @@ public class BaseDatosAdapter {
     /**
      * Cambia la valoracion de una cancion en una base de datos dado su id.
      */
-    public void updateValoracion(int id, float valoracion){
+    public void updateValoracion(long id, float valoracion){
+        Cursor cursor =
+                mDb.query(true,DATABASE_TABLE_CANCIONES,
+                        new String[] {"_id","titulo","duracion","valoracion","album","genero"},
+                        "_id = "+id, null, null, null, null, null);
+        //query.getString(query.getColumnIndex("ruta"))
+        //long rowId, String titulo, String duracion, int valoracion, int album
+        String titulo=cursor.getString(cursor.getColumnIndex("titulo"));
+        String duracion=cursor.getString(cursor.getColumnIndex("duracion"));
+        int album=cursor.getInt(cursor.getColumnIndex("album"));
+        String genero=cursor.getString(cursor.getColumnIndex("genero"));
+        ContentValues args = new ContentValues();
+        args.put("titulo",titulo);
+        args.put("duracion",duracion);
+        args.put("valoracion",valoracion);
+        args.put("album",album);
+        args.put("genero",genero);
+        mDb.update(DATABASE_TABLE_CANCIONES, args, "_id = " + id, null);
 
     }
 }
