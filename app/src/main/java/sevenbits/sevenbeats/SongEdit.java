@@ -15,6 +15,8 @@ public class SongEdit extends AppCompatActivity {
     private EditText SongEdit_texto_titulo;
     private EditText SongEdit_texto_album;
     private EditText SongEdit_texto_duracion;
+    private EditText SongEdit_texto_genero;
+
     private Long mRowId;
 
     private BaseDatosAdapter dbHelper;
@@ -32,6 +34,7 @@ public class SongEdit extends AppCompatActivity {
         SongEdit_texto_titulo = (EditText) findViewById(R.id.SongEdit_texto_titulo);
         SongEdit_texto_album = (EditText) findViewById(R.id.SongEdit_texto_album);
         SongEdit_texto_duracion = (EditText) findViewById(R.id.SongEdit_texto_duracion);
+        SongEdit_texto_genero  = (EditText) findViewById(R.id.SongEdit_texto_genero);
 
         Button SongEdit_boton_guardar = (Button) findViewById(R.id.SongEdit_boton_guardar);
 
@@ -102,14 +105,16 @@ public class SongEdit extends AppCompatActivity {
         String album = SongEdit_texto_album.getText().toString();
         Integer valoracion = 0;
         String duracion = SongEdit_texto_duracion.getText().toString();
+        String genero = SongEdit_texto_duracion.getText().toString();
+
         Log.d("Debug","Se va a insertar: " + titulo);
         if (mRowId == null) {
-            long id = dbHelper.createCancion(titulo, duracion, valoracion, album);
+            long id = dbHelper.createCancion(titulo, duracion, valoracion, album, genero);
             if (id > 0) {
                 mRowId = id;
             }
         } else {
-            dbHelper.updateCancion(mRowId, titulo, duracion, valoracion, album);
+            dbHelper.updateCancion(mRowId, titulo, duracion, valoracion, album, genero);
         }
     }
 }
