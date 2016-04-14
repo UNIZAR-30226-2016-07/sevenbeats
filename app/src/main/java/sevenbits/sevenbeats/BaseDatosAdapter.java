@@ -159,13 +159,7 @@ public class BaseDatosAdapter {
             //el artista no existe, lo creamos, buscamos su id y lo añadimos a los args
             ContentValues aux = new ContentValues();
             aux.put("nombre",artista);
-            mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
-            Cursor cursor =
-                    mDb.query(DATABASE_TABLE_ARTISTAS, new String[] {"_id", "nombre"},
-                            "nombre = '" + artista + "'", null, null, null, null, null);
-            cursor.moveToFirst();
-            int id = cursor.getInt(0);
-            cursor.close();
+            long id = mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
             args.put("artista", id);
         }
 
@@ -223,13 +217,7 @@ public class BaseDatosAdapter {
             //el artista no existe, lo creamos, buscamos su id y lo añadimos a los args
             ContentValues aux = new ContentValues();
             aux.put("nombre",artista);
-            mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
-            Cursor cursor =
-                    mDb.query(DATABASE_TABLE_ARTISTAS, new String[] {"_id", "nombre"},
-                            "nombre = '" + artista + "'", null, null, null, null, null);
-            cursor.moveToFirst();
-            int id = cursor.getInt(0);
-            cursor.close();
+            long id = mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
             args.put("artista", id);
         }
 
@@ -275,6 +263,7 @@ public class BaseDatosAdapter {
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
             aux.put("ruta", rutaDefecto);
+            aux.put("artista",1);
             long id=mDb.insert(DATABASE_TABLE_ALBUMS, null,aux);
             args.put("album", id);
         }
@@ -350,14 +339,7 @@ public class BaseDatosAdapter {
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
             aux.put("artista",1);                               //artista desconocido
-            mDb.insert(DATABASE_TABLE_ALBUMS,null,aux);
-            Cursor cursor =
-                    mDb.query(DATABASE_TABLE_ALBUMS,
-                            new String[] {"_id","titulo","artista"},
-                            "titulo = '" + album + "'", null, null, null, null, null);
-            cursor.moveToFirst();
-            int id = cursor.getInt(0);
-            cursor.close();
+            long id = mDb.insert(DATABASE_TABLE_ALBUMS,null,aux);
             args.put("album", id);
         }
 
