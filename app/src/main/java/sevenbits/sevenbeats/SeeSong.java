@@ -2,6 +2,7 @@ package sevenbits.sevenbeats;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.media.Image;
@@ -21,6 +22,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -31,6 +33,8 @@ public class SeeSong extends AppCompatActivity {
     private Cursor mNotesCursor;
     private RatingBar ratingBar;
     private long idCancionInterno;
+    private ImageView imagen;
+
 
 
     @Override
@@ -75,7 +79,7 @@ public class SeeSong extends AppCompatActivity {
         asignador.setText(duracion);
 
         /*Si no hay caratula, enseñar imagen por defecto*/
-        final ImageView imagen = (ImageView)findViewById(R.id.SeeSong_imageButton);
+        imagen = (ImageView)findViewById(R.id.SeeSong_imageButton);
         if ( rutaImagen != null ){
             imagen.setImageURI(Uri.parse(rutaImagen));
         }
@@ -103,10 +107,8 @@ public class SeeSong extends AppCompatActivity {
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
-                                boolean cierto = ponerCaratula(url, idAlbum, nombreAlbum, artista);
-                                Log.d("Debug","ponerCaratula devuelve: "+cierto+" y la ruta es: " + rutaImagen);
+                                ponerCaratula(url, idAlbum, nombreAlbum, artista);
 
-                                imagen.setImageURI(Uri.parse(rutaImagen));
 
                             }
 
@@ -159,32 +161,25 @@ public class SeeSong extends AppCompatActivity {
         });
     }
 
-    public boolean ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
-        Image image = null;
-        try {
-            URL url = new URL(ruta);
-            InputStream in = new BufferedInputStream(url.openStream());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
-            int n = 0;
-            while (-1!=(n=in.read(buf)))
-            {
-                out.write(buf, 0, n);
-            }
-            out.close();
-            in.close();
-            byte[] response = out.toByteArray();
-
-            FileOutputStream fos = new FileOutputStream("android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/"+ nombreAlbum + ".jpg");
-            fos.write(response);
-            fos.close();
-
-            dbHelper.updateAlbum(albumId, nombreAlbum, nombreAlbum + ".jpg", artista);
-
-        } catch (Exception e) {
-            Log.d("Error",e.toString());
-            return false;
+    /**
+     * Coge una imagen de internet y la guarda en la carpeta drawable. Luego, anota
+     * esa caratula a la base de datos.
+     *
+     */
+    public void ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
+        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, dbHelper,this);
+        Thread hilo = new Thread(caratula);
+        hilo.start();
+        try{
+            hilo.join();
+        } catch (InterruptedException e){
+            Log.d("Problemas","Problema al gestionar el hilo de la caratula.");
         }
-        return true;
+        ContextWrapper cw = new ContextWrapper(this);
+        File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
+        File myPath = new File(dirImages, nombreAlbum+".jpg");
+
+        imagen.setImageURI(Uri.parse(myPath.getAbsolutePath()));
+
     }
 }

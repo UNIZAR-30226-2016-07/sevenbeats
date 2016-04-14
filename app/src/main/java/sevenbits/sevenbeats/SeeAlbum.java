@@ -2,6 +2,7 @@ package sevenbits.sevenbeats;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.media.Image;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -107,7 +109,7 @@ public class SeeAlbum extends AppCompatActivity {
                                 String url = txtUrl.getText().toString();
                                 ponerCaratula(url, idAlbum, nombreAlbum, artista);
 
-                                imagen.setImageURI(Uri.parse(rutaImagen));
+
 
                             }
 
@@ -154,6 +156,17 @@ public class SeeAlbum extends AppCompatActivity {
         PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, dbHelper,this);
         Thread hilo = new Thread(caratula);
         hilo.start();
+        try{
+            hilo.join();
+        } catch (InterruptedException e){
+            Log.d("Problemas","Problema al gestionar el hilo de la caratula.");
+        }
+        ContextWrapper cw = new ContextWrapper(this);
+        File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
+        File myPath = new File(dirImages, nombreAlbum+".jpg");
+
+        imagen.setImageURI(Uri.parse(myPath.getAbsolutePath()));
+
     }
 
     /**
