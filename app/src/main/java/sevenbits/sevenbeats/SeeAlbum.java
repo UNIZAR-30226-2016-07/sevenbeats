@@ -152,34 +152,11 @@ public class SeeAlbum extends AppCompatActivity {
      * Coge una imagen de internet y la guarda en la carpeta drawable. Luego, anota
      * esa caratula a la base de datos.
      *
-     * @return true si solo si el proceso se ha realizado de forma correcta.
      */
-    public boolean ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
-        Image image = null;
-        try {
-            URL url = new URL(ruta);
-            InputStream in = new BufferedInputStream(url.openStream());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
-            int n = 0;
-            while (-1!=(n=in.read(buf)))
-            {
-                out.write(buf, 0, n);
-            }
-            out.close();
-            in.close();
-            byte[] response = out.toByteArray();
-
-            FileOutputStream fos = new FileOutputStream("android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/"+ nombreAlbum + ".jpg");
-            fos.write(response);
-            fos.close();
-
-            dbHelper.updateAlbum(albumId, nombreAlbum, nombreAlbum + ".jpg", artista);
-
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+    public void ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
+        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, dbHelper);
+        Thread hilo = new Thread(caratula);
+        hilo.start();
     }
 
     /**
