@@ -123,13 +123,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Log.d("Debug", "Al menu intenta entrar");
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()) {
             case EDIT_ID:
                 Intent i = new Intent(this, SongEdit.class);
+                i.putExtra("id_cancion",info.id);
                 startActivity(i);
                 return true;
             case DELETE_ID:
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
                 int gridOP = getIntent().getIntExtra("queMostrar",0);
                 switch(gridOP){
                     case 0:
