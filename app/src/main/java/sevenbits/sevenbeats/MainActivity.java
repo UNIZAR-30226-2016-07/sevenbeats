@@ -1,8 +1,10 @@
 package sevenbits.sevenbeats;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.AudioManager;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerPrincipal;
     private ArrayList<String> contenidoListaMenu;
     private int queMostrar=0;
+    private ImageView imagenGrid;
 
     public static final int EDIT_ID = Menu.FIRST;
     public static final int DELETE_ID = Menu.FIRST + 1;
@@ -68,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         gridPrincipal = (GridView) findViewById(R.id.MainActivity_lista_cuadrada);
         drawerPrincipal = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+
+        final float ancho = getResources().getDisplayMetrics().widthPixels;
+        gridPrincipal.setColumnWidth((int) (ancho / 3));
         setHandler();
         fillData();
         fillListaMenuData();
@@ -110,6 +117,25 @@ public class MainActivity extends AppCompatActivity {
                 fillSongData();
                 break;
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        //int orientation = this.getResources().getConfiguration().orientation;
+        final float ancho = getResources().getDisplayMetrics().widthPixels;
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            gridPrincipal.setColumnWidth((int) (ancho / 3));
+            Log.d("Debug", "Vertical " + (ancho / 3));
+            gridPrincipal.refreshDrawableState();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            gridPrincipal.setColumnWidth((int) (ancho / 3));
+            Log.d("Debug", "Horizontal" + (ancho / 3));
+            gridPrincipal.refreshDrawableState();
+        }
+
     }
 
     @Override
@@ -198,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fillAlbumData(){
         Cursor cursor = bbdd.fetchAllAlbumsByABC();
-        GridCursorAdapter adapter = new GridCursorAdapter(this, cursor);
+        GridCursorAdapter adapter = new GridCursorAdapter(this, cursor,getResources().getDisplayMetrics().widthPixels);
         listaPrincipal.setAdapter(null);
         gridPrincipal.setAdapter(adapter);
     }

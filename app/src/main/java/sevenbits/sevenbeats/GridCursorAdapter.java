@@ -6,8 +6,10 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,9 +22,12 @@ public class GridCursorAdapter extends CursorAdapter {
 
 
     private String imagenDefecto = "drawable://" + R.drawable.default_image;
+    private float pixels;
 
-    public GridCursorAdapter(Context context, Cursor cursor) {
+
+    public GridCursorAdapter(Context context, Cursor cursor, float pixels) {
         super(context, cursor);
+        this.pixels=pixels;
     }
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -35,6 +40,7 @@ public class GridCursorAdapter extends CursorAdapter {
         TextView titulo = (TextView) view.findViewById(R.id.MainActivity_texto_nombrealbum);
         ImageView imagen = (ImageView) view.findViewById(R.id.MainActivity_imagen_fotoalbum);
         // Extract properties from cursor
+
         String title = cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
         String rutaImagen = cursor.getString(cursor.getColumnIndexOrThrow("ruta"));
             imagen.setImageURI(Uri.parse(rutaImagen));

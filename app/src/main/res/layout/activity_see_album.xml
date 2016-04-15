@@ -73,14 +73,14 @@
     <Button
         android:layout_width="wrap_content"
         android:id="@+id/buttonAlbum"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:text="@string/boton_caratula"
         android:layout_alignParentTop="false"
-        android:layout_alignBottom="@+id/imageViewAlbum"
         android:layout_toRightOf="@+id/imageViewAlbum"
         style="@style/ButtonText"
         android:layout_marginLeft="10dp"
-        android:layout_alignParentBottom="false"/>
+        android:layout_alignParentBottom="false"
+        android:layout_alignBottom="@+id/imageViewAlbum" />
 
 
     <!-- Lista -->
