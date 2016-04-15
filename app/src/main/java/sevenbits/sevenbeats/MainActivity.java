@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         fillData();
         fillListaMenuData();
         registerForContextMenu(listaPrincipal);
+        registerForContextMenu(gridPrincipal);
     }
 
     private void setHandler(){
@@ -129,9 +130,19 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case DELETE_ID:
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                bbdd.deleteCancion(info.id);
-                fillData();
-                return true;
+                int gridOP = getIntent().getIntExtra("queMostrar",0);
+                switch(gridOP){
+                    case 0:
+                        bbdd.deleteCancion(info.id);
+                        fillData();
+                        return true;
+                    case 1:
+                        bbdd.deleteAlbum(info.id);
+                        fillData();
+                        return true;
+                    default:
+                        return true;
+                }
         }
         return super.onContextItemSelected(item);
     }

@@ -3,7 +3,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="#d1d1d1">
 
 
 
@@ -13,10 +14,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="58dp"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="86dp">
+        android:layout_alignParentStart="true">
 
         <ListView
             android:layout_width="match_parent"
@@ -30,10 +28,10 @@
             android:layout_height="match_parent"
             android:id="@+id/MainActivity_lista_cuadrada"
             android:numColumns="auto_fit"
-            android:horizontalSpacing="10dp"
-            android:verticalSpacing="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp" />
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="5dp"
+            android:stretchMode="spacingWidthUniform"
+            android:columnWidth="150dp" />
 
 
     </LinearLayout>

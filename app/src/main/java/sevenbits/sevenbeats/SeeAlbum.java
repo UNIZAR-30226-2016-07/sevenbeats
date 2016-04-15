@@ -69,7 +69,10 @@ public class SeeAlbum extends AppCompatActivity {
         final String artista= query.getString(query.getColumnIndexOrThrow("artista"));;//= dbHelper.artista(nombreAlbum);
         query = dbHelper.fetchCancionByAlbum(idAlbum);
         query.moveToFirst();
-        String genero=query.getString(query.getColumnIndexOrThrow("genero"));//= query.getString(query.getColumnIndexOrThrow("genero"));//= dbHelper.generos(nombreAlbum).getString(1);
+        String genero = "";
+        if(query.getCount()>=1) {
+            genero = query.getString(query.getColumnIndexOrThrow("genero"));
+        }
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.nombreAlbum);

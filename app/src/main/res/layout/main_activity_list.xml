@@ -6,4 +6,6 @@
     android:textStyle="bold"
     android:textSize="24dp"
     android:layout_marginTop="30dp"
-    android:layout_marginBottom="30dp"/>
+    android:layout_marginBottom="30dp"
+    android:elevation="2dp"
+    android:background="#d1d1d1" />

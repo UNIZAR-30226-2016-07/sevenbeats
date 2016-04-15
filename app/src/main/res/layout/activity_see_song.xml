@@ -30,8 +30,8 @@
         android:layout_alignParentStart="false"
         android:layout_centerInParent="true"
         android:layout_alignParentRight="false"
-        android:scaleType="centerInside"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="sevenbits.sevenbeats.SeeAlbum">
+    tools:context="sevenbits.sevenbeats.SeeAlbum"
+    android:background="#d1d1d1">
 
     <View android:id="@+id/fakeView"
         android:layout_width="0dp"
@@ -17,7 +18,6 @@
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/fakeView"
         android:layout_margin="15dp"
-        android:scaleType="centerInside"
         android:adjustViewBounds="true"/>
 
 

@@ -5,4 +5,5 @@
     <color name="list_background_pressed">#4d4D3C</color>
     <color name="list_item_bg_normal">#FF0000</color>
     <color name="list_item_bg_pressed">#4d4D3C</color>
+    <color name="background_footer">#90000000</color>
 </resources>
