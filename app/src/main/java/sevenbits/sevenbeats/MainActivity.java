@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> contenidoListaMenu;
     private int queMostrar=0;
 
-    private static final int EDIT_ID = Menu.FIRST;
-    private static final int DELETE_ID = Menu.FIRST + 1;
+    public static final int EDIT_ID = Menu.FIRST;
+    public static final int DELETE_ID = Menu.FIRST + 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                                     int position, long id) {
                 Intent i = new Intent(getApplicationContext(), SeeAlbum.class);
                 Log.d("Debug", "El id es: " + id);
-                i.putExtra("SeeAlbum_album",id);
+                i.putExtra("SeeAlbum_album", id);
                 startActivity(i);
             }
         });
@@ -126,13 +126,24 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()) {
             case EDIT_ID:
-                Intent i = new Intent(this, SongEdit.class);
-                i.putExtra("id_cancion",info.id);
-                startActivity(i);
-                return true;
+                int gridOP = getIntent().getIntExtra("queMostrar",0);
+
+                switch(gridOP){
+                    case 0:
+                        Intent i = new Intent(this, SongEdit.class);
+                        i.putExtra("id_cancion", info.id);
+                        startActivity(i);
+                        fillData();
+                        return true;
+                    case 1:
+                        //ITERACION 2
+                        return true;
+                    default:
+                        return true;
+                }
             case DELETE_ID:
 
-                int gridOP = getIntent().getIntExtra("queMostrar",0);
+                gridOP = getIntent().getIntExtra("queMostrar",0);
                 switch(gridOP){
                     case 0:
                         bbdd.deleteCancion(info.id);
@@ -168,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.MainActivity_boton_anyadir:
                 Intent i = new Intent(this, SongEdit.class);
                 startActivity(i);
+                fillData();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

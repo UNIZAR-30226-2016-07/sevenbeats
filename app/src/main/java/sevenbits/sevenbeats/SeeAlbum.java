@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.support.v4.app.NavUtils;
@@ -11,10 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.database.Cursor;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +39,7 @@ public class SeeAlbum extends AppCompatActivity {
     private ListView mList;
     private Button button;
     private ImageView imagen;
+    private long idAlbumInterno;
 
     public static String imagenDefecto = "android.resource://"+"sevenbits.sevenbeats"+"/"+"drawable/default_image";
 
@@ -56,7 +60,7 @@ public class SeeAlbum extends AppCompatActivity {
         mList = (ListView) findViewById(R.id.listSongsAlbum);
 
         final long idAlbum = extras.getLong("SeeAlbum_album");
-
+        idAlbumInterno = idAlbum;
         Cursor query = dbHelper.fetchAlbum(idAlbum);
         /*Llamo a la base de datos para capturar los datos que necesito:
             -Lista de cancciones, genero de una de ellas, caratula y artista*/
@@ -112,8 +116,6 @@ public class SeeAlbum extends AppCompatActivity {
                                 String url = txtUrl.getText().toString();
                                 ponerCaratula(url, idAlbum, nombreAlbum, artista);
 
-
-
                             }
 
                         })
@@ -149,6 +151,8 @@ public class SeeAlbum extends AppCompatActivity {
         }
 
     }
+
+
 
     /**
      * Coge una imagen de internet y la guarda en la carpeta drawable. Luego, anota

@@ -31,6 +31,13 @@ public class SongEdit extends AppCompatActivity {
         setContentView(R.layout.activity_song_edit);
         setTitle("Editar cancion");
 
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null && extras.getLong("id_cancion") != 0 ) {
+            Log.d("Debug","id de cancion 2: " + mRowId);
+            mRowId = extras.getLong("id_cancion");
+        }
+
         SongEdit_texto_titulo = (EditText) findViewById(R.id.SongEdit_texto_titulo);
         SongEdit_texto_album = (EditText) findViewById(R.id.SongEdit_texto_album);
         SongEdit_texto_duracion = (EditText) findViewById(R.id.SongEdit_texto_duracion);
@@ -38,13 +45,13 @@ public class SongEdit extends AppCompatActivity {
 
         Button SongEdit_boton_guardar = (Button) findViewById(R.id.SongEdit_boton_guardar);
 
-        mRowId = (savedInstanceState == null) ? null :
+       /* mRowId = (savedInstanceState == null) ? null :
                 (Long) savedInstanceState.getSerializable("_id");
         if (mRowId == null) {
-            Bundle extras = getIntent().getExtras();
+            extras = getIntent().getExtras();
             mRowId = (extras != null) ? extras.getLong("_id")
                     : null;
-        }
+        }*/
         populateFields();
         SongEdit_boton_guardar.setOnClickListener(new View.OnClickListener() {
 
@@ -60,7 +67,10 @@ public class SongEdit extends AppCompatActivity {
     private void populateFields() {
         if (mRowId != null) {
             Cursor cancion = dbHelper.fetchCancion(mRowId);
+            Log.d("Debug","id de cancion: " + mRowId);
             startManagingCursor(cancion);
+            cancion.moveToFirst();
+
             SongEdit_texto_titulo.setText(cancion.getString(
                     cancion.getColumnIndexOrThrow("titulo")));
             SongEdit_texto_album.setText(cancion.getString(
