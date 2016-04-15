@@ -212,6 +212,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Rellenamos la informacion de la lista de canciones
+     */
     private void fillSongData() {
         Cursor cursor = bbdd.fetchAllCancionesByABC();
         String[] fromColumns = {CANCION_NOMBRE};
