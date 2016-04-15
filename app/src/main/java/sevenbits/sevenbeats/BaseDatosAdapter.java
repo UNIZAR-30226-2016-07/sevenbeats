@@ -407,12 +407,11 @@ public class BaseDatosAdapter {
                 mDb.query(true,DATABASE_TABLE_CANCIONES,
                         new String[] {"_id","titulo","duracion","valoracion","album","genero"},
                         "_id = "+id, null, null, null, null, null);
-        //query.getString(query.getColumnIndex("ruta"))
-        //long rowId, String titulo, String duracion, int valoracion, int album
-        String titulo=cursor.getString(cursor.getColumnIndex("titulo"));
-        String duracion=cursor.getString(cursor.getColumnIndex("duracion"));
-        int album=cursor.getInt(cursor.getColumnIndex("album"));
-        String genero=cursor.getString(cursor.getColumnIndex("genero"));
+        cursor.moveToFirst();
+        String titulo=cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
+        String duracion=cursor.getString(cursor.getColumnIndexOrThrow("duracion"));
+        int album=cursor.getInt(cursor.getColumnIndexOrThrow("album"));
+        String genero=cursor.getString(cursor.getColumnIndexOrThrow("genero"));
         ContentValues args = new ContentValues();
         args.put("titulo",titulo);
         args.put("duracion",duracion);
