@@ -67,6 +67,8 @@ public class SongEdit extends AppCompatActivity {
                     cancion.getColumnIndexOrThrow("album")));
             SongEdit_texto_duracion.setText(cancion.getString(
                     cancion.getColumnIndexOrThrow("duracion")));
+            SongEdit_texto_genero.setText(cancion.getString(
+                    cancion.getColumnIndexOrThrow("genero")));
         }
     }
 
@@ -105,9 +107,11 @@ public class SongEdit extends AppCompatActivity {
         String album = SongEdit_texto_album.getText().toString();
         Integer valoracion = 0;
         String duracion = SongEdit_texto_duracion.getText().toString();
-        String genero = SongEdit_texto_duracion.getText().toString();
+        String genero = SongEdit_texto_genero.getText().toString();
 
         Log.d("Debug","Se va a insertar: " + titulo);
+        Log.d("Debug","Duracion: " + duracion);
+
         if (mRowId == null) {
             long id = dbHelper.createCancion(titulo, duracion, valoracion, album, genero);
             if (id > 0) {

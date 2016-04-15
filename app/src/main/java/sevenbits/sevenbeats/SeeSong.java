@@ -53,20 +53,21 @@ public class SeeSong extends AppCompatActivity {
         query.moveToFirst();
 
         /*Llamo a la base de datos para capturar los datos que necesito*/
-        final String nombreCancion = query.getString(query.getColumnIndex("titulo"));
+        final String nombreCancion = query.getString(query.getColumnIndexOrThrow("titulo"));
         idCancionInterno = idCancion;
-        final String duracion = query.getString(query.getColumnIndex("duracion"));
-
-        final String genero = query.getString(query.getColumnIndex("genero"));
-        final int valoracion = query.getInt(query.getColumnIndex("valoracion"));
-        final long idAlbum = query.getLong(query.getColumnIndex("album"));
+        final String duracion = query.getString(query.getColumnIndexOrThrow("duracion"));
+        final String genero = query.getString(query.getColumnIndexOrThrow("genero"));
+        final int valoracion = query.getInt(query.getColumnIndexOrThrow("valoracion"));
+        final long idAlbum = query.getLong(query.getColumnIndexOrThrow("album"));
+        Log.d("Debug",""+query.getColumnIndexOrThrow("duracion"));
+        Log.d("Debug",""+query.getColumnIndexOrThrow("genero"));
         Log.d("Debug", "El id del abum de esta canción es: " + idAlbum);
 
         query = dbHelper.fetchAlbum(idAlbum);
         query.moveToFirst();
-        final String rutaImagen = query.getString(query.getColumnIndex("ruta"));
-        final String nombreAlbum = query.getString(query.getColumnIndex("titulo"));
-        final String artista = query.getString(query.getColumnIndex("artista"));
+        final String rutaImagen = query.getString(query.getColumnIndexOrThrow("ruta"));
+        final String nombreAlbum = query.getString(query.getColumnIndexOrThrow("titulo"));
+        final String artista = query.getString(query.getColumnIndexOrThrow("artista"));
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.SeeSong_texto_titulo);
@@ -77,6 +78,12 @@ public class SeeSong extends AppCompatActivity {
 
         asignador = (TextView)findViewById(R.id.SeeSong_texto_duracion);
         asignador.setText(duracion);
+
+        asignador = (TextView)findViewById(R.id.SeeSong_texto_genero);
+        asignador.setText(genero);
+
+        ratingBar = (RatingBar) findViewById(R.id.SeeSong_rating_ratingBar);
+        ratingBar.setRating(valoracion);
 
         /*Si no hay caratula, enseñar imagen por defecto*/
         imagen = (ImageView)findViewById(R.id.SeeSong_imageButton);
@@ -91,6 +98,8 @@ public class SeeSong extends AppCompatActivity {
         final EditText txtUrl = new EditText(activity);
 
         final ImageButton button = (ImageButton) findViewById(R.id.SeeSong_imageButton);
+
+
 
         addListenerOnRatingBar();
 
@@ -154,8 +163,14 @@ public class SeeSong extends AppCompatActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
-
-                dbHelper.updateValoracion(idCancionInterno, rating);
+                Thread hilo = new Thread(new ActualizarRating(idCancionInterno, rating, dbHelper));
+                hilo.start();
+                try{
+                    hilo.join();
+                    Log.d("Problemas", "Bien al gestionar el hilo de actualizar rating.");
+                } catch (InterruptedException e){
+                    Log.d("Problemas","Problema al gestionar el hilo de actualizar rating.");
+                }
 
             }
         });
