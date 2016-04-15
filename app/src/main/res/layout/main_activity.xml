@@ -28,10 +28,8 @@
             android:layout_height="match_parent"
             android:id="@+id/MainActivity_lista_cuadrada"
             android:numColumns="auto_fit"
-            android:verticalSpacing="5dp"
-            android:horizontalSpacing="5dp"
             android:stretchMode="spacingWidthUniform"
-            android:columnWidth="150dp" />
+            android:columnWidth="120dp" />
 
 
     </LinearLayout>
