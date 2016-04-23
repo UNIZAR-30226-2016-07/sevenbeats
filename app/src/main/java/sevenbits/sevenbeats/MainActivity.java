@@ -1,5 +1,7 @@
 package sevenbits.sevenbeats;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -11,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -62,10 +65,6 @@ public class MainActivity extends AppCompatActivity {
         // rellenar lista lateral y lista central
         setContentView(R.layout.main_activity);
 
-        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        MenuItem boton = (MenuItem) findViewById(android.R.id.home);
-        boton.setIcon(R.drawable.ic_drawer);*/
 
         listaPrincipal = (ListView) findViewById(R.id.MainActivity_lista_principal);
         listaMenu = (ListView) findViewById(R.id.MainActivity_lista_menu);
@@ -192,7 +191,12 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView search = (SearchView) menu.findItem(R.id.MainActivity_boton_busqueda).getActionView();
+
+        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        return true;
     }
 
 
@@ -200,8 +204,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.MainActivity_boton_busqueda:
-                return true;
             case R.id.MainActivity_boton_anyadir:
                 Intent i = new Intent(this, SongEdit.class);
                 startActivity(i);

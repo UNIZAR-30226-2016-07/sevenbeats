@@ -232,8 +232,8 @@ public class BaseDatosAdapter {
     public boolean updateAlbum1(long rowId, String titulo, String ruta, int artista){
         ContentValues args = new ContentValues();
         args.put("titulo",titulo);
-        args.put("ruta",ruta);
-        args.put("artista",artista);
+        args.put("ruta", ruta);
+        args.put("artista", artista);
         //meter todos los atributos
 
         return mDb.update(DATABASE_TABLE_ALBUMS, args, "_id = " + rowId, null) > 0;
@@ -381,6 +381,12 @@ public class BaseDatosAdapter {
             return true;
         }
         return false;
+    }
+
+    public Cursor searchSongs(String nombre){
+        return mDb.query(DATABASE_TABLE_CANCIONES,
+                new String[] {"_id","titulo","duracion","valoracion","album","genero"}
+                , "titulo LIKE '%"+ nombre+ "%'",null,null,null,"titulo");
     }
 
     /*
