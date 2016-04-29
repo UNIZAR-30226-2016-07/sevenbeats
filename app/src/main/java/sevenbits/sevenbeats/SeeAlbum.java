@@ -129,13 +129,23 @@ public class SeeAlbum extends AppCompatActivity {
             }
         });
 
+        registerForContextMenu(mList);
+
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(Menu.NONE, MainActivity.EDIT_ID, Menu.NONE, "Editar");
+        menu.add(Menu.NONE, MainActivity.DELETE_ID, Menu.NONE, "Borrar");
+    }
+
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_see_album, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -154,7 +164,23 @@ public class SeeAlbum extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        Log.d("Debug", "Al menu intenta entrar");
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch(item.getItemId()) {
+            case MainActivity.EDIT_ID:
+                Intent i = new Intent(this, SongEdit.class);
+                i.putExtra("id_cancion", info.id);
+                startActivity(i);
+                return true;
+            case MainActivity.DELETE_ID:
+                dbHelper.deleteCancion(info.id);
+                return true;
+        }
 
+        return super.onContextItemSelected(item);
+    }
 
     /**
      * Coge una imagen de internet y la guarda en la carpeta drawable. Luego, anota
