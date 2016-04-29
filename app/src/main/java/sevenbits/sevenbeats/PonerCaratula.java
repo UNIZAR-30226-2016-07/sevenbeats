@@ -22,14 +22,16 @@ public class PonerCaratula implements Runnable {
     private long albumId;
     private BaseDatosAdapter dbHelper;
     private Context context;
+    private boolean isURL;
 
-    public PonerCaratula(String ruta, long albumId, String nombreAlbum, String artista, BaseDatosAdapter dbHelper, Context context){
+    public PonerCaratula(String ruta, long albumId, String nombreAlbum, String artista, boolean isURL, BaseDatosAdapter dbHelper, Context context){
         this.ruta = ruta;
         this.albumId = albumId;
         this.nombreAlbum = nombreAlbum;
         this.artista = artista;
         this.dbHelper = dbHelper;
         this.context = context;
+        this.isURL = isURL;
     }
 
     /**
@@ -40,28 +42,32 @@ public class PonerCaratula implements Runnable {
      */
     public void run(){
         Image image = null;
+        boolean correcto;
         try {
-            URL url = new URL(ruta);
-            InputStream in = new BufferedInputStream(url.openStream());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
-            int n = 0;
-            while (-1!=(n=in.read(buf)))
-            {
-                out.write(buf, 0, n);
+            if ( isURL ) {
+                URL url = new URL(ruta);
+                InputStream in = new BufferedInputStream(url.openStream());
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                int n = 0;
+                while (-1 != (n = in.read(buf))) {
+                    out.write(buf, 0, n);
+                }
+                out.close();
+                in.close();
+                byte[] response = out.toByteArray();
+
+                ContextWrapper cw = new ContextWrapper(context);
+                File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
+                File myPath = new File(dirImages, nombreAlbum + ".jpg");
+                FileOutputStream fos = new FileOutputStream(myPath);
+                fos.write(response);
+                fos.close();
+                correcto = dbHelper.updateAlbum(albumId, nombreAlbum, myPath.getAbsolutePath(), artista);
             }
-            out.close();
-            in.close();
-            byte[] response = out.toByteArray();
-
-            ContextWrapper cw = new ContextWrapper(context);
-            File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
-            File myPath = new File(dirImages, nombreAlbum+".jpg");
-            FileOutputStream fos = new FileOutputStream(myPath);
-            fos.write(response);
-            fos.close();
-
-            boolean correcto = dbHelper.updateAlbum(albumId, nombreAlbum, myPath.getAbsolutePath(), artista);
+            else{
+                correcto = dbHelper.updateAlbum(albumId, nombreAlbum, ruta, artista);
+            }
             Log.d("Debug","Al poner caratula en thread da: " + correcto);
 
         } catch (Exception e) {

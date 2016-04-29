@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.database.Cursor;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -114,7 +115,8 @@ public class SeeAlbum extends AppCompatActivity {
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
-                                ponerCaratula(url, idAlbum, nombreAlbum, artista);
+                                boolean isUrl =URLUtil.isHttpUrl(url);
+                                ponerCaratula(url, idAlbum, nombreAlbum, artista, isUrl);
 
                             }
 
@@ -159,8 +161,8 @@ public class SeeAlbum extends AppCompatActivity {
      * esa caratula a la base de datos.
      *
      */
-    public void ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
-        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, dbHelper,this);
+    public void ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista, boolean isURL){
+        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, isURL, dbHelper,this);
         Thread hilo = new Thread(caratula);
         hilo.start();
         try{
