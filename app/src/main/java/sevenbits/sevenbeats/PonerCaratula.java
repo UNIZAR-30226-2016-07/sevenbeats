@@ -9,9 +9,12 @@ import android.util.Log;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 
 /**
  * Created by Javi on 14/04/2016.
@@ -59,19 +62,42 @@ public class PonerCaratula implements Runnable {
 
                 ContextWrapper cw = new ContextWrapper(context);
                 File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
+                File myPath0 = new File(dirImages, nombreAlbum + ".jpg");
+                if ( myPath0.exists() ) myPath0.delete();
                 File myPath = new File(dirImages, nombreAlbum + ".jpg");
+
                 FileOutputStream fos = new FileOutputStream(myPath);
                 fos.write(response);
+                fos.flush();
                 fos.close();
+
                 correcto = dbHelper.updateAlbum(albumId, nombreAlbum, myPath.getAbsolutePath(), artista);
             }
             else{
-                correcto = dbHelper.updateAlbum(albumId, nombreAlbum, ruta, artista);
+                ContextWrapper cw = new ContextWrapper(context);
+                File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
+                File myPath = new File(dirImages, nombreAlbum + ".jpg");
+                File original = new File(ruta);
+                myPath.delete();
+                myPath.createNewFile();
+                Log.d("Debug","Al poner caratula en thread ruta da: " + original.exists() + " " + original.getName());
+                copy(original, myPath);
+                correcto = dbHelper.updateAlbum(albumId, nombreAlbum, myPath.getAbsolutePath(), artista);
             }
             Log.d("Debug","Al poner caratula en thread da: " + correcto);
 
         } catch (Exception e) {
             Log.d("Error",e.getMessage());
         }
+    }
+
+    private void copy(File src, File dst) throws IOException {
+        FileInputStream inStream = new FileInputStream(src);
+        FileOutputStream outStream = new FileOutputStream(dst);
+        FileChannel inChannel = inStream.getChannel();
+        FileChannel outChannel = outStream.getChannel();
+        inChannel.transferTo(0, inChannel.size(), outChannel);
+        inStream.close();
+        outStream.close();
     }
 }

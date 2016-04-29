@@ -110,7 +110,7 @@ public class SeeAlbum extends AppCompatActivity {
 
                 new AlertDialog.Builder(activity)
                         .setTitle("Cargar caratula")
-                        .setMessage("Escribe la caratula de la imagen para poderla descargar")
+                        //.setMessage("Escribe la caratula de la imagen para poderla descargar")
                         .setView(txtUrl)
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -187,13 +187,11 @@ public class SeeAlbum extends AppCompatActivity {
     private void fillData(long album) {
 
         Cursor notesCursor = dbHelper.fetchCancionByAlbum(album);
-        String[] from = { "titulo" };
-
-        int[] to= {R.id.MainActivity_texto_testolista};
-
-        SimpleCursorAdapter notes =
-            new SimpleCursorAdapter(this, R.layout.main_activity_list, notesCursor, from, to);
-        mList.setAdapter(notes);
+        String[] fromColumns = {MainActivity.CANCION_NOMBRE};
+        int[] toViews = {R.id.MainActivity_texto_testolista};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, notesCursor,
+                fromColumns, toViews);
+        mList.setAdapter(adapter);
 
     }
 }
