@@ -10,7 +10,7 @@
         android:layout_centerInParent="true"/>
 
     <ImageView
-        android:id="@+id/imageViewAlbum"
+        android:id="@+id/SeeAlbum_Imagen_Album"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/default_image"
@@ -25,12 +25,12 @@
     <TextView android:text="@string/edit_album" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView5"
-        android:layout_toRightOf="@+id/imageViewAlbum"
+        android:layout_toRightOf="@+id/SeeAlbum_Imagen_Album"
         android:layout_marginLeft="10dp"
-        android:layout_alignTop="@+id/imageViewAlbum"
+        android:layout_alignTop="@+id/SeeAlbum_Imagen_Album"
         android:layout_marginTop="10dp" />
 
-    <TextView android:id="@+id/nombreAlbum" android:layout_width="match_parent"
+    <TextView android:id="@+id/SeeAlbum_texto_nombreAlbum" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/textView5"
         android:layout_alignBottom="@+id/textView5" />
@@ -41,14 +41,14 @@
 
     <TextView android:text="@string/artista" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imageViewAlbum"
+        android:layout_toRightOf="@+id/SeeAlbum_Imagen_Album"
         android:id="@+id/textView4"
         android:layout_below="@+id/textView5"
         android:layout_alignRight="@+id/textView5"
         android:layout_marginTop="10dp"
         android:gravity="right" />
 
-    <TextView android:id="@+id/artistaAlbum" android:layout_width="match_parent"
+    <TextView android:id="@+id/SeeAlbum_texto_artistaAlbum" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/textView4"
         android:layout_alignBottom="@+id/textView4" />
@@ -63,7 +63,7 @@
         android:layout_marginTop="10dp"
         android:layout_alignRight="@+id/textView5"
         android:layout_below="@+id/textView4"/>
-    <TextView android:id="@+id/generoAlbum" android:layout_width="match_parent"
+    <TextView android:id="@+id/SeeAlbum_texto_generoAlbum" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView3"
         android:layout_toRightOf="@+id/textView3" />
@@ -72,24 +72,24 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:id="@+id/buttonAlbum"
+        android:id="@+id/SeeAlbum_boton_confirmar"
         android:layout_height="30dp"
         android:text="@string/boton_caratula"
         android:layout_alignParentTop="false"
-        android:layout_toRightOf="@+id/imageViewAlbum"
+        android:layout_toRightOf="@+id/SeeAlbum_Imagen_Album"
         style="@style/ButtonText"
         android:layout_marginLeft="10dp"
         android:layout_alignParentBottom="false"
-        android:layout_alignBottom="@+id/imageViewAlbum" />
+        android:layout_alignBottom="@+id/SeeAlbum_Imagen_Album" />
 
 
     <!-- Lista -->
 
     <ListView
-        android:id="@+id/listSongsAlbum"
+        android:id="@+id/SeeAlbum_lista_canciones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageViewAlbum"
+        android:layout_below="@+id/SeeAlbum_Imagen_Album"
         android:layout_marginTop="5dp">
 
     </ListView>

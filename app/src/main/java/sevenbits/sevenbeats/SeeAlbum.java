@@ -58,7 +58,7 @@ public class SeeAlbum extends AppCompatActivity {
         dbHelper = new BaseDatosAdapter(this);
         dbHelper.open();
 
-        mList = (ListView) findViewById(R.id.listSongsAlbum);
+        mList = (ListView) findViewById(R.id.SeeAlbum_lista_canciones);
 
         final long idAlbum = extras.getLong("SeeAlbum_album");
         idAlbumInterno = idAlbum;
@@ -80,24 +80,24 @@ public class SeeAlbum extends AppCompatActivity {
         }
 
         /*Asigno cada valor a sus correspondientes variables*/
-        TextView asignador = (TextView)findViewById(R.id.nombreAlbum);
+        TextView asignador = (TextView)findViewById(R.id.SeeAlbum_texto_nombreAlbum);
         asignador.setText(nombreAlbum);
 
-        asignador = (TextView)findViewById(R.id.artistaAlbum);
+        asignador = (TextView)findViewById(R.id.SeeAlbum_texto_artistaAlbum);
         asignador.setText(artista);
 
-        asignador = (TextView)findViewById(R.id.generoAlbum);
+        asignador = (TextView)findViewById(R.id.SeeAlbum_texto_generoAlbum);
         asignador.setText(genero);
 
         /*Si no hay caratula, enseñar imagen por defecto*/
-        imagen = (ImageView)findViewById(R.id.imageViewAlbum);
+        imagen = (ImageView)findViewById(R.id.SeeAlbum_Imagen_Album);
         if (!rutaImagen.equals(BaseDatosAdapter.rutaDefecto)){
             imagen.setImageURI(Uri.parse(rutaImagen));
         }
 
         final Context activity = this;
         final EditText txtUrl = new EditText(activity);
-        button = (Button) findViewById(R.id.buttonAlbum);
+        button = (Button) findViewById(R.id.SeeAlbum_boton_confirmar);
 
 
         button.setOnClickListener(new View.OnClickListener() {
