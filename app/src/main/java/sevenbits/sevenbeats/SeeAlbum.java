@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.database.Cursor;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,12 +110,13 @@ public class SeeAlbum extends AppCompatActivity {
 
                 new AlertDialog.Builder(activity)
                         .setTitle("Cargar caratula")
-                        .setMessage("Escribe la caratula de la imagen para poderla descargar")
+                        //.setMessage("Escribe la caratula de la imagen para poderla descargar")
                         .setView(txtUrl)
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
-                                ponerCaratula(url, idAlbum, nombreAlbum, artista);
+                                boolean isUrl =URLUtil.isHttpUrl(url);
+                                ponerCaratula(url, idAlbum, nombreAlbum, artista, isUrl);
 
                             }
 
@@ -127,13 +129,23 @@ public class SeeAlbum extends AppCompatActivity {
             }
         });
 
+        registerForContextMenu(mList);
+
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(Menu.NONE, MainActivity.EDIT_ID, Menu.NONE, "Editar");
+        menu.add(Menu.NONE, MainActivity.DELETE_ID, Menu.NONE, "Borrar");
+    }
+
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_see_album, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -152,15 +164,31 @@ public class SeeAlbum extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        Log.d("Debug", "Al menu intenta entrar");
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch(item.getItemId()) {
+            case MainActivity.EDIT_ID:
+                Intent i = new Intent(this, SongEdit.class);
+                i.putExtra("id_cancion", info.id);
+                startActivity(i);
+                return true;
+            case MainActivity.DELETE_ID:
+                dbHelper.deleteCancion(info.id);
+                return true;
+        }
 
+        return super.onContextItemSelected(item);
+    }
 
     /**
      * Coge una imagen de internet y la guarda en la carpeta drawable. Luego, anota
      * esa caratula a la base de datos.
      *
      */
-    public void ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
-        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, dbHelper,this);
+    public void ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista, boolean isURL){
+        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, isURL, dbHelper,this);
         Thread hilo = new Thread(caratula);
         hilo.start();
         try{
@@ -185,13 +213,11 @@ public class SeeAlbum extends AppCompatActivity {
     private void fillData(long album) {
 
         Cursor notesCursor = dbHelper.fetchCancionByAlbum(album);
-        String[] from = { "titulo" };
-
-        int[] to= {R.id.MainActivity_texto_testolista};
-
-        SimpleCursorAdapter notes =
-            new SimpleCursorAdapter(this, R.layout.main_activity_list, notesCursor, from, to);
-        mList.setAdapter(notes);
+        String[] fromColumns = {MainActivity.CANCION_NOMBRE};
+        int[] toViews = {R.id.MainActivity_texto_testolista};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, notesCursor,
+                fromColumns, toViews);
+        mList.setAdapter(adapter);
 
     }
 }

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -108,15 +109,15 @@ public class SeeSong extends AppCompatActivity {
             public void onClick(View v) {
                 //Si se pulsa el boton se abre una caja de texto para introducir la URL.
 
-                txtUrl.setHint("Pon aqui la url de la imagen");
+                txtUrl.setHint("Pon aqui la url/ruta de la imagen");
                 new AlertDialog.Builder(activity)
                         .setTitle("Cargar caratula")
-                        .setMessage("Escribe la caratula de la imagen para poderla descargar")
                         .setView(txtUrl)
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
-                                ponerCaratula(url, idAlbum, nombreAlbum, artista);
+                                boolean isUrl = URLUtil.isHttpUrl(url);
+                                ponerCaratula(url, idAlbum, nombreAlbum, artista, isUrl);
 
 
                             }
@@ -181,8 +182,8 @@ public class SeeSong extends AppCompatActivity {
      * esa caratula a la base de datos.
      *
      */
-    public void ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista){
-        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, dbHelper,this);
+    public void ponerCaratula(String ruta, long albumId, String nombreAlbum, String artista, boolean isURL){
+        PonerCaratula caratula = new PonerCaratula(ruta, albumId, nombreAlbum, artista, isURL, dbHelper,this);
         Thread hilo = new Thread(caratula);
         hilo.start();
         try{

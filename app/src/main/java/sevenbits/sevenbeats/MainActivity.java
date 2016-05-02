@@ -40,7 +40,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private BaseDatosAdapter bbdd;
-    private static final String CANCION_NOMBRE = "titulo";
+    public static final String CANCION_NOMBRE = "titulo";
 
     private MediaPlayer Mp;
     private ListView listaPrincipal;
