@@ -41,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BaseDatosAdapter bbdd;
     public static final String CANCION_NOMBRE = "titulo";
-
-    private MediaPlayer Mp;
+    
     private ListView listaPrincipal;
     private ListView listaMenu;
     private GridView gridPrincipal;
@@ -58,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // ruido al abrir la aplicacion
-        Mp = MediaPlayer.create(this, R.raw.sonido_inicio_app);
-        // Mp.start();
         bbdd = new BaseDatosAdapter(this);
         bbdd.open();
         // rellenar lista lateral y lista central
@@ -79,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
         fillListaMenuData();
         registerForContextMenu(listaPrincipal);
         registerForContextMenu(gridPrincipal);
+    }
+
+    protected void onResume(){
+        super.onResume();
+        fillData();
     }
 
     private void setHandler(){
