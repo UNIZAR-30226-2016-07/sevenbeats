@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,22 +42,23 @@ public class MainActivity extends AppCompatActivity {
 
     private BaseDatosAdapter bbdd;
     public static final String CANCION_NOMBRE = "titulo";
-    
+
     private ListView listaPrincipal;
     private ListView listaMenu;
     private GridView gridPrincipal;
     private DrawerLayout drawerPrincipal;
     private ArrayList<String> contenidoListaMenu;
-    private int queMostrar=0;
-    private ImageView imagenGrid;
 
     public static final int EDIT_ID = Menu.FIRST;
     public static final int DELETE_ID = Menu.FIRST + 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // ruido al abrir la aplicacion
+        setContentView(R.layout.main_activity);
+
         bbdd = new BaseDatosAdapter(this);
         bbdd.open();
         // rellenar lista lateral y lista central

@@ -39,14 +39,16 @@
 
     <ListView
         android:id="@+id/MainActivity_lista_menu"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/list_background"
         android:choiceMode="singleChoice"
         android:divider="@color/list_background"
         android:dividerHeight="10dp"
-        android:paddingTop="20dp" />
+        android:paddingTop="20dp"
+        android:layout_marginLeft="5dp"
+        android:paddingLeft="5dp" />
 
 
 </android.support.v4.widget.DrawerLayout>
