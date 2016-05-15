@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     private BaseDatosAdapter bbdd;
     public static final String CANCION_NOMBRE = "titulo";
+    public static final String ALBUM_NOMBRE = "titulo";
+
 
     private ListView listaPrincipal;
     private ListView listaMenu;
@@ -51,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int EDIT_ID = Menu.FIRST;
     public static final int DELETE_ID = Menu.FIRST + 1;
+    public static final int SEE_ID = Menu.FIRST + 2;
+
 
 
     @Override

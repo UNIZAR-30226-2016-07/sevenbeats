@@ -69,9 +69,9 @@ public class SeeAlbum extends AppCompatActivity {
 
         query.moveToFirst();
 
-        final String nombreAlbum = query.getString(query.getColumnIndexOrThrow("titulo")); // PENDIENTES
-        final String rutaImagen= query.getString(query.getColumnIndexOrThrow("ruta"));;//= dbHelper.imagen(nombreAlbum);
-        final String artista= query.getString(query.getColumnIndexOrThrow("artista"));;//= dbHelper.artista(nombreAlbum);
+        final String nombreAlbum = query.getString(query.getColumnIndexOrThrow("titulo"));
+        final String rutaImagen= query.getString(query.getColumnIndexOrThrow("ruta"));
+        final String artista= query.getString(query.getColumnIndexOrThrow("artista"));
         query = dbHelper.fetchCancionByAlbum(idAlbum);
         query.moveToFirst();
         String genero = "";
