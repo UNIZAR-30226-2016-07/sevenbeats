@@ -2,6 +2,7 @@ package sevenbits.sevenbeats;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -10,9 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by Javi on 13/05/2016.
@@ -21,10 +24,36 @@ public class SeeArtist extends AppCompatActivity {
 
     private BaseDatosAdapter dbHelper;
     private Cursor mNotesCursor;
-    private ListView mList;
+    private GridView mList;
     private Button button;
     private ImageView imagen;
+    private TextView nombreArtista;
     private long idAlbumInterno;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // ruido al abrir la aplicacion
+        setContentView(R.layout.main_activity);
+
+        dbHelper = new BaseDatosAdapter(this);
+        dbHelper.open();
+        // rellenar lista lateral y lista central
+        setContentView(R.layout.main_activity);
+
+
+        mList = (GridView) findViewById(R.id.MainActivity_lista_cuadrada);
+        button = (Button) findViewById(R.id.SeeArtist_boton_confirmar);
+        imagen = (ImageView) findViewById(R.id.SeeArtist_Imagen_Album);
+        nombreArtista = (TextView) findViewById(R.id.SeeArtist_texto_nombre);
+
+
+
+        final float ancho = getResources().getDisplayMetrics().widthPixels;
+        mList.setColumnWidth((int) (ancho / 3));
+        fillAlbumData();
+        registerForContextMenu(mList);
+    }
 
 
 
@@ -54,22 +83,6 @@ public class SeeArtist extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
-    /**
-     * Carga todas las canciones asociadas al artist en la base de datos en
-     * la lista.
-     *
-     * @param artist id del artist
-     */
-    private void fillData(long artist) {
-
-        Cursor notesCursor = dbHelper.fetchAllAlbumsByArtist(artist);
-        String[] fromColumns = {MainActivity.ALBUM_NOMBRE};
-        int[] toViews = {R.id.MainActivity_texto_testolista};
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, notesCursor,
-                fromColumns, toViews);
-        mList.setAdapter(adapter);
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -86,5 +99,11 @@ public class SeeArtist extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void fillAlbumData(){
+        Cursor cursor = dbHelper.fetchAllAlbumsByABC();
+        GridCursorAdapter adapter = new GridCursorAdapter(this, cursor,getResources().getDisplayMetrics().widthPixels);
+        mList.setAdapter(adapter);
     }
 }

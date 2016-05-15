@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sevenbits.sevenbeats.SeeArtist"
+    android:background="#d1d1d1">
+
+    <View android:id="@+id/fakeView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:id="@+id/SeeArtist_Imagen_Album"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/default_image"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/fakeView"
+        android:layout_margin="15dp"
+        android:adjustViewBounds="true"/>
+
+
+    <!-- Boton -->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/SeeArtist_boton_confirmar"
+        android:layout_height="30dp"
+        android:text="@string/boton_caratula"
+        android:layout_alignParentTop="false"
+        android:layout_toRightOf="@+id/SeeArtist_Imagen_Album"
+        style="@style/ButtonText"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentBottom="false"
+        android:layout_alignBottom="@+id/SeeArtist_Imagen_Album" />
+
+
+    <!-- Lista -->
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/SeeArtist_lista_cuadrada"
+        android:numColumns="auto_fit"
+        android:stretchMode="spacingWidthUniform"
+        android:columnWidth="120dp"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
+        android:layout_below="@+id/SeeArtist_Imagen_Album" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/SeeArtist_texto_nombre"
+        android:layout_toRightOf="@+id/SeeArtist_Imagen_Album"
+        android:layout_alignTop="@+id/SeeArtist_Imagen_Album"
+        android:layout_above="@+id/SeeAlbum_boton_confirmar"
+        android:gravity="center" />
+
+
+</RelativeLayout>

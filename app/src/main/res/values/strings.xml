@@ -25,5 +25,6 @@
     <string name="drawer_open">Abierto</string>
     <string name="drawer_close">cerrado</string>
     <string name="search_hint">Buscando</string>
+    <string name="title_activity_see_Artist">Artista</string>
 
 </resources>
