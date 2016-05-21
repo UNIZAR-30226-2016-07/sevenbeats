@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private BaseDatosAdapter bbdd;
     public static final String CANCION_NOMBRE = "titulo";
     public static final String ALBUM_NOMBRE = "titulo";
+    public static final String ARTISTA_NOMBRE = "nombre";
 
 
     private ListView listaPrincipal;
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent i = new Intent(getApplicationContext(), SeeSong.class);
-                i.putExtra("SeeCancion_cancion",id);
+                i.putExtra("SeeCancion_cancion", id);
                 startActivity(i);
             }
         });
@@ -120,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 setTitle("Albums");
                 fillAlbumData();
                 break;
+            case 2:
+                setTitle("Artistas");
+                fillArtistData();
             default:
                 fillSongData();
                 break;
@@ -235,11 +239,21 @@ public class MainActivity extends AppCompatActivity {
         listaPrincipal.setAdapter(adapter);
     }
 
-    private void fillAlbumData(){
+    private void fillAlbumData() {
         Cursor cursor = bbdd.fetchAllAlbumsByABC();
         GridCursorAdapter adapter = new GridCursorAdapter(this, cursor,getResources().getDisplayMetrics().widthPixels);
         listaPrincipal.setAdapter(null);
         gridPrincipal.setAdapter(adapter);
+    }
+
+    private void fillArtistData() {
+        Cursor cursor = bbdd.fetchAllArtistasByABC();
+        String[] fromColumns = {ARTISTA_NOMBRE};
+        int[] toViews = {R.id.MainActivity_texto_testolista};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, cursor,
+                fromColumns, toViews);
+        gridPrincipal.setAdapter(null);
+        listaPrincipal.setAdapter(adapter);
     }
 
     private void fillListaMenuData() {
@@ -263,7 +277,9 @@ public class MainActivity extends AppCompatActivity {
                         fillData();
                         break;
                     case 2:
-                        Toast.makeText(getApplicationContext(),"Artistas",Toast.LENGTH_SHORT).show();
+                        getIntent().putExtra("queMostrar", 2);
+                        fillData();
+                        // Toast.makeText(getApplicationContext(),"Artistas",Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         Toast.makeText(getApplicationContext(),"Nada",Toast.LENGTH_SHORT).show();
