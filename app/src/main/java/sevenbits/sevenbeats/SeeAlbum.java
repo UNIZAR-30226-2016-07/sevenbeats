@@ -137,8 +137,10 @@ public class SeeAlbum extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(Menu.NONE, MainActivity.PLAY_ID, Menu.NONE, "Reproducir");
         menu.add(Menu.NONE, MainActivity.EDIT_ID, Menu.NONE, "Editar");
         menu.add(Menu.NONE, MainActivity.DELETE_ID, Menu.NONE, "Borrar");
+        menu.add(Menu.NONE, MainActivity.ADD_ID, Menu.NONE, "Anadir a lista de reproduccion");
     }
 
     /*@Override

@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
     public static final int EDIT_ID = Menu.FIRST;
     public static final int DELETE_ID = Menu.FIRST + 1;
     public static final int SEE_ID = Menu.FIRST + 2;
+    public static final int ADD_ID = Menu.FIRST + 3;
+    public static  final int PLAY_ID = Menu.FIRST + 4;
+
 
 
 
@@ -155,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Editar");
         menu.add(Menu.NONE, DELETE_ID, Menu.NONE, "Borrar");
+        menu.add(Menu.NONE, ADD_ID, Menu.NONE, "Anadir a lista de reproduccion");
+        menu.add(Menu.NONE, PLAY_ID, Menu.NONE, "Reproducir");
     }
 
     @Override
@@ -189,6 +194,32 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         bbdd.deleteAlbum(info.id);
                         fillData();
+                        return true;
+                    default:
+                        return true;
+                }
+            case ADD_ID:
+                gridOP = getIntent().getIntExtra("queMostrar",0);
+
+                switch(gridOP){
+                    case 0:
+                        //Anadir cancion a la lista de reproduccion
+                        return true;
+                    case 1:
+                        //ITERACION 2
+                        return true;
+                    default:
+                        return true;
+                }
+            case PLAY_ID:
+                gridOP = getIntent().getIntExtra("queMostrar",0);
+
+                switch(gridOP){
+                    case 0:
+                        //Reproducir cancion
+                        return true;
+                    case 1:
+                        //ITERACION 2
                         return true;
                     default:
                         return true;
