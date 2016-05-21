@@ -233,19 +233,23 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = bbdd.fetchAllCancionesByABC();
         String[] fromColumns = {CANCION_NOMBRE};
         int[] toViews = {R.id.MainActivity_texto_testolista};
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, cursor,
-                fromColumns, toViews);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list,
+                cursor, fromColumns, toViews);
         gridPrincipal.setAdapter(null);
         listaPrincipal.setAdapter(adapter);
     }
 
     private void fillAlbumData() {
         Cursor cursor = bbdd.fetchAllAlbumsByABC();
-        GridCursorAdapter adapter = new GridCursorAdapter(this, cursor,getResources().getDisplayMetrics().widthPixels);
+        GridCursorAdapter adapter = new GridCursorAdapter(this, cursor,
+                getResources().getDisplayMetrics().widthPixels);
         listaPrincipal.setAdapter(null);
         gridPrincipal.setAdapter(adapter);
     }
 
+    /**
+     * Rellena la lista principal con la informacion de artistas que aparezcan en la base de datos
+     */
     private void fillArtistData() {
         Cursor cursor = bbdd.fetchAllArtistasByABC();
         String[] fromColumns = {ARTISTA_NOMBRE};
