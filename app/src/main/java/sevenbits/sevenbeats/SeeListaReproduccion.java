@@ -28,8 +28,8 @@ public class SeeListaReproduccion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // ruido al abrir la aplicacion
-        setContentView(R.layout.activity_lista_see);
-        mList = (ListView) findViewById(R.id.SeeListaReproduccion_canciones);
+        setContentView(R.layout.activity_see_listareproduccion);
+        mList = (ListView) findViewById(R.id.SeeListaReproduccion_lista_lista);
 
         dbHelper = new BaseDatosAdapter(this);
         dbHelper.open();
@@ -42,7 +42,7 @@ public class SeeListaReproduccion extends AppCompatActivity {
         query.moveToFirst();
         String nombreLista =  query.getString(query.getColumnIndexOrThrow("nombre"));
 
-        TextView asignador = (TextView)findViewById(R.id.SeeListaReproduccion_nombre);
+        TextView asignador = (TextView)findViewById(R.id.SeeListaReproduccion_texto_titulo);
         asignador.setText(nombreLista);
 
         fillData(idLista);
@@ -86,18 +86,7 @@ public class SeeListaReproduccion extends AppCompatActivity {
 
         return super.onContextItemSelected(item);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.SeeListaReproduccion_reproducir:
-                //Reproducir una a una las canciones
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,

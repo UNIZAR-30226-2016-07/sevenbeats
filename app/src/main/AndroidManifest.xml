@@ -40,6 +40,14 @@
                 android:value="MainActivity" />
         </activity>
         <activity
+            android:name=".SeeListaReproduccion"
+            android:label="Lista Reproduccion"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
+        <activity
             android:name=".SeeArtist"
             android:label="@string/title_activity_see_Artist"
             android:parentActivityName=".MainActivity" >
