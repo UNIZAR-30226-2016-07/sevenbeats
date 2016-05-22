@@ -48,6 +48,14 @@
                 android:value="MainActivity" />
         </activity>
         <activity
+            android:name="sevenbits.sevenbeats.SeeListaReproduccion"
+            android:label="Lista Reproduccion"
+            android:parentActivityName="sevenbits.sevenbeats.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
+        <activity
             android:name="sevenbits.sevenbeats.SeeArtist"
             android:label="@string/title_activity_see_Artist"
             android:parentActivityName="sevenbits.sevenbeats.MainActivity" >

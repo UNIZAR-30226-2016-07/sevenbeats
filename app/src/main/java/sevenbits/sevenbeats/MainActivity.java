@@ -1,7 +1,9 @@
 package sevenbits.sevenbeats;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -20,9 +22,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -165,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Log.d("Debug", "Al menu intenta entrar");
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()) {
             case EDIT_ID:
                 int gridOP = getIntent().getIntExtra("queMostrar",0);
@@ -201,9 +205,32 @@ public class MainActivity extends AppCompatActivity {
             case ADD_ID:
                 gridOP = getIntent().getIntExtra("queMostrar",0);
 
-                switch(gridOP){
+                switch(gridOP) {
                     case 0:
                         //Anadir cancion a la lista de reproduccion
+                        final EditText txtLista = new EditText(this);
+                        txtLista.setHint("Pon aqui el nombre de la lista. (Si no existe se creará");
+                        new AlertDialog.Builder(this)
+                                .setTitle("Añadir a lista")
+                                .setView(txtLista)
+                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        String url = txtLista.getText().toString();
+                                        int id = bbdd.fetchIdLista(url);
+                                        if ( id == -1){
+                                            bbdd.createList(url);
+                                            id = bbdd.fetchIdLista(url);
+                                        }
+                                        bbdd.addSongToList(id, info.id);
+
+                                    }
+
+                                })
+                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                    }
+                                })
+                                .show();
                         return true;
                     case 1:
                         //ITERACION 2

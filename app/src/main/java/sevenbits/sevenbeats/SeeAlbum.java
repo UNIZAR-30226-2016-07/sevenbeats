@@ -169,8 +169,10 @@ public class SeeAlbum extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Log.d("Debug", "Al menu intenta entrar");
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()) {
+            case MainActivity.PLAY_ID:
+                return true;
             case MainActivity.EDIT_ID:
                 Intent i = new Intent(this, SongEdit.class);
                 i.putExtra("id_cancion", info.id);
@@ -178,6 +180,32 @@ public class SeeAlbum extends AppCompatActivity {
                 return true;
             case MainActivity.DELETE_ID:
                 dbHelper.deleteCancion(info.id);
+                return true;
+            case MainActivity.ADD_ID:
+                //Anadir cancion a la lista de reproduccion
+                final EditText txtLista = new EditText(this);
+                txtLista.setHint("Pon aqui el nombre de la lista. (Si no existe se creará");
+                new AlertDialog.Builder(this)
+                        .setTitle("Añadir a lista")
+                        .setView(txtLista)
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String url = txtLista.getText().toString();
+                                int id = dbHelper.fetchIdLista(url);
+                                if ( id == -1){
+                                    dbHelper.createList(url);
+                                    id = dbHelper.fetchIdLista(url);
+                                }
+                                dbHelper.addSongToList(id, info.id);
+
+                            }
+
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        })
+                        .show();
                 return true;
         }
 

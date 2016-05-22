@@ -3,6 +3,7 @@ package sevenbits.sevenbeats;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -19,6 +20,16 @@ public class BaseDatosAdapter {
     private static final String TABLE_ARTIST_CREATE =
             "create table artistas (_id integer primary key autoincrement, " +
                     "nombre text not null);";
+    private static final String TABLE_LIST_CREATE =
+            "create table listas (_id integer primary key autoincrement, " +
+                    "nombre text not null);";
+    private static final String TABLE_ASIGNAR_SONG_CREATE =
+            "create table asignaciones (_id integer primary key autoincrement, " +
+                    "lista integer not null, "+
+                    "cancion integer not null, " +
+                    "posicion integer not null, " +
+                    "foreign key(lista) references listas(_id), " +
+                    "foreign key(cancion) references canciones(_id));";
     private static final String TABLE_ALBUM_CREATE =
             "create table albums (_id integer primary key autoincrement, " +
                     "titulo text not null," +
@@ -32,6 +43,7 @@ public class BaseDatosAdapter {
                     "valoracion integer, " +
                     "album integer, " +
                     "genero text not null," +
+                    "ruta text, " +
                     "foreign key (album) references albums(_id));";
 
 
@@ -39,7 +51,11 @@ public class BaseDatosAdapter {
     private static final String DATABASE_TABLE_ARTISTAS = "artistas";
     private static final String DATABASE_TABLE_ALBUMS = "albums";
     private static final String DATABASE_TABLE_CANCIONES = "canciones";
-    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_TABLE_LIST = "listas";
+    private static final String DATABASE_TABLE_ASIGNAR_SONG_CREATE = "asignaciones";
+
+
+    private static final int DATABASE_VERSION = 4;
 
     private final Context mCtx;
 
@@ -56,6 +72,9 @@ public class BaseDatosAdapter {
             db.execSQL(TABLE_ARTIST_CREATE);
             db.execSQL(TABLE_ALBUM_CREATE);
             db.execSQL(TABLE_SONG_CREATE);
+            db.execSQL(TABLE_LIST_CREATE);
+            db.execSQL(TABLE_ASIGNAR_SONG_CREATE);
+
 
             db.execSQL("insert into artistas (nombre) values ('Artista Desconocido');");
             db.execSQL("insert into albums (titulo,ruta,artista) values " +
@@ -69,6 +88,10 @@ public class BaseDatosAdapter {
             db.execSQL("DROP TABLE IF EXISTS artistas");
             db.execSQL("DROP TABLE IF EXISTS canciones");
             db.execSQL("DROP TABLE IF EXISTS albums");
+            db.execSQL("DROP TABLE IF EXISTS listas");
+            db.execSQL("DROP TABLE IF EXISTS asignaciones");
+
+
 
             onCreate(db);
         }
@@ -202,7 +225,7 @@ public class BaseDatosAdapter {
         args.put("titulo",titulo);
         args.put("ruta",ruta);
         //meter todos los atributos
-        Log.d("Debug","En updateAlbum");
+        Log.d("Debug", "En updateAlbum");
         if(existArtista(artista)){
             //el artista ya existe, buscamos su id y lo añadimos a los argumentos
             Cursor cursor =
@@ -222,7 +245,7 @@ public class BaseDatosAdapter {
             args.put("artista", id);
             Log.d("Debug", "En no existe artista");
         }
-        Log.d("Debug","El id del album vale: " + rowId);
+        Log.d("Debug", "El id del album vale: " + rowId);
         return mDb.update(DATABASE_TABLE_ALBUMS, args, "_id = " + rowId, null) > 0;
     }
 
@@ -427,4 +450,70 @@ public class BaseDatosAdapter {
         mDb.update(DATABASE_TABLE_CANCIONES, args, "_id = " + id, null);
 
     }
+
+    /**COSAS NUEVAS**/
+
+    /**
+     * Devuelve el id de una lista dado su nombre
+     */
+    public int fetchIdLista(String nombre){
+        int res = -1;
+        Cursor cursor =
+                mDb.query(true,DATABASE_TABLE_LIST,
+                        new String[] {"_id", "nombre"},
+                        "nombre = '"+nombre+"'", null, null, null, null, null);
+        if(cursor!=null){
+            cursor.moveToFirst();
+            try{
+                res = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+            } catch(CursorIndexOutOfBoundsException e){
+
+            }
+        }
+        return res;
+    }
+
+    public Cursor fetchCancionByLista(long id){
+        return mDb.query(true,DATABASE_TABLE_ASIGNAR_SONG_CREATE,
+                new String[] {"_id","lista","cancion", "posicion"},
+                "lista = "+id, null, null, null, "posicion DESC", null);
+    }
+
+    public void deleteCancionLista(long lista, long cancion){
+        mDb.delete(DATABASE_TABLE_ASIGNAR_SONG_CREATE, "(lista = " + lista + ") " +
+                "AND (cancion = " + cancion+")", null);
+    }
+
+    public Cursor fetchAllListasByABC(){
+
+        return mDb.query(DATABASE_TABLE_LIST,
+                new String[] {"_id","nombre"}
+                , null,null,null,null,"nombre");
+    }
+
+    public void addSongToList(long lista, long cancion){
+        ContentValues args = new ContentValues();
+        Cursor count = fetchCancion(lista);
+        int posicion = count.getCount() + 1;
+        args.put("lista",lista);
+        args.put("cancion",cancion);
+        args.put("posicion",posicion);
+        mDb.insert(TABLE_ASIGNAR_SONG_CREATE, null, args);
+    }
+
+    public void createList(String nombre){
+        ContentValues args = new ContentValues();
+        args.put("nombre",nombre);
+        mDb.insert(DATABASE_TABLE_LIST, null, args);
+    }
+
+    public void deleteList(String nombre){
+        mDb.delete(DATABASE_TABLE_LIST, "nombre = " + nombre, null);
+    }
+
+    public void deleteList(int id){
+        mDb.delete(DATABASE_TABLE_LIST, "_id = " + id, null);
+    }
+
+
 }

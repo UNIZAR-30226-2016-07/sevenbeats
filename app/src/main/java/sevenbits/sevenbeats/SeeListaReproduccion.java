@@ -35,12 +35,10 @@ public class SeeListaReproduccion extends AppCompatActivity {
         dbHelper.open();
 
         Bundle extras = getIntent().getExtras();
-        idLista = extras.getLong("SeeListaReproduccion_album");
+        String nombreLista = extras.getString("SeeListaReproduccion_album");
 
 
-        Cursor query = dbHelper.fetchNombreLista(idLista);
-        query.moveToFirst();
-        String nombreLista =  query.getString(query.getColumnIndexOrThrow("nombre"));
+        idLista = dbHelper.fetchIdLista(nombreLista);
 
         TextView asignador = (TextView)findViewById(R.id.SeeListaReproduccion_texto_titulo);
         asignador.setText(nombreLista);
