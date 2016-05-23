@@ -13,6 +13,7 @@ import android.view.View;
 public class SongEdit extends AppCompatActivity {
 
     private EditText SongEdit_texto_titulo;
+    private EditText SongEdit_texto_artista;
     private EditText SongEdit_texto_album;
     private EditText SongEdit_texto_duracion;
     private EditText SongEdit_texto_genero;
@@ -39,6 +40,7 @@ public class SongEdit extends AppCompatActivity {
         }
 
         SongEdit_texto_titulo = (EditText) findViewById(R.id.SongEdit_texto_titulo);
+        SongEdit_texto_artista = (EditText) findViewById(R.id.SongEdit_texto_artista);
         SongEdit_texto_album = (EditText) findViewById(R.id.SongEdit_texto_album);
         SongEdit_texto_duracion = (EditText) findViewById(R.id.SongEdit_texto_duracion);
         SongEdit_texto_genero  = (EditText) findViewById(R.id.SongEdit_texto_genero);
@@ -73,6 +75,8 @@ public class SongEdit extends AppCompatActivity {
 
             SongEdit_texto_titulo.setText(cancion.getString(
                     cancion.getColumnIndexOrThrow("titulo")));
+            SongEdit_texto_artista.setText(cancion.getString(
+                    cancion.getColumnIndexOrThrow("artista")));
             SongEdit_texto_album.setText(cancion.getString(
                     cancion.getColumnIndexOrThrow("album")));
             SongEdit_texto_duracion.setText(cancion.getString(
