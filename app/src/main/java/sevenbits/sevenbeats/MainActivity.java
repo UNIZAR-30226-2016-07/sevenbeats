@@ -318,11 +318,16 @@ public class MainActivity extends AppCompatActivity {
         listaPrincipal.setAdapter(adapter);
     }
 
+    /**
+     * Rellenamos el menu lateral que nos permite cambiar entre canciones, albumes, artistas y
+     * listas de reproduccion.
+     */
     private void fillListaMenuData() {
         contenidoListaMenu  = new ArrayList<String>();
         contenidoListaMenu.add("Canciones");
         contenidoListaMenu.add("Álbumes");
         contenidoListaMenu.add("Artistas");
+        contenidoListaMenu.add("Listas de reproducción");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.main_activity_listmenu,
                 contenidoListaMenu);
         listaMenu.setAdapter(adapter);
@@ -343,6 +348,9 @@ public class MainActivity extends AppCompatActivity {
                         fillData();
                         // Toast.makeText(getApplicationContext(),"Artistas",Toast.LENGTH_SHORT).show();
                         break;
+                    case 3:
+                        getIntent().putExtra("queMostrar", 3);
+                        fillData();
                     default:
                         Toast.makeText(getApplicationContext(),"Nada",Toast.LENGTH_SHORT).show();
                         break;
