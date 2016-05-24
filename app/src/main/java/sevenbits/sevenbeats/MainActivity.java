@@ -175,7 +175,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Log.d("Debug", "Al menu intenta entrar");
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()) {
             case EDIT_ID:
                 int gridOP = getIntent().getIntExtra("queMostrar",0);
@@ -203,6 +204,10 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case 1:
                         bbdd.deleteAlbum(info.id);
+                        fillData();
+                        return true;
+                    case 2:
+                        bbdd.deleteArtista(info.id);
                         fillData();
                         return true;
                     default:
