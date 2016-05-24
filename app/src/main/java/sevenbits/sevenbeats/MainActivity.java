@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String CANCION_NOMBRE = "titulo";
     public static final String ALBUM_NOMBRE = "titulo";
     public static final String ARTISTA_NOMBRE = "nombre";
+    public static final String LISTA_NOMBRE = "nombre";
 
 
     private ListView listaPrincipal;
@@ -131,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 setTitle("Artistas");
                 fillArtistData();
+                break;
+            case 3:
+                setTitle("Listas de reproducción");
+                fillListaData();
+                break;
             default:
                 fillSongData();
                 break;
@@ -285,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Rellenamos la informacion de la lista de canciones
+     * Rellenamos la informacion de la lista de canciones.
      */
     private void fillSongData() {
         Cursor cursor = bbdd.fetchAllCancionesByABC();
@@ -297,6 +303,9 @@ public class MainActivity extends AppCompatActivity {
         listaPrincipal.setAdapter(adapter);
     }
 
+    /**
+     * Rellenamos la informacion del grid de caratulas de los albumes.
+     */
     private void fillAlbumData() {
         Cursor cursor = bbdd.fetchAllAlbumsByABC();
         GridCursorAdapter adapter = new GridCursorAdapter(this, cursor,
@@ -306,11 +315,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Rellena la lista principal con la informacion de artistas que aparezcan en la base de datos
+     * Rellena la lista principal con la informacion de artistas que aparezcan en la base de datos.
      */
     private void fillArtistData() {
         Cursor cursor = bbdd.fetchAllArtistasByABC();
         String[] fromColumns = {ARTISTA_NOMBRE};
+        int[] toViews = {R.id.MainActivity_texto_testolista};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, cursor,
+                fromColumns, toViews);
+        gridPrincipal.setAdapter(null);
+        listaPrincipal.setAdapter(adapter);
+    }
+
+    /**
+     * Rellenamos la lista principal con la informacion de listas de reproduccion.
+     */
+    private void fillListaData() {
+        Cursor cursor = bbdd.fetchAllListasByABC();
+        String[] fromColumns = {LISTA_NOMBRE};
         int[] toViews = {R.id.MainActivity_texto_testolista};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, cursor,
                 fromColumns, toViews);
