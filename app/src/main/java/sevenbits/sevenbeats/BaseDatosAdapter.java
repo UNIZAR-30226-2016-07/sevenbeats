@@ -46,6 +46,7 @@ public class BaseDatosAdapter {
                     "album integer, " +
                     "genero text not null," +
                     "ruta text, " +
+                    "foreign key (artista) references artistas(_id), " +
                     "foreign key (album) references albums(_id));";
 
 
@@ -57,7 +58,7 @@ public class BaseDatosAdapter {
     private static final String DATABASE_TABLE_ASIGNAR_SONG_CREATE = "asignaciones";
 
 
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 9;
 
     private final Context mCtx;
 
@@ -72,9 +73,9 @@ public class BaseDatosAdapter {
         public void onCreate(SQLiteDatabase db) {
 
             db.execSQL(TABLE_ARTIST_CREATE);
+            db.execSQL(TABLE_LIST_CREATE);
             db.execSQL(TABLE_ALBUM_CREATE);
             db.execSQL(TABLE_SONG_CREATE);
-            db.execSQL(TABLE_LIST_CREATE);
             db.execSQL(TABLE_ASIGNAR_SONG_CREATE);
 
 
@@ -148,6 +149,18 @@ public class BaseDatosAdapter {
 
         return mDb.query(true,DATABASE_TABLE_ARTISTAS, new String[] {"_id","nombre"},
                 "_id = "+rowId, null, null, null, null, null);
+    }
+
+    /*
+   Devuelve el artista con _id=@rowId
+    */
+    public int fetchArtista(String nombre) throws SQLException{
+
+        Cursor aux = mDb.query(true,DATABASE_TABLE_ARTISTAS, new String[] {"_id","nombre"},
+                "nombre= '"+nombre+"'", null, null, null, null, null);
+        Log.d("Likee", aux.getCount()+"");
+        aux.moveToFirst();
+        return aux.getInt(aux.getColumnIndexOrThrow("_id"));
     }
 
     /*
@@ -318,8 +331,10 @@ public class BaseDatosAdapter {
         args.put("duracion",duracion);
         args.put("valoracion",valoracion);
         args.put("genero",genero);
-        args.put("artista", artista);
+        //args.put("artista", artista);
         args.put("ruta", ruta);
+
+        Log.d("Al create","Artista: " + artista);
 
         if(existArtista(artista)){
             //el artista ya existe, buscamos su id y lo añadimos a los argumentos
@@ -339,6 +354,7 @@ public class BaseDatosAdapter {
             long id = mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
             args.put("artista", id);
             Log.d("Debug", "En no existe artista");
+            //mDb.insert(DATABASE_TABLE_ARTISTAS, null, args);
         }
 
         if(existAlbum(album)){
@@ -353,15 +369,19 @@ public class BaseDatosAdapter {
             args.put("album", id);
 
         } else {
+            Log.d("Debug", "En no existe album");
+
             //crear album
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
             aux.put("ruta", rutaDefecto);
-            aux.put("artista",1);
+            aux.put("artista",fetchArtista(artista));
             long id=mDb.insert(DATABASE_TABLE_ALBUMS, null,aux);
             args.put("album", id);
         }
-        args.put("titulo",titulo);
+        Log.d("Aqui", "Se llega");
+        args.put("titulo", titulo);
+        Log.d("Prueba", args.toString());
         return mDb.insert(DATABASE_TABLE_CANCIONES, null, args);
     }
 
@@ -379,7 +399,7 @@ public class BaseDatosAdapter {
     public Cursor fetchAllCancionesByABC(){
 
         return mDb.query(DATABASE_TABLE_CANCIONES,
-                new String[] {"_id","titulo","duracion","valoracion","album","genero"}
+                new String[] {"_id","titulo","duracion","valoracion","album","genero", "ruta","artista"}
                 , null,null,null,null,"titulo");
     }
 
@@ -390,7 +410,7 @@ public class BaseDatosAdapter {
 
         Cursor cursor =
                 mDb.query(true,DATABASE_TABLE_CANCIONES,
-                        new String[] {"_id","titulo","duracion","valoracion","album","genero"},
+                        new String[] {"_id","titulo","duracion","valoracion","album","genero","ruta","artista"},
                         "_id = "+rowId, null, null, null, null, null);
         if(cursor!=null){
             cursor.moveToFirst();
@@ -402,7 +422,7 @@ public class BaseDatosAdapter {
     public Cursor fetchCancionByAlbum(long rowId){
 
         return mDb.query(true,DATABASE_TABLE_CANCIONES,
-                new String[] {"_id","titulo","duracion","valoracion","album","genero"},
+                new String[] {"_id","titulo","duracion","valoracion","album","genero","ruta","artista"},
                 "album = '"+rowId+"'", null, null, null, null, null);
     }
 
@@ -433,7 +453,6 @@ public class BaseDatosAdapter {
             //crear album
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
-            aux.put("artista", 1);                               //artista desconocido
             long id = mDb.insert(DATABASE_TABLE_ALBUMS,null,aux);
             args.put("album", id);
         }
@@ -470,6 +489,7 @@ public class BaseDatosAdapter {
             long id = mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
             args.put("artista", id);
             Log.d("Debug", "En no existe artista");
+            mDb.insert(DATABASE_TABLE_ARTISTAS, null, args);
         }
 
         if(existAlbum(album)){
@@ -487,7 +507,7 @@ public class BaseDatosAdapter {
             //crear album
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
-            aux.put("artista", 1);                               //artista desconocido
+            aux.put("artista", fetchArtista(artista));                               //artista desconocido
             long id = mDb.insert(DATABASE_TABLE_ALBUMS,null,aux);
             args.put("album", id);
         }

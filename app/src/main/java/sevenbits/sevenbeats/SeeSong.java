@@ -68,14 +68,17 @@ public class SeeSong extends AppCompatActivity {
         query.moveToFirst();
         final String rutaImagen = query.getString(query.getColumnIndexOrThrow("ruta"));
         final String nombreAlbum = query.getString(query.getColumnIndexOrThrow("titulo"));
-        final String artista = query.getString(query.getColumnIndexOrThrow("artista"));
+        final int artista = query.getInt(query.getColumnIndexOrThrow("artista"));
+        Cursor auxArt = dbHelper.fetchArtista(artista);
+        auxArt.moveToFirst();
+        final String artistaNombre = auxArt.getString(auxArt.getColumnIndexOrThrow("nombre"));
 
         /*Asigno cada valor a sus correspondientes variables*/
         TextView asignador = (TextView)findViewById(R.id.SeeSong_texto_titulo);
         asignador.setText(nombreCancion);
 
         asignador = (TextView)findViewById(R.id.SeeSong_texto_artista);
-        asignador.setText(artista);
+        asignador.setText(artistaNombre);
 
         asignador = (TextView)findViewById(R.id.SeeSong_texto_duracion);
         asignador.setText(duracion);
@@ -117,7 +120,7 @@ public class SeeSong extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtUrl.getText().toString();
                                 boolean isUrl = URLUtil.isHttpUrl(url);
-                                ponerCaratula(url, idAlbum, nombreAlbum, artista, isUrl);
+                                ponerCaratula(url, idAlbum, nombreAlbum, artistaNombre, isUrl);
 
 
                             }

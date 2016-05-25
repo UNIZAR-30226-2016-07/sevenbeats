@@ -72,13 +72,12 @@ public class SongEdit extends AppCompatActivity {
         if (mRowId != null) {
             Cursor cancion = dbHelper.fetchCancion(mRowId);
             Log.d("Debug","id de cancion: " + mRowId);
-            startManagingCursor(cancion);
-            cancion.moveToFirst();
+            //startManagingCursor(cancion);
+            String[] names = cancion.getColumnNames();
+            for(String a:names){
+                Log.d("Nombre comlumna", a);
+            }
 
-            SongEdit_texto_titulo.setText(cancion.getString(
-                    cancion.getColumnIndexOrThrow("titulo")));
-            SongEdit_texto_artista.setText(cancion.getString(
-                    cancion.getColumnIndexOrThrow("artista")));
             SongEdit_texto_album.setText(cancion.getString(
                     cancion.getColumnIndexOrThrow("album")));
             SongEdit_texto_duracion.setText(cancion.getString(
@@ -87,6 +86,12 @@ public class SongEdit extends AppCompatActivity {
                     cancion.getColumnIndexOrThrow("genero")));
             SongEdit_texto_ruta.setText(cancion.getString(
                     cancion.getColumnIndexOrThrow("ruta")));
+            SongEdit_texto_titulo.setText(cancion.getString(
+                    cancion.getColumnIndexOrThrow("titulo")));
+            Cursor artistAux = dbHelper.fetchArtista(cancion.getInt(cancion.getColumnIndexOrThrow("artista")));
+            artistAux.moveToFirst();
+            String artist = artistAux.getString(artistAux.getColumnIndexOrThrow("nombre"));
+            SongEdit_texto_artista.setText(artist);
         }
     }
 
@@ -135,7 +140,7 @@ public class SongEdit extends AppCompatActivity {
         Log.d("Debug","Duracion: " + duracion);
 
         if (mRowId == null) {
-            long id = dbHelper.createCancion(titulo, duracion, valoracion, album, genero, artista,ruta);
+            long id = dbHelper.createCancion(titulo, duracion, valoracion, album, genero, artista, ruta);
             if (id > 0) {
                 mRowId = id;
             }
