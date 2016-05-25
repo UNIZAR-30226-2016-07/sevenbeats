@@ -41,6 +41,7 @@ public class BaseDatosAdapter {
             "create table canciones (_id integer primary key autoincrement, " +
                     "titulo text not null, " +
                     "duracion text not null, " +
+                    "artista integer, " +
                     "valoracion integer, " +
                     "album integer, " +
                     "genero text not null," +
@@ -56,7 +57,7 @@ public class BaseDatosAdapter {
     private static final String DATABASE_TABLE_ASIGNAR_SONG_CREATE = "asignaciones";
 
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     private final Context mCtx;
 
