@@ -47,6 +47,26 @@
         android:layout_below="@+id/textView3"
         android:layout_marginTop="10dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Artista: "
+        android:id="@+id/textView5"
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="10dp"
+        android:layout_alignRight="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Ruta: "
+        android:id="@+id/textView6"
+        android:layout_below="@+id/textView5"
+        android:layout_marginTop="10dp"
+        android:layout_alignRight="@+id/textView3" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,6 +99,25 @@
         android:layout_toRightOf="@+id/textView4"
         android:inputType="time" />
 
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/SongEdit_texto_artista"
+        android:layout_margin="5dp"
+        android:ems="10"
+        android:layout_below="@+id/textView4"
+        android:layout_toRightOf="@+id/textView5" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/SongEdit_texto_ruta"
+        android:layout_margin="5dp"
+        android:ems="10"
+        android:layout_below="@+id/textView5"
+        android:layout_toRightOf="@+id/textView6"
+        android:inputType="time" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,8 +128,8 @@
         android:layout_alignParentEnd="false"
         style="@style/ButtonText"
         android:layout_margin="5dp"
-        android:layout_below="@+id/SongEdit_texto_duracion"
-        android:layout_alignRight="@+id/SongEdit_texto_duracion" />
+        android:layout_below="@+id/SongEdit_texto_ruta"
+        android:layout_alignRight="@+id/SongEdit_texto_ruta" />
 
 
 </RelativeLayout>

@@ -17,6 +17,7 @@ public class SongEdit extends AppCompatActivity {
     private EditText SongEdit_texto_album;
     private EditText SongEdit_texto_duracion;
     private EditText SongEdit_texto_genero;
+    private EditText SongEdit_texto_ruta;
 
     private Long mRowId;
 
@@ -84,7 +85,7 @@ public class SongEdit extends AppCompatActivity {
             SongEdit_texto_genero.setText(cancion.getString(
                     cancion.getColumnIndexOrThrow("genero")));
             SongEdit_texto_ruta.setText(cancion.getString(
-                    cancion.getColumnIndexOrThrow("genero")));
+                    cancion.getColumnIndexOrThrow("ruta")));
         }
     }
 
