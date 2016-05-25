@@ -3,7 +3,6 @@ package sevenbits.sevenbeats;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.media.Image;
-import android.os.Debug;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -17,25 +16,27 @@ import java.net.URL;
 import java.nio.channels.FileChannel;
 
 /**
- * Created by Javi on 14/04/2016.
+ * Created by Javi on 25/05/2016.
  */
-public class PonerCaratula implements Runnable {
+public class PonerImagenArtista implements Runnable{
 
-    private String ruta, nombreAlbum, artista;
-    private long albumId;
+    private String ruta, artistaN;
+    private long artistId;
     private BaseDatosAdapter dbHelper;
     private Context context;
     private boolean isURL;
 
-    public PonerCaratula(String ruta, long albumId, String nombreAlbum, String artista, boolean isURL, BaseDatosAdapter dbHelper, Context context){
+
+    public PonerImagenArtista(String ruta, long artistId, boolean isURL, BaseDatosAdapter bbdd, Context context,
+                              String artistaN){
         this.ruta = ruta;
-        this.albumId = albumId;
-        this.nombreAlbum = nombreAlbum;
-        this.artista = artista;
-        this.dbHelper = dbHelper;
         this.context = context;
         this.isURL = isURL;
+        dbHelper = bbdd;
+        this.artistId = artistId;
+        this.artistaN = artistaN;
     }
+
 
     /**
      * Coge una imagen de internet y la guarda en la carpeta drawable. Luego, anota
@@ -62,28 +63,28 @@ public class PonerCaratula implements Runnable {
 
                 ContextWrapper cw = new ContextWrapper(context);
                 File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
-                File myPath0 = new File(dirImages, nombreAlbum + ".jpg");
+                File myPath0 = new File(dirImages, artistId + ".jpg");
                 if ( myPath0.exists() ) myPath0.delete();
-                File myPath = new File(dirImages, nombreAlbum + ".jpg");
+                File myPath = new File(dirImages, artistId + ".jpg");
 
                 FileOutputStream fos = new FileOutputStream(myPath);
                 fos.write(response);
                 fos.flush();
                 fos.close();
                 Log.d("Debug", "Al poner caratula en thread ruta da: " + myPath.getAbsolutePath());
-                correcto = dbHelper.updateAlbum(albumId, nombreAlbum, myPath.getAbsolutePath(), artista);
+                correcto = dbHelper.updateArtista(artistId, myPath.getAbsolutePath(), artistaN);
 
             }
             else{
                 ContextWrapper cw = new ContextWrapper(context);
                 File dirImages = cw.getDir("Imagenes", Context.MODE_PRIVATE);
-                File myPath = new File(dirImages, nombreAlbum + ".jpg");
+                File myPath = new File(dirImages, artistId + ".jpg");
                 File original = new File(ruta);
                 myPath.delete();
                 myPath.createNewFile();
                 Log.d("Debug","Al poner caratula en thread ruta da: " + original.exists() + " " + original.getName());
                 copy(original, myPath);
-                correcto = dbHelper.updateAlbum(albumId, nombreAlbum, myPath.getAbsolutePath(), artista);
+                correcto = dbHelper.updateArtista(artistId, myPath.getAbsolutePath(), artistaN);
             }
             Log.d("Debug","Al poner caratula en thread da: " + correcto);
 
@@ -101,4 +102,6 @@ public class PonerCaratula implements Runnable {
         inStream.close();
         outStream.close();
     }
+
+
 }

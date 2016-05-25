@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:id="@+id/SeeArtist_boton_confirmar"
         android:layout_height="30dp"
-        android:text="@string/boton_caratula"
+        android:text="@string/boton_artista"
         android:layout_alignParentTop="false"
         android:layout_toRightOf="@+id/SeeArtist_Imagen_Album"
         style="@style/ButtonText"

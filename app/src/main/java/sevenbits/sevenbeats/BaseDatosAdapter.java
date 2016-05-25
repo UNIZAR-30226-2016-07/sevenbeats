@@ -19,7 +19,8 @@ public class BaseDatosAdapter {
 
     private static final String TABLE_ARTIST_CREATE =
             "create table artistas (_id integer primary key autoincrement, " +
-                    "nombre text not null);";
+                    "nombre text not null," +
+                    "ruta text);";
     private static final String TABLE_LIST_CREATE =
             "create table listas (_id integer primary key autoincrement, " +
                     "nombre text not null);";
@@ -55,7 +56,7 @@ public class BaseDatosAdapter {
     private static final String DATABASE_TABLE_ASIGNAR_SONG_CREATE = "asignaciones";
 
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private final Context mCtx;
 
@@ -151,9 +152,10 @@ public class BaseDatosAdapter {
     /*
     Da el valor @name al nombre de un artista ya existente con _id=@rowId
      */
-    public boolean updateArtista(long rowId, String name){
+    public boolean updateArtista(long rowId, String rutaImagen, String name){
         ContentValues args = new ContentValues();
         args.put("nombre",name);
+        args.put("ruta", rutaImagen);
         //meter todos los atributos
 
         return mDb.update(DATABASE_TABLE_ARTISTAS, args, "_id = " + rowId, null) > 0;
@@ -204,6 +206,15 @@ public class BaseDatosAdapter {
 
         return mDb.query(DATABASE_TABLE_ALBUMS, new String[]{"_id", "titulo", "ruta", "artista"}
                 , null, null, null, null, "titulo");
+    }
+
+    /*
+    Devuelve un Cursor a todos los albums ordenados por orden alfabético
+     */
+    public Cursor fetchAllAlbumsByABC(long idArtist){
+
+        return mDb.query(DATABASE_TABLE_ALBUMS, new String[]{"_id", "titulo", "ruta", "artista"}
+                , "artista="+idArtist, null, null, null, "titulo");
     }
 
     /*
@@ -298,6 +309,61 @@ public class BaseDatosAdapter {
         return mDb.insert(DATABASE_TABLE_CANCIONES, null, args);
     }
 
+    public long createCancion(String titulo, String duracion, int valoracion, String album, String genero,
+                              String artista, String ruta){
+
+        ContentValues args = new ContentValues();
+        args.put("titulo",titulo);
+        args.put("duracion",duracion);
+        args.put("valoracion",valoracion);
+        args.put("genero",genero);
+        args.put("artista", artista);
+        args.put("ruta", ruta);
+
+        if(existArtista(artista)){
+            //el artista ya existe, buscamos su id y lo añadimos a los argumentos
+            Cursor cursor =
+                    mDb.query(DATABASE_TABLE_ARTISTAS, new String[] {"_id", "nombre"},
+                            "nombre = '" + artista + "'", null, null, null, null, null);
+            cursor.moveToFirst();
+            long id = cursor.getInt(0);
+            cursor.close();
+            args.put("artista",id);
+            Log.d("Debug", "En existe Artista");
+
+        } else {
+            //el artista no existe, lo creamos, buscamos su id y lo añadimos a los args
+            ContentValues aux = new ContentValues();
+            aux.put("nombre", artista);
+            long id = mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
+            args.put("artista", id);
+            Log.d("Debug", "En no existe artista");
+        }
+
+        if(existAlbum(album)){
+
+            Cursor cursor =
+                    mDb.query(DATABASE_TABLE_ALBUMS,
+                            new String[]{"_id", "titulo", "artista"},
+                            "titulo = '" + album + "'", null, null, null, null, null);
+            cursor.moveToFirst();
+            long id = cursor.getInt(0);
+            cursor.close();
+            args.put("album", id);
+
+        } else {
+            //crear album
+            ContentValues aux = new ContentValues();
+            aux.put("titulo",album);
+            aux.put("ruta", rutaDefecto);
+            aux.put("artista",1);
+            long id=mDb.insert(DATABASE_TABLE_ALBUMS, null,aux);
+            args.put("album", id);
+        }
+        args.put("titulo",titulo);
+        return mDb.insert(DATABASE_TABLE_CANCIONES, null, args);
+    }
+
     /*
     Borra de la BD una canción con _id=@rowId
      */
@@ -350,6 +416,60 @@ public class BaseDatosAdapter {
         args.put("duracion",duracion);
         args.put("valoracion",valoracion);
         args.put("genero",genero);
+
+        if(existAlbum(album)){
+
+            Cursor cursor =
+                    mDb.query(DATABASE_TABLE_ALBUMS,
+                            new String[] {"_id","titulo","artista"},
+                            "titulo = '" + album + "'", null, null, null, null, null);
+            cursor.moveToFirst();
+            int id = cursor.getInt(0);
+            cursor.close();
+            args.put("album",id);
+
+        } else {
+            //crear album
+            ContentValues aux = new ContentValues();
+            aux.put("titulo",album);
+            aux.put("artista", 1);                               //artista desconocido
+            long id = mDb.insert(DATABASE_TABLE_ALBUMS,null,aux);
+            args.put("album", id);
+        }
+
+        return mDb.update(DATABASE_TABLE_CANCIONES, args, "_id = " + rowId, null) > 0;
+    }
+
+    public boolean updateCancion(long rowId, String titulo, String duracion, int valoracion, String album,String genero,
+                                 String artista, String ruta){
+
+        ContentValues args = new ContentValues();
+        args.put("titulo",titulo);
+        args.put("duracion",duracion);
+        args.put("valoracion",valoracion);
+        args.put("genero",genero);
+        args.put("artista", artista);
+        args.put("ruta", ruta);
+
+        if(existArtista(artista)){
+            //el artista ya existe, buscamos su id y lo añadimos a los argumentos
+            Cursor cursor =
+                    mDb.query(DATABASE_TABLE_ARTISTAS, new String[] {"_id", "nombre"},
+                            "nombre = '" + artista + "'", null, null, null, null, null);
+            cursor.moveToFirst();
+            long id = cursor.getInt(0);
+            cursor.close();
+            args.put("artista",id);
+            Log.d("Debug", "En existe Artista");
+
+        } else {
+            //el artista no existe, lo creamos, buscamos su id y lo añadimos a los args
+            ContentValues aux = new ContentValues();
+            aux.put("nombre", artista);
+            long id = mDb.insert(DATABASE_TABLE_ARTISTAS,null,aux);
+            args.put("artista", id);
+            Log.d("Debug", "En no existe artista");
+        }
 
         if(existAlbum(album)){
 

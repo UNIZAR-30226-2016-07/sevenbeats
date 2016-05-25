@@ -118,6 +118,7 @@ public class SeeAlbum extends AppCompatActivity {
                                 boolean isUrl =URLUtil.isHttpUrl(url);
                                 ponerCaratula(url, idAlbum, nombreAlbum, artista, isUrl);
 
+
                             }
 
                         })

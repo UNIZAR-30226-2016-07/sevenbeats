@@ -83,6 +83,8 @@ public class SongEdit extends AppCompatActivity {
                     cancion.getColumnIndexOrThrow("duracion")));
             SongEdit_texto_genero.setText(cancion.getString(
                     cancion.getColumnIndexOrThrow("genero")));
+            SongEdit_texto_ruta.setText(cancion.getString(
+                    cancion.getColumnIndexOrThrow("genero")));
         }
     }
 
@@ -122,17 +124,21 @@ public class SongEdit extends AppCompatActivity {
         Integer valoracion = 0;
         String duracion = SongEdit_texto_duracion.getText().toString();
         String genero = SongEdit_texto_genero.getText().toString();
+        String ruta = SongEdit_texto_ruta.getText().toString();
+        String artista = SongEdit_texto_artista.getText().toString();
+
+
 
         Log.d("Debug","Se va a insertar: " + titulo);
         Log.d("Debug","Duracion: " + duracion);
 
         if (mRowId == null) {
-            long id = dbHelper.createCancion(titulo, duracion, valoracion, album, genero);
+            long id = dbHelper.createCancion(titulo, duracion, valoracion, album, genero, artista,ruta);
             if (id > 0) {
                 mRowId = id;
             }
         } else {
-            dbHelper.updateCancion(mRowId, titulo, duracion, valoracion, album, genero);
+            dbHelper.updateCancion(mRowId, titulo, duracion, valoracion, album, genero, artista,ruta);
         }
     }
 }

@@ -191,6 +191,12 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         //ITERACION 2
                         return true;
+                    case 2:
+                        i = new Intent(this, SeeArtist.class);
+                        i.putExtra("id_artista", info.id);
+                        startActivity(i);
+                        fillData();
+                        return true;
                     default:
                         return true;
                 }
