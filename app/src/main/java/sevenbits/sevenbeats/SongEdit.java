@@ -45,6 +45,7 @@ public class SongEdit extends AppCompatActivity {
         SongEdit_texto_album = (EditText) findViewById(R.id.SongEdit_texto_album);
         SongEdit_texto_duracion = (EditText) findViewById(R.id.SongEdit_texto_duracion);
         SongEdit_texto_genero  = (EditText) findViewById(R.id.SongEdit_texto_genero);
+        SongEdit_texto_ruta = (EditText) findViewById(R.id.SongEdit_texto_ruta);
 
         Button SongEdit_boton_guardar = (Button) findViewById(R.id.SongEdit_boton_guardar);
 
@@ -139,7 +140,7 @@ public class SongEdit extends AppCompatActivity {
                 mRowId = id;
             }
         } else {
-            dbHelper.updateCancion(mRowId, titulo, duracion, valoracion, album, genero, artista,ruta);
+            dbHelper.updateCancion(mRowId, titulo, duracion, valoracion, album, genero, artista, ruta);
         }
     }
 }
