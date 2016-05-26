@@ -629,6 +629,23 @@ public class BaseDatosAdapter {
         return res;
     }
 
+    public String fetchLista(long id){
+        String res = null;
+        Cursor cursor =
+                mDb.query(true,DATABASE_TABLE_LIST,
+                        new String[] {"_id", "nombre"},
+                        "_id = "+id, null, null, null, null, null);
+        if(cursor!=null){
+            cursor.moveToFirst();
+            try{
+                res = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+            } catch(CursorIndexOutOfBoundsException e){
+
+            }
+        }
+        return res;
+    }
+
     /**
 
      */

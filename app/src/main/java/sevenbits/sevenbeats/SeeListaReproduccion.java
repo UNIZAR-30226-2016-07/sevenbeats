@@ -103,7 +103,7 @@ public class SeeListaReproduccion extends AppCompatActivity {
     private void fillData(long lista) {
 
         Cursor notesCursor = dbHelper.fetchCancionByLista(lista);
-        String[] fromColumns = {MainActivity.CANCION_NOMBRE};
+        String[] fromColumns = {"cancion"};
         int[] toViews = {R.id.MainActivity_texto_testolista};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list, notesCursor,
                 fromColumns, toViews);

@@ -224,6 +224,12 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(i);
                         fillData();
                         return true;
+                    case 3:
+                        i = new Intent(this, SeeListaReproduccion.class);
+                        String nombre = bbdd.fetchLista(info.id);
+                        i.putExtra("SeeListaReproduccion_album", nombre);
+                        startActivity(i);
+                        return true;
                     default:
                         return true;
                 }
