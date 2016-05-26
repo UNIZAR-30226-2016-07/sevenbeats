@@ -164,7 +164,7 @@ public class SeeListaReproduccion extends AppCompatActivity {
                 inputStream.close();
                 //mMediaPlayer.setDataSource(ruta);
                 Log.d("Play", "Fichero encontrado " + ruta);
-                mMediaPlayer.prepareAsync();
+                mMediaPlayer.prepare();
                 mMediaPlayer.start();
                 mMediaPlayer.seekTo(pos);
                 mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -203,7 +203,7 @@ public class SeeListaReproduccion extends AppCompatActivity {
                 inputStream.close();
                 //mMediaPlayer.setDataSource(ruta);
                 Log.d("Play", "Fichero encontrado " + ruta);
-                mMediaPlayer.prepareAsync();
+                mMediaPlayer.prepare();
                 mMediaPlayer.start();
             } catch (IOException e) {
                 Log.d("Play", "No existe el fichero ");
