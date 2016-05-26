@@ -9,6 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * Clase encargada de crear la base de datos, gestionar su acceso y su manipulación
+ */
+
 public class BaseDatosAdapter {
 
     public static String rutaDefecto = "android.resource://sevenbits.sevenbeats/drawable/default_image";
@@ -79,6 +83,7 @@ public class BaseDatosAdapter {
             db.execSQL(TABLE_ASIGNAR_SONG_CREATE);
 
 
+            //Introducimos los valores que sirven como default en caso de no tener otro valor
             db.execSQL("insert into artistas (nombre) values ('Artista Desconocido');");
             db.execSQL("insert into albums (titulo,ruta,artista) values " +
                     "('Album Desconocido','"+rutaDefecto+"',1);");
@@ -114,7 +119,7 @@ public class BaseDatosAdapter {
         mDbHelper.close();
     }
 
-    /*
+    /**
      Inserta en la BD un artista de nombre=@name
      */
     public long createArtista(String name){
@@ -125,7 +130,7 @@ public class BaseDatosAdapter {
         return mDb.insert(DATABASE_TABLE_ARTISTAS, null, args);
     }
 
-    /*
+    /**
     Borra de la BD un artista con _id=@rowId
      */
     public boolean deleteArtista(long rowId){
@@ -133,7 +138,7 @@ public class BaseDatosAdapter {
         return mDb.delete(DATABASE_TABLE_ARTISTAS, "_id" + "=" + rowId, null) > 0;
     }
 
-    /*
+    /**
     Devuelve un Cursor a todos los artistas ordenados por orden alfabético
      */
     public Cursor fetchAllArtistasByABC(){
@@ -142,7 +147,7 @@ public class BaseDatosAdapter {
                 , null, null, null, null, "nombre");
     }
 
-    /*
+    /**
     Devuelve el artista con _id=@rowId
      */
     public Cursor fetchArtista(long rowId) throws SQLException{
@@ -151,7 +156,7 @@ public class BaseDatosAdapter {
                 "_id = "+rowId, null, null, null, null, null);
     }
 
-    /*
+    /**
    Devuelve el artista con _id=@rowId
     */
     public int fetchArtista(String nombre) throws SQLException{
@@ -163,19 +168,19 @@ public class BaseDatosAdapter {
         return aux.getInt(aux.getColumnIndexOrThrow("_id"));
     }
 
-    /*
+    /**
     Da el valor @name al nombre de un artista ya existente con _id=@rowId
      */
     public boolean updateArtista(long rowId, String rutaImagen, String name){
         ContentValues args = new ContentValues();
-        args.put("nombre",name);
+        args.put("nombre", name);
         args.put("ruta", rutaImagen);
         //meter todos los atributos
 
         return mDb.update(DATABASE_TABLE_ARTISTAS, args, "_id = " + rowId, null) > 0;
     }
 
-    /*
+    /**
     Crea un album con los valores @titulo, @ruta y @artista. En caso de que @artista no sea
     el nombre de un artista ya existente lo crea.
      */
@@ -205,7 +210,7 @@ public class BaseDatosAdapter {
         return mDb.insert(DATABASE_TABLE_ALBUMS, null, args);
     }
 
-    /*
+    /**
     Borra de la BD un album con _id=@rowId
      */
     public boolean deleteAlbum(long rowId){
@@ -213,7 +218,7 @@ public class BaseDatosAdapter {
         return mDb.delete(DATABASE_TABLE_ALBUMS, "_id" + "=" + rowId, null) > 0;
     }
 
-    /*
+    /**
     Devuelve un Cursor a todos los albums ordenados por orden alfabético
      */
     public Cursor fetchAllAlbumsByABC(){
@@ -222,7 +227,7 @@ public class BaseDatosAdapter {
                 , null, null, null, null, "titulo");
     }
 
-    /*
+    /**
     Devuelve un Cursor a todos los albums ordenados por orden alfabético
      */
     public Cursor fetchAllAlbumsByABC(long idArtist){
@@ -231,7 +236,7 @@ public class BaseDatosAdapter {
                 , "artista="+idArtist, null, null, null, "titulo");
     }
 
-    /*
+    /**
     Devuelve el album con _id=@rowId
      */
     public Cursor fetchAlbum(long rowId) throws SQLException{
@@ -240,7 +245,7 @@ public class BaseDatosAdapter {
                 "_id = '"+rowId+"'", null, null, null, null, null);
     }
 
-    /*
+    /**
     Actualiza los valores de un album con _id=@rowId. En caso de que @artista no corresponda a
     ningún artista existente en la BD lo crea
      */
@@ -274,7 +279,7 @@ public class BaseDatosAdapter {
         return mDb.update(DATABASE_TABLE_ALBUMS, args, "_id = " + rowId, null) > 0;
     }
 
-    /*
+    /**
     Actualiza los valores de un album con _id=@rowId. @artista es el _id del artista del album
     */
     public boolean updateAlbum1(long rowId, String titulo, String ruta, int artista){
@@ -287,7 +292,7 @@ public class BaseDatosAdapter {
         return mDb.update(DATABASE_TABLE_ALBUMS, args, "_id = " + rowId, null) > 0;
     }
 
-    /*
+    /**
     Crea una canción con los valores @titulo, @duracion, @valoracion y @album.
     En caso de que @album no sea el nombre de un album ya existente lo crea.
      */
@@ -323,6 +328,10 @@ public class BaseDatosAdapter {
         return mDb.insert(DATABASE_TABLE_CANCIONES, null, args);
     }
 
+    /**
+    Crea una canción con los valores @titulo, @duracion, @valoracion , @album, @genero y @artista
+    En caso de que @album o @artista no sean el nombre de un album o artista ya existente lo crea.
+     */
     public long createCancion(String titulo, String duracion, int valoracion, String album, String genero,
                               String artista, String ruta){
 
@@ -375,8 +384,8 @@ public class BaseDatosAdapter {
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
             aux.put("ruta", rutaDefecto);
-            aux.put("artista",fetchArtista(artista));
-            long id=mDb.insert(DATABASE_TABLE_ALBUMS, null,aux);
+            aux.put("artista", fetchArtista(artista));
+            long id=mDb.insert(DATABASE_TABLE_ALBUMS, null, aux);
             args.put("album", id);
         }
         Log.d("Aqui", "Se llega");
@@ -385,7 +394,7 @@ public class BaseDatosAdapter {
         return mDb.insert(DATABASE_TABLE_CANCIONES, null, args);
     }
 
-    /*
+    /**
     Borra de la BD una canción con _id=@rowId
      */
     public boolean deleteCancion(long rowId){
@@ -393,7 +402,7 @@ public class BaseDatosAdapter {
         return mDb.delete(DATABASE_TABLE_CANCIONES, "_id" + "=" + rowId, null) > 0;
     }
 
-    /*
+    /**
     Devuelve un Cursor a todas las canciones ordenados por orden alfabético
      */
     public Cursor fetchAllCancionesByABC(){
@@ -403,7 +412,7 @@ public class BaseDatosAdapter {
                 , null,null,null,null,"titulo");
     }
 
-    /*
+    /**
     Devuelve la canción con _id=@rowId
      */
     public Cursor fetchCancion(long rowId) throws SQLException{
@@ -426,7 +435,7 @@ public class BaseDatosAdapter {
                 "album = '"+rowId+"'", null, null, null, null, null);
     }
 
-    /*
+    /**
     Actualiza los valores de una canción con _id=@rowId. En caso de que @alubm no corresponda a
     ningun artista existente en la BD lo crea
      */
@@ -460,6 +469,10 @@ public class BaseDatosAdapter {
         return mDb.update(DATABASE_TABLE_CANCIONES, args, "_id = " + rowId, null) > 0;
     }
 
+    /**
+    Actualiza los valores de una canción con _id=@rowId. En caso de que @alubm o @artista
+    no corresponda a ningun album o artista existente en la BD lo crea
+     */
     public boolean updateCancion(long rowId, String titulo, String duracion, int valoracion, String album,String genero,
                                  String artista, String ruta){
 
@@ -493,7 +506,6 @@ public class BaseDatosAdapter {
         }
 
         if(existAlbum(album)){
-
             Cursor cursor =
                     mDb.query(DATABASE_TABLE_ALBUMS,
                             new String[] {"_id","titulo","artista"},
@@ -504,10 +516,10 @@ public class BaseDatosAdapter {
             args.put("album",id);
 
         } else {
-            //crear album
+            //el album no existe, lo creamos, buscamos su id y lo añadimos a los args
             ContentValues aux = new ContentValues();
             aux.put("titulo",album);
-            aux.put("artista", fetchArtista(artista));                               //artista desconocido
+            aux.put("artista", fetchArtista(artista));
             long id = mDb.insert(DATABASE_TABLE_ALBUMS,null,aux);
             args.put("album", id);
         }
@@ -515,7 +527,7 @@ public class BaseDatosAdapter {
         return mDb.update(DATABASE_TABLE_CANCIONES, args, "_id = " + rowId, null) > 0;
     }
 
-    /*
+    /**
     Actualiza los valores de una canción con _id=@rowId. @album es el _id del album de la canción
      */
     public boolean updateCancion(long rowId, String titulo, String duracion, int valoracion, int album,String genero){
@@ -531,7 +543,7 @@ public class BaseDatosAdapter {
         return mDb.update(DATABASE_TABLE_CANCIONES, args, "_id = " + rowId, null) > 0;
     }
 
-    /*
+    /**
     Devuelve true si existe un artista con nombre=@comprobar, false en el resto de casos
      */
     public boolean existArtista(String comprobar){
@@ -547,13 +559,16 @@ public class BaseDatosAdapter {
         return false;
     }
 
+    /**
+    Devuelve las todas canciones correspondientes al string @nombre
+     */
     public Cursor searchSongs(String nombre){
         return mDb.query(DATABASE_TABLE_CANCIONES,
                 new String[] {"_id","titulo","duracion","valoracion","album","genero"}
                 , "titulo LIKE '%"+ nombre+ "%'",null,null,null,"titulo");
     }
 
-    /*
+    /**
     Devuelve true si existe un album con titulo=@comprobar, false en el resto de casos
      */
     public boolean existAlbum(String comprobar){
@@ -614,17 +629,26 @@ public class BaseDatosAdapter {
         return res;
     }
 
+    /**
+
+     */
     public Cursor fetchCancionByLista(long id){
         return mDb.query(true,DATABASE_TABLE_ASIGNAR_SONG_CREATE,
                 new String[] {"_id","lista","cancion", "posicion"},
                 "lista = "+id, null, null, null, "posicion DESC", null);
     }
 
+    /**
+    Borra la cancion con id = @cancion de la lista con id = @lista
+     */
     public void deleteCancionLista(long lista, long cancion){
         mDb.delete(DATABASE_TABLE_ASIGNAR_SONG_CREATE, "(lista = " + lista + ") " +
                 "AND (cancion = " + cancion+")", null);
     }
 
+    /**
+     Devuelve un Cursor a todas las listas de reproducción ordenados por orden alfabético
+     */
     public Cursor fetchAllListasByABC(){
 
         return mDb.query(DATABASE_TABLE_LIST,
@@ -632,6 +656,10 @@ public class BaseDatosAdapter {
                 , null,null,null,null,"nombre");
     }
 
+    /**
+    Dado el _id (@lista) de una lista y el _id (@id) de una canción añade dicha canción a la
+     lista de reproducción
+     */
     public void addSongToList(long lista, long cancion){
         ContentValues args = new ContentValues();
         Cursor count = fetchCancion(lista);
@@ -642,17 +670,26 @@ public class BaseDatosAdapter {
         mDb.insert(TABLE_ASIGNAR_SONG_CREATE, null, args);
     }
 
+    /**
+    Crea una nueva lista de reproducción con nombre = @nombre
+     */
     public void createList(String nombre){
         ContentValues args = new ContentValues();
         args.put("nombre",nombre);
         mDb.insert(DATABASE_TABLE_LIST, null, args);
     }
 
+    /**
+    Borra la lista de reproducción con nombre = @nombre
+     */
     public void deleteList(String nombre){
         mDb.delete(DATABASE_TABLE_LIST, "nombre = " + nombre, null);
     }
 
-    public void deleteList(int id){
+    /**
+    Borra la lista de reproducción con _id = @id
+     */
+    public void deleteList(long id){
         mDb.delete(DATABASE_TABLE_LIST, "_id = " + id, null);
     }
 
