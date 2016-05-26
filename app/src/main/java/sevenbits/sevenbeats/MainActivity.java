@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.media.AudioManager;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -127,11 +128,13 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("SeeCancion_cancion", id);
                         startActivity(intent);
                         break;
+                    /*
                     case 2:
+
                         intent = new Intent(getApplicationContext(), SeeArtist.class);
                         intent.putExtra("SeeArtist_artista", id);
-                        startActivity(intent);
-                        break;
+                        startActivity(intent); //ESTO FALLA
+                        break;*/
                     default:
                         break;
                 }
@@ -198,10 +201,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Debug", "Al menu intenta entrar");
         final AdapterView.AdapterContextMenuInfo info =
                 (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        try{
         switch(item.getItemId()) {
             case EDIT_ID:
                 int gridOP = getIntent().getIntExtra("queMostrar",0);
-
                 switch(gridOP){
                     case 0:
                         Intent i = new Intent(this, SongEdit.class);
@@ -214,6 +217,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case 2:
                         i = new Intent(this, SeeArtist.class);
+                        Cursor aux = bbdd.fetchArtista(info.id);
+                        aux.moveToFirst();
+                        Log.d("Invocar artist", aux.getString(aux.getColumnIndexOrThrow("nombre")));
                         i.putExtra("id_artista", info.id);
                         startActivity(i);
                         fillData();
@@ -293,6 +299,10 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
         return super.onContextItemSelected(item);
+        }catch(Exception e){
+            Log.e("Error", e.getMessage());
+            return false;
+        }
     }
 
 

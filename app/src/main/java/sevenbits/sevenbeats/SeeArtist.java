@@ -43,15 +43,15 @@ public class SeeArtist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // ruido al abrir la aplicacion
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_see_artist);
 
         dbHelper = new BaseDatosAdapter(this);
         dbHelper.open();
         // rellenar lista lateral y lista central
-        setContentView(R.layout.main_activity);
+        //setContentView(R.layout.main_activity);
 
 
-        mList = (GridView) findViewById(R.id.MainActivity_lista_cuadrada);
+        mList = (GridView) findViewById(R.id.SeeArtist_lista_cuadrada);
         button = (Button) findViewById(R.id.SeeArtist_boton_confirmar);
         imagen = (ImageView) findViewById(R.id.SeeArtist_Imagen_Album);
         nombreArtista = (TextView) findViewById(R.id.SeeArtist_texto_nombre);
@@ -62,10 +62,11 @@ public class SeeArtist extends AppCompatActivity {
         Cursor query = dbHelper.fetchArtista(idArtist);
         query.moveToFirst();
         final String artista= query.getString(query.getColumnIndexOrThrow("nombre"));
+        Log.d("2 mirando", artista);
         nombreArtista.setText(artista);
 
         String rutaImagen = query.getString(query.getColumnIndexOrThrow("ruta"));
-        if (!rutaImagen.equals(BaseDatosAdapter.rutaDefecto)){
+        if ((rutaImagen != null) && !rutaImagen.equals(BaseDatosAdapter.rutaDefecto)){
             imagen.setImageURI(Uri.parse(rutaImagen));
         }
 
@@ -75,7 +76,7 @@ public class SeeArtist extends AppCompatActivity {
 
         final Context activity = this;
         final EditText txtUrl = new EditText(activity);
-        button = (Button) findViewById(R.id.SeeAlbum_boton_confirmar);
+        button = (Button) findViewById(R.id.SeeArtist_boton_confirmar);
 
 
         button.setOnClickListener(new View.OnClickListener() {

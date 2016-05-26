@@ -152,7 +152,7 @@ public class BaseDatosAdapter {
      */
     public Cursor fetchArtista(long rowId) throws SQLException{
 
-        return mDb.query(true,DATABASE_TABLE_ARTISTAS, new String[] {"_id","nombre"},
+        return mDb.query(true,DATABASE_TABLE_ARTISTAS, new String[] {"_id","nombre","ruta"},
                 "_id = "+rowId, null, null, null, null, null);
     }
 
@@ -161,7 +161,7 @@ public class BaseDatosAdapter {
     */
     public int fetchArtista(String nombre) throws SQLException{
 
-        Cursor aux = mDb.query(true,DATABASE_TABLE_ARTISTAS, new String[] {"_id","nombre"},
+        Cursor aux = mDb.query(true,DATABASE_TABLE_ARTISTAS, new String[] {"_id","nombre","ruta"},
                 "nombre= '"+nombre+"'", null, null, null, null, null);
         Log.d("Likee", aux.getCount()+"");
         aux.moveToFirst();

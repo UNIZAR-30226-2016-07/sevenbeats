@@ -52,7 +52,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Nombre del artista"
         android:id="@+id/SeeArtist_texto_nombre"
         android:layout_toRightOf="@+id/SeeArtist_Imagen_Album"
         android:layout_alignTop="@+id/SeeArtist_Imagen_Album"
