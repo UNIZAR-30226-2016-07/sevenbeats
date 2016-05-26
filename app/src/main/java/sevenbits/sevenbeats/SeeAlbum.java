@@ -6,6 +6,7 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -29,13 +30,17 @@ import android.widget.TextView;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
 public class SeeAlbum extends AppCompatActivity {
 
     private BaseDatosAdapter dbHelper;
+    private MediaPlayer mMediaPlayer;
+
     private Cursor mNotesCursor;
     private ListView mList;
     private Button button;
@@ -47,6 +52,7 @@ public class SeeAlbum extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mMediaPlayer = new MediaPlayer();
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_see_album);
@@ -178,6 +184,8 @@ public class SeeAlbum extends AppCompatActivity {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()) {
             case MainActivity.PLAY_ID:
+                Cursor aux = dbHelper.fetchCancion(info.id);
+                play(aux.getString(aux.getColumnIndexOrThrow("ruta")));
                 return true;
             case MainActivity.EDIT_ID:
                 Intent i = new Intent(this, SongEdit.class);
@@ -255,5 +263,29 @@ public class SeeAlbum extends AppCompatActivity {
                 fromColumns, toViews);
         mList.setAdapter(adapter);
 
+    }
+
+    private void play(String ruta) {
+        if(mMediaPlayer.isPlaying()){
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = new MediaPlayer();
+            return;
+        }
+        try{
+
+            //mMediaPlayer = new MediaPlayer();
+            File file = new File(ruta);
+            FileInputStream inputStream = new FileInputStream(file);
+            mMediaPlayer.setDataSource(inputStream.getFD());
+            inputStream.close();
+            //mMediaPlayer.setDataSource(ruta);
+            Log.d("Play", "Fichero encontrado " + ruta);
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        }
+        catch(IOException e){
+            Log.d("Play","No existe el fichero " +ruta);
+        }
     }
 }

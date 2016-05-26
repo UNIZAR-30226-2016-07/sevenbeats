@@ -115,8 +115,7 @@
         android:layout_margin="5dp"
         android:ems="10"
         android:layout_below="@+id/textView5"
-        android:layout_toRightOf="@+id/textView6"
-        android:inputType="time" />
+        android:layout_toRightOf="@+id/textView6"/>
 
     <Button
         android:layout_width="wrap_content"

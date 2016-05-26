@@ -34,6 +34,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +48,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private BaseDatosAdapter bbdd;
+    private MediaPlayer mMediaPlayer;
+
     public static final String CANCION_NOMBRE = "titulo";
     public static final String ALBUM_NOMBRE = "titulo";
     public static final String ARTISTA_NOMBRE = "nombre";
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mMediaPlayer = new MediaPlayer();
         super.onCreate(savedInstanceState);
         // ruido al abrir la aplicacion
         setContentView(R.layout.main_activity);
@@ -261,6 +267,8 @@ public class MainActivity extends AppCompatActivity {
                 switch(gridOP){
                     case 0:
                         //Reproducir cancion
+                        Cursor aux = bbdd.fetchCancion(info.id);
+                        play(aux.getString(aux.getColumnIndexOrThrow("ruta")));
                         return true;
                     case 1:
                         //ITERACION 2
@@ -367,13 +375,13 @@ public class MainActivity extends AppCompatActivity {
         listaMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0:
-                        getIntent().putExtra("queMostrar",0);
+                        getIntent().putExtra("queMostrar", 0);
                         fillData();
                         break;
                     case 1:
-                        getIntent().putExtra("queMostrar",1);
+                        getIntent().putExtra("queMostrar", 1);
                         fillData();
                         break;
                     case 2:
@@ -385,11 +393,35 @@ public class MainActivity extends AppCompatActivity {
                         getIntent().putExtra("queMostrar", 3);
                         fillData();
                     default:
-                        Toast.makeText(getApplicationContext(),"Nada",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Nada", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 drawerPrincipal.closeDrawer(listaMenu);
             }
         });
+    }
+
+    private void play(String ruta) {
+        if(mMediaPlayer.isPlaying()){
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = new MediaPlayer();
+            return;
+        }
+        try{
+
+            //mMediaPlayer = new MediaPlayer();
+            File file = new File(ruta);
+            FileInputStream inputStream = new FileInputStream(file);
+            mMediaPlayer.setDataSource(inputStream.getFD());
+            inputStream.close();
+            //mMediaPlayer.setDataSource(ruta);
+            Log.d("Play", "Fichero encontrado " + ruta);
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        }
+        catch(IOException e){
+            Log.d("Play","No existe el fichero " +ruta);
+        }
     }
 }
