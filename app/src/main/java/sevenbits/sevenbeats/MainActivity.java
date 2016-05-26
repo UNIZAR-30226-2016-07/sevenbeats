@@ -1,10 +1,13 @@
 package sevenbits.sevenbeats;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
@@ -12,6 +15,7 @@ import android.media.AudioManager;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -69,11 +73,19 @@ public class MainActivity extends AppCompatActivity {
     public static final int ADD_ID = Menu.FIRST + 3;
     public static  final int PLAY_ID = Menu.FIRST + 4;
 
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        verifyStoragePermissions(this);
         mMediaPlayer = new MediaPlayer();
         super.onCreate(savedInstanceState);
         // ruido al abrir la aplicacion
@@ -100,12 +112,13 @@ public class MainActivity extends AppCompatActivity {
         registerForContextMenu(gridPrincipal);
     }
 
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         fillData();
+        setHandler();
     }
 
-    private void setHandler(){
+    private void setHandler() {
         gridPrincipal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -128,13 +141,17 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("SeeCancion_cancion", id);
                         startActivity(intent);
                         break;
-                    /*
                     case 2:
 
                         intent = new Intent(getApplicationContext(), SeeArtist.class);
-                        intent.putExtra("SeeArtist_artista", id);
+                        intent.putExtra("id_artista", id);
                         startActivity(intent); //ESTO FALLA
-                        break;*/
+                        break;
+                    case 3:
+                        intent = new Intent(getApplicationContext(), SeeListaReproduccion.class);
+                        String nombre = bbdd.fetchLista(id);
+                        intent.putExtra("SeeListaReproduccion_album", nombre);
+                        startActivity(intent);
                     default:
                         break;
                 }
@@ -266,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         String url = txtLista.getText().toString();
-                                        int id = bbdd.fetchIdLista(url);
+                                        long id = bbdd.fetchIdLista(url);
                                         if ( id == -1){
                                             bbdd.createList(url);
                                             id = bbdd.fetchIdLista(url);
@@ -423,6 +440,7 @@ public class MainActivity extends AppCompatActivity {
                     case 3:
                         getIntent().putExtra("queMostrar", 3);
                         fillData();
+                        break;
                     default:
                         Toast.makeText(getApplicationContext(), "Nada", Toast.LENGTH_SHORT).show();
                         break;
@@ -440,9 +458,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         try{
-
-            //mMediaPlayer = new MediaPlayer();
             File file = new File(ruta);
+            Log.d("Play","Aqui");
             FileInputStream inputStream = new FileInputStream(file);
             mMediaPlayer.setDataSource(inputStream.getFD());
             inputStream.close();
@@ -452,7 +469,23 @@ public class MainActivity extends AppCompatActivity {
             mMediaPlayer.start();
         }
         catch(IOException e){
+            Log.e("Play",e.getMessage());
             Log.d("Play","No existe el fichero " +ruta);
+        }
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permission2 = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED || permission2 != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
         }
     }
 }

@@ -205,7 +205,7 @@ public class SeeAlbum extends AppCompatActivity {
                         .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String url = txtLista.getText().toString();
-                                int id = dbHelper.fetchIdLista(url);
+                                long id = dbHelper.fetchIdLista(url);
                                 if ( id == -1){
                                     dbHelper.createList(url);
                                     id = dbHelper.fetchIdLista(url);

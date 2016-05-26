@@ -152,18 +152,18 @@ public class BaseDatosAdapter {
      */
     public Cursor fetchArtista(long rowId) throws SQLException{
 
-        return mDb.query(true,DATABASE_TABLE_ARTISTAS, new String[] {"_id","nombre","ruta"},
-                "_id = "+rowId, null, null, null, null, null);
+        return mDb.query(true, DATABASE_TABLE_ARTISTAS, new String[]{"_id", "nombre", "ruta"},
+                "_id = " + rowId, null, null, null, null, null);
     }
 
     /**
    Devuelve el artista con _id=@rowId
     */
-    public int fetchArtista(String nombre) throws SQLException{
+    public long fetchArtista(String nombre) throws SQLException{
 
         Cursor aux = mDb.query(true,DATABASE_TABLE_ARTISTAS, new String[] {"_id","nombre","ruta"},
                 "nombre= '"+nombre+"'", null, null, null, null, null);
-        Log.d("Likee", aux.getCount()+"");
+        Log.d("Likee", aux.getCount() + "");
         aux.moveToFirst();
         return aux.getInt(aux.getColumnIndexOrThrow("_id"));
     }
@@ -301,7 +301,7 @@ public class BaseDatosAdapter {
         ContentValues args = new ContentValues();
         args.put("titulo",titulo);
         args.put("duracion",duracion);
-        args.put("valoracion",valoracion);
+        args.put("valoracion", valoracion);
         args.put("genero",genero);
 
         if(existAlbum(album)){
@@ -324,7 +324,7 @@ public class BaseDatosAdapter {
             long id=mDb.insert(DATABASE_TABLE_ALBUMS, null,aux);
             args.put("album", id);
         }
-        args.put("titulo",titulo);
+        args.put("titulo", titulo);
         return mDb.insert(DATABASE_TABLE_CANCIONES, null, args);
     }
 
@@ -343,7 +343,7 @@ public class BaseDatosAdapter {
         //args.put("artista", artista);
         args.put("ruta", ruta);
 
-        Log.d("Al create","Artista: " + artista);
+        Log.d("Al create", "Artista: " + artista);
 
         if(existArtista(artista)){
             //el artista ya existe, buscamos su id y lo añadimos a los argumentos
@@ -612,7 +612,7 @@ public class BaseDatosAdapter {
     /**
      * Devuelve el id de una lista dado su nombre
      */
-    public int fetchIdLista(String nombre){
+    public long fetchIdLista(String nombre){
         int res = -1;
         Cursor cursor =
                 mDb.query(true,DATABASE_TABLE_LIST,
@@ -650,9 +650,8 @@ public class BaseDatosAdapter {
 
      */
     public Cursor fetchCancionByLista(long id){
-        return mDb.query(true,DATABASE_TABLE_ASIGNAR_SONG_CREATE,
-                new String[] {"_id","lista","cancion", "posicion"},
-                "lista = "+id, null, null, null, "posicion DESC", null);
+        return mDb.rawQuery("select C._id, C.titulo from asignaciones as A,canciones as C where A._id = '" + id + "';",null);
+
     }
 
     /**
@@ -684,7 +683,7 @@ public class BaseDatosAdapter {
         args.put("lista",lista);
         args.put("cancion",cancion);
         args.put("posicion",posicion);
-        mDb.insert(TABLE_ASIGNAR_SONG_CREATE, null, args);
+        mDb.insert(DATABASE_TABLE_ASIGNAR_SONG_CREATE, null, args);
     }
 
     /**

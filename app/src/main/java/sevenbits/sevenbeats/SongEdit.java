@@ -136,6 +136,7 @@ public class SongEdit extends AppCompatActivity {
 
 
 
+
         Log.d("Debug","Se va a insertar: " + titulo);
         Log.d("Debug","Duracion: " + duracion);
 
