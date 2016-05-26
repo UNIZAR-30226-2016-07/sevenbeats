@@ -650,7 +650,7 @@ public class BaseDatosAdapter {
 
      */
     public Cursor fetchCancionByLista(long id){
-        return mDb.rawQuery("select C._id, C.titulo from asignaciones as A,canciones as C where A._id = '" + id + "';",null);
+        return mDb.rawQuery("select C._id, C.titulo, C.ruta from asignaciones as A,canciones as C where A._id = '" + id + "';",null);
 
     }
 
