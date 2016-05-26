@@ -21,6 +21,8 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -35,6 +37,9 @@ public class SeeListaReproduccion extends AppCompatActivity {
     BaseDatosAdapter dbHelper;
     ListView mList;
     long idLista;
+    int lista=0;
+    int pos = 0;
+    LinkedList<String> rutas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,31 +69,30 @@ public class SeeListaReproduccion extends AppCompatActivity {
         buttonPlay = (Button) findViewById(R.id.SeeListaReproduccion_boton_play);
         buttonSiguiente = (Button) findViewById(R.id.SeeListaReproduccion_boton_siguiente);
 
+        rutas = new LinkedList<String>();
+
+        Cursor notesCursor = dbHelper.fetchCancionByLista(idLista);
+        notesCursor.moveToFirst();
+        int contador = notesCursor.getCount();
+        for(int i=0;i<contador;i++){
+            String ruta = notesCursor.getString(notesCursor.getColumnIndexOrThrow("ruta"));
+            notesCursor.moveToNext();
+            rutas.add(ruta);
+        }
+
 
         buttonPlay.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
-                //Si se pulsa el boton se abre una caja de texto para introducir la URL.
-                if(mMediaPlayer.isPlaying()){
-                    play(null);
-                }
-                else{
-                    playEverything();
-                }
+                play();
             }
         });
 
         buttonSiguiente.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                if ( mMediaPlayer.isPlaying()){
-                    int length = mMediaPlayer.getDuration();
-                    mMediaPlayer.seekTo(length);
-                }
-                else{
+                Log.d("Lista","Se pulsa siguiente");
                     playEverything();
-                }
             }
 
         });
@@ -143,51 +147,73 @@ public class SeeListaReproduccion extends AppCompatActivity {
         menu.add(Menu.NONE, MainActivity.PLAY_ID, Menu.NONE, "Reproducir");
     }
 
-    private void play(String ruta) {
+    private void play() {
         if(mMediaPlayer.isPlaying()){
             mMediaPlayer.stop();
+            pos = mMediaPlayer.getCurrentPosition();
+            mMediaPlayer.reset();
             mMediaPlayer.release();
             mMediaPlayer = new MediaPlayer();
-            return;
-        }
-        try{
-
-            //mMediaPlayer = new MediaPlayer();
-            File file = new File(ruta);
-            FileInputStream inputStream = new FileInputStream(file);
-            mMediaPlayer.setDataSource(inputStream.getFD());
-            inputStream.close();
-            //mMediaPlayer.setDataSource(ruta);
-            Log.d("Play", "Fichero encontrado " + ruta);
-            mMediaPlayer.prepare();
-            mMediaPlayer.start();
-        }
-        catch(IOException e){
-            Log.d("Play","No existe el fichero " +ruta);
+        } else {
+            try {
+                String ruta = rutas.get(lista);
+                //mMediaPlayer = new MediaPlayer();
+                File file = new File(ruta);
+                FileInputStream inputStream = new FileInputStream(file);
+                mMediaPlayer.setDataSource(inputStream.getFD());
+                inputStream.close();
+                //mMediaPlayer.setDataSource(ruta);
+                Log.d("Play", "Fichero encontrado " + ruta);
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
+                mMediaPlayer.seekTo(pos);
+            } catch (IOException e) {
+                Log.d("Play", "No existe el fichero ");
+            }
         }
     }
 
-    private void playEverything(){
+    private void play(String ruta){
         if(mMediaPlayer.isPlaying()){
             mMediaPlayer.stop();
+            mMediaPlayer.reset();
             mMediaPlayer.release();
             mMediaPlayer = new MediaPlayer();
-            return;
+        }
+            try {
+                //mMediaPlayer = new MediaPlayer();
+                File file = new File(ruta);
+                FileInputStream inputStream = new FileInputStream(file);
+                mMediaPlayer.setDataSource(inputStream.getFD());
+                inputStream.close();
+                //mMediaPlayer.setDataSource(ruta);
+                Log.d("Play", "Fichero encontrado " + ruta);
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
+            } catch (IOException e) {
+                Log.d("Play", "No existe el fichero ");
+            }
+    }
+
+    private void playEverything(){
+
+        lista++;
+        try{
+            rutas.get(lista);
+        } catch(IndexOutOfBoundsException e){
+            lista = 0;
         }
 
-        final Queue<String> rutas = new ArrayBlockingQueue<>(20);
-        Cursor notesCursor = dbHelper.fetchCancionByLista(idLista);
-        notesCursor.moveToFirst();
-        int contador = notesCursor.getCount();
-        for(int i=0;i<contador;i++){
-            String ruta = notesCursor.getString(notesCursor.getColumnIndexOrThrow("ruta"));
-            rutas.add(ruta);
-        }
-
-        play(rutas.poll());
+        play(rutas.get(lista));
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
-                play(rutas.poll());
+                lista++;
+                try{
+                    rutas.get(lista);
+                } catch(IndexOutOfBoundsException e){
+                    lista = 0;
+                }
+                play(rutas.get(lista));
             }
 
         });
