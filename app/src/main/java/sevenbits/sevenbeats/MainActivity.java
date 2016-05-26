@@ -108,12 +108,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
         listaPrincipal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Intent i = new Intent(getApplicationContext(), SeeSong.class);
-                i.putExtra("SeeCancion_cancion", id);
-                startActivity(i);
+                Intent intent;
+                int i = getIntent().getIntExtra("queMostrar", 0);
+                // segun sea una cancion o una artista lanzamos la actividad correspondiente
+                switch (i) {
+                    case 0:
+                        intent = new Intent(getApplicationContext(), SeeSong.class);
+                        intent.putExtra("SeeCancion_cancion", id);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        intent = new Intent(getApplicationContext(), SeeArtist.class);
+                        intent.putExtra("SeeArtist_artista", id);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }
@@ -369,11 +384,11 @@ public class MainActivity extends AppCompatActivity {
                                     int position, long id) {
                 switch(position){
                     case 0:
-                        getIntent().putExtra("queMostrar",0);
+                        getIntent().putExtra("queMostrar", 0);
                         fillData();
                         break;
                     case 1:
-                        getIntent().putExtra("queMostrar",1);
+                        getIntent().putExtra("queMostrar", 1);
                         fillData();
                         break;
                     case 2:
