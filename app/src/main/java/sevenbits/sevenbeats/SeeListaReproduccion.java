@@ -167,6 +167,21 @@ public class SeeListaReproduccion extends AppCompatActivity {
                 mMediaPlayer.prepare();
                 mMediaPlayer.start();
                 mMediaPlayer.seekTo(pos);
+                mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    public void onCompletion(MediaPlayer mp) {
+                        lista++;
+                        try {
+                            rutas.get(lista);
+                        } catch (IndexOutOfBoundsException e) {
+                            lista = 0;
+                        }
+                        mMediaPlayer.reset();
+                        mMediaPlayer.release();
+                        mMediaPlayer = new MediaPlayer();
+                        play(rutas.get(lista));
+                    }
+
+                });
             } catch (IOException e) {
                 Log.d("Play", "No existe el fichero ");
             }
@@ -213,6 +228,9 @@ public class SeeListaReproduccion extends AppCompatActivity {
                 } catch(IndexOutOfBoundsException e){
                     lista = 0;
                 }
+                mMediaPlayer.reset();
+                mMediaPlayer.release();
+                mMediaPlayer = new MediaPlayer();
                 play(rutas.get(lista));
             }
 
