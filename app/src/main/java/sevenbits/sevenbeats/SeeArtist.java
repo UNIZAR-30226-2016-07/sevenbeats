@@ -58,8 +58,9 @@ public class SeeArtist extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         final long idArtist = extras.getLong("id_artista");
+        Log.d("SeeArtist",idArtist+"");
         Cursor query = dbHelper.fetchArtista(idArtist);
-
+        query.moveToFirst();
         final String artista= query.getString(query.getColumnIndexOrThrow("nombre"));
         nombreArtista.setText(artista);
 
