@@ -266,6 +266,10 @@ public class MainActivity extends AppCompatActivity {
                         bbdd.deleteArtista(info.id);
                         fillData();
                         return true;
+                    case 3:
+                        bbdd.deleteList(info.id);
+                        fillData();
+                        return true;
                     default:
                         return true;
                 }
