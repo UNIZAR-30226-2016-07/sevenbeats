@@ -49,13 +49,6 @@ public class SongEdit extends AppCompatActivity {
 
         Button SongEdit_boton_guardar = (Button) findViewById(R.id.SongEdit_boton_guardar);
 
-       /* mRowId = (savedInstanceState == null) ? null :
-                (Long) savedInstanceState.getSerializable("_id");
-        if (mRowId == null) {
-            extras = getIntent().getExtras();
-            mRowId = (extras != null) ? extras.getLong("_id")
-                    : null;
-        }*/
         populateFields();
         SongEdit_boton_guardar.setOnClickListener(new View.OnClickListener() {
 
