@@ -14,4 +14,14 @@
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/action_anyadir"
         app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/MainActivity_boton_ordenABC"
+        android:title="Orden ABC"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/MainActivity_boton_ordenArtista"
+        android:title="Orden Artista"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 </menu>

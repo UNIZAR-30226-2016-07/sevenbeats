@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerPrincipal;
     private ArrayList<String> contenidoListaMenu;
 
+    private int queOrden = 0;
+
     public static final int EDIT_ID = Menu.FIRST;
     public static final int DELETE_ID = Menu.FIRST + 1;
     public static final int SEE_ID = Menu.FIRST + 2;
@@ -356,6 +358,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 fillData();
                 return true;
+            case R.id.MainActivity_boton_ordenABC:
+                queOrden=0;
+                fillData();
+                break;
+            case R.id.MainActivity_boton_ordenArtista:
+                queOrden=1;
+                fillData();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -365,7 +375,8 @@ public class MainActivity extends AppCompatActivity {
      * Rellenamos la informacion de la lista de canciones.
      */
     private void fillSongData() {
-        Cursor cursor = bbdd.fetchAllCancionesByABC();
+        Cursor cursor;
+        if(queOrden==0) cursor=bbdd.fetchAllCancionesByABC();
         String[] fromColumns = {CANCION_NOMBRE};
         int[] toViews = {R.id.MainActivity_texto_testolista};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list,
