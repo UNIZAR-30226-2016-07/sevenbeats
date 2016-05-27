@@ -361,11 +361,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.MainActivity_boton_ordenABC:
                 queOrden=0;
                 fillData();
-                break;
+                return true;
             case R.id.MainActivity_boton_ordenArtista:
                 queOrden=1;
                 fillData();
-                break;
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -376,7 +376,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void fillSongData() {
         Cursor cursor;
-        if(queOrden==0) cursor=bbdd.fetchAllCancionesByABC();
+
+        if(queOrden==0) cursor = bbdd.fetchAllCancionesByABC();
+        else cursor = bbdd.fetchAllCancionesByArtista();
+
         String[] fromColumns = {CANCION_NOMBRE};
         int[] toViews = {R.id.MainActivity_texto_testolista};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.main_activity_list,

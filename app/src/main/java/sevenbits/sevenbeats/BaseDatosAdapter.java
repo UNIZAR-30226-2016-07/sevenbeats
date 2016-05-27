@@ -413,6 +413,16 @@ public class BaseDatosAdapter {
     }
 
     /**
+     Devuelve un Cursor a todas las canciones ordenados por artista
+     */
+    public Cursor fetchAllCancionesByArtista(){
+
+        return mDb.query(DATABASE_TABLE_CANCIONES,
+                new String[] {"_id","titulo","duracion","valoracion","album","genero", "ruta","artista"}
+                , null,null,null,null,"artista");
+    }
+
+    /**
     Devuelve la canción con _id=@rowId
      */
     public Cursor fetchCancion(long rowId) throws SQLException{
@@ -671,6 +681,7 @@ public class BaseDatosAdapter {
                 new String[] {"_id","nombre"}
                 , null,null,null,null,"nombre");
     }
+
 
     /**
     Dado el _id (@lista) de una lista y el _id (@id) de una canción añade dicha canción a la

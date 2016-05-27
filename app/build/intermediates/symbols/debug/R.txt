@@ -438,6 +438,8 @@ int drawable refractor 0x7f020041
 int id Activity_result_lista 0x7f0e004d
 int id MainActivity_boton_anyadir 0x7f0e008a
 int id MainActivity_boton_busqueda 0x7f0e0089
+int id MainActivity_boton_ordenABC 0x7f0e008b
+int id MainActivity_boton_ordenArtista 0x7f0e008c
 int id MainActivity_grid_Frame 0x7f0e0078
 int id MainActivity_imagen_fotoalbum 0x7f0e0079
 int id MainActivity_lista_cuadrada 0x7f0e0076
@@ -487,7 +489,7 @@ int id action_menu_presenter 0x7f0e0003
 int id action_mode_bar 0x7f0e003b
 int id action_mode_bar_stub 0x7f0e003a
 int id action_mode_close_button 0x7f0e0023
-int id action_settings 0x7f0e008b
+int id action_settings 0x7f0e008d
 int id activity_chooser_view_content 0x7f0e0024
 int id alertTitle 0x7f0e002e
 int id always 0x7f0e001b
