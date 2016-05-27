@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="sevenbits.sevenbeats.SeeArtist">
+    tools:context="sevenbits.sevenbeats.SeeArtist"
+    android:background="#d1d1d1">
 
     <TextView
         android:layout_width="match_parent"

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.database.MergeCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -573,9 +574,13 @@ public class BaseDatosAdapter {
     Devuelve las todas canciones correspondientes al string @nombre
      */
     public Cursor searchSongs(String nombre){
-        return mDb.query(DATABASE_TABLE_CANCIONES,
-                new String[] {"_id","titulo","duracion","valoracion","album","genero"}
-                , "titulo LIKE '%"+ nombre+ "%'",null,null,null,"titulo");
+        Cursor cursor1 = mDb.rawQuery("select _id, titulo from canciones where titulo LIKE '%"+ nombre+ "%';",null);
+        Cursor cursor2 = mDb.rawQuery("select _id, nombre as titulo from artistas where nombre LIKE '%"+ nombre+ "%';",null);
+        Cursor cursor3 = mDb.rawQuery("select _id, titulo from albums where titulo LIKE '%"+ nombre+ "%';",null);
+        return new MergeCursor(new Cursor[]{cursor1,cursor2,cursor3});
+       // return mDb.query(DATABASE_TABLE_CANCIONES,
+        //        new String[] {"_id","titulo","duracion","valoracion","album","genero"}
+          //      , "titulo LIKE '%"+ nombre+ "%'",null,null,null,"titulo");
     }
 
     /**
