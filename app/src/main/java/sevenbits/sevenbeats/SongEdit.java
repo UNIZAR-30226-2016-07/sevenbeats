@@ -127,6 +127,13 @@ public class SongEdit extends AppCompatActivity {
         String ruta = SongEdit_texto_ruta.getText().toString();
         String artista = SongEdit_texto_artista.getText().toString();
 
+        if(album.length()==0){
+            album = "Album Desconocido";
+        }
+        if(artista.length()==0){
+            artista="Artista Desconocido";
+        }
+
 
 
 
